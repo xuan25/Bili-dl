@@ -45,15 +45,31 @@ namespace BiliDownload
             {
                 Dictionary<string, string> dic = new Dictionary<string, string>();
                 dic.Add("aid", id.ToString());
-                IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/web-interface/view", dic, false);
-                return new VideoInfo(json.GetValue("data"), isSeason);
+                try
+                {
+                    IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/web-interface/view", dic, false);
+                    return new VideoInfo(json.GetValue("data"), isSeason);
+                }
+                catch (System.Net.WebException)
+                {
+                    return null;
+                }
+                
             }
             else
             {
                 Dictionary<string, string> dic = new Dictionary<string, string>();
                 dic.Add("media_id", id.ToString());
-                IJson json = BiliApi.GetJsonResult("https://bangumi.bilibili.com/view/web_api/season", dic, false);
-                return new VideoInfo(json.GetValue("result"), isSeason);
+                try
+                {
+                    IJson json = BiliApi.GetJsonResult("https://bangumi.bilibili.com/view/web_api/season", dic, false);
+                    return new VideoInfo(json.GetValue("result"), isSeason);
+                }
+                catch (System.Net.WebException)
+                {
+                    return null;
+                }
+                
             }
             
         }
@@ -107,14 +123,22 @@ namespace BiliDownload
                 dic.Add("avid", Aid.ToString());
                 dic.Add("cid", Cid.ToString());
                 //dic.Add("fnval", "16");
-                IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
-
-                Qualities = new List<Quality>();
-                for (int i = 0; i < ((JsonArray)json.GetValue("data").GetValue("accept_quality")).Count; i++)
+                try
                 {
-                    Qualities.Add(new Quality(Title, Num, Part, Aid, Cid, (uint)json.GetValue("data").GetValue("accept_quality").GetValue(i).ToLong(), json.GetValue("data").GetValue("accept_description").GetValue(i).ToString()));
+                    IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
+
+                    Qualities = new List<Quality>();
+                    for (int i = 0; i < ((JsonArray)json.GetValue("data").GetValue("accept_quality")).Count; i++)
+                    {
+                        Qualities.Add(new Quality(Title, Num, Part, Aid, Cid, (uint)json.GetValue("data").GetValue("accept_quality").GetValue(i).ToLong(), json.GetValue("data").GetValue("accept_description").GetValue(i).ToString()));
+                    }
+                    return Qualities;
                 }
-                return Qualities;
+                catch (System.Net.WebException)
+                {
+                    return null;
+                }
+                
             }
 
             public Task<List<Quality>> GetQualitiesAsync()
@@ -153,8 +177,16 @@ namespace BiliDownload
                     dic.Add("cid", Cid.ToString());
                     dic.Add("qn", Qn.ToString());
                     //dic.Add("fnval", "16");
-                    IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
-                    IsAvaliable = json.GetValue("data").GetValue("quality").ToLong() == Qn;
+                    try
+                    {
+                        IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
+                        IsAvaliable = json.GetValue("data").GetValue("quality").ToLong() == Qn;
+                    }
+                    catch (System.Net.WebException)
+                    {
+                        IsAvaliable = false;
+                    }
+                    
                 }
             }
         }

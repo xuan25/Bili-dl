@@ -218,38 +218,46 @@ namespace BiliSearch
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("highlight", "1");
             dic.Add("keyword", text);
-            IJson json = BiliApi.GetJsonResult("https://app.bilibili.com/x/v2/search/suggest3", dic, true);
-
-            if (json.GetValue("data").Contains("list"))
+            try
             {
-                List<Suggest> suggests = new List<Suggest>();
-                foreach (IJson i in json.GetValue("data").GetValue("list"))
+                IJson json = BiliApi.GetJsonResult("https://app.bilibili.com/x/v2/search/suggest3", dic, true);
+
+                if (json.GetValue("data").Contains("list"))
                 {
-                    if (!i.Contains("sug_type"))
+                    List<Suggest> suggests = new List<Suggest>();
+                    foreach (IJson i in json.GetValue("data").GetValue("list"))
                     {
-                        Suggest suggest = new Suggest(i);
-                        suggests.Add(suggest);
+                        if (!i.Contains("sug_type"))
+                        {
+                            Suggest suggest = new Suggest(i);
+                            suggests.Add(suggest);
+                        }
+                        else if (i.GetValue("sug_type").ToString() == "pgc")
+                        {
+                            SeasonSuggest seasonSuggest = new SeasonSuggest(i);
+                            suggests.Add(seasonSuggest);
+                        }
+                        else if (i.GetValue("sug_type").ToString() == "user")
+                        {
+                            UserSuggest userSuggest = new UserSuggest(i);
+                            suggests.Add(userSuggest);
+                        }
+                        else
+                        {
+                            Suggest suggest = new Suggest(i);
+                            suggests.Add(suggest);
+                        }
                     }
-                    else if(i.GetValue("sug_type").ToString() == "pgc")
-                    {
-                        SeasonSuggest seasonSuggest = new SeasonSuggest(i);
-                        suggests.Add(seasonSuggest);
-                    }
-                    else if (i.GetValue("sug_type").ToString() == "user")
-                    {
-                        UserSuggest userSuggest = new UserSuggest(i);
-                        suggests.Add(userSuggest);
-                    }
-                    else
-                    {
-                        Suggest suggest = new Suggest(i);
-                        suggests.Add(suggest);
-                    }
+                    suggests.Sort((x, y) => x.Position.CompareTo(y.Position));
+                    return suggests;
                 }
-                suggests.Sort((x, y) => x.Position.CompareTo(y.Position));
-                return suggests;
+                return null;
             }
-            return null;
+            catch (System.Net.WebException)
+            {
+                return null;
+            }
+            
 
         }
 

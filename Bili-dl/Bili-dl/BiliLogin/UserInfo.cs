@@ -51,20 +51,36 @@ namespace BiliLogin
 
         public static UserInfo GetUserInfo(CookieCollection cookies)
         {
-            IJson json = BiliApi.GetJsonResult("https://account.bilibili.com/home/userInfo", null, false);
-            if (json.GetValue("code").ToLong() == 0)
-                return new UserInfo(json);
-            else
+            try
+            {
+                IJson json = BiliApi.GetJsonResult("https://account.bilibili.com/home/userInfo", null, false);
+                if (json.GetValue("code").ToLong() == 0)
+                    return new UserInfo(json);
+                else
+                    return null;
+            }
+            catch (WebException)
+            {
                 return null;
+            }
+            
         }
 
         public async static Task<UserInfo> GetUserInfoAsync(CookieCollection cookies)
         {
-            IJson json = await BiliApi.GetJsonResultAsync("https://account.bilibili.com/home/userInfo", null, false);
-            if (json.GetValue("code").ToLong() == 0)
-                return new UserInfo(json);
-            else
+            try
+            {
+                IJson json = await BiliApi.GetJsonResultAsync("https://account.bilibili.com/home/userInfo", null, false);
+                if (json.GetValue("code").ToLong() == 0)
+                    return new UserInfo(json);
+                else
+                    return null;
+            }
+            catch (WebException)
+            {
                 return null;
+            }
+            
         }
 
         public Bitmap GetFaceBitmap()

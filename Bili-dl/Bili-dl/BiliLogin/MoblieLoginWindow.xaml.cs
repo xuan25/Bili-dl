@@ -64,6 +64,7 @@ namespace BiliLogin
             biliLoginQR.QRImageLoaded += BiliLoginQR_QRImageLoaded;
             biliLoginQR.LoggedIn += BiliLoginQR_LoggedIn;
             biliLoginQR.Timeout += BiliLoginQR_Timeout;
+            biliLoginQR.Updated += BiliLoginQR_Updated;
             biliLoginQR.ConnectionFailed += BiliLoginQR_ConnectionFailed;
             biliLoginQR.Begin();
         }
@@ -89,8 +90,20 @@ namespace BiliLogin
             }));
         }
 
+        private void BiliLoginQR_Updated(BiliLoginQR sender)
+        {
+            Dispatcher.Invoke(new Action(() =>
+            {
+                QrImageBox.Visibility = Visibility.Visible;
+            }));
+        }
+
         private void BiliLoginQR_ConnectionFailed(BiliLoginQR sender, WebException ex)
         {
+            Dispatcher.Invoke(new Action(() =>
+            {
+                QrImageBox.Visibility = Visibility.Hidden;
+            }));
             ConnectionFailed?.Invoke(this, ex);
         }
     }

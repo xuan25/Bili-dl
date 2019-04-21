@@ -110,7 +110,6 @@ namespace Bili_dl
             {
                 MoblieLoginWindow moblieLoginWindow = new MoblieLoginWindow(this);
                 moblieLoginWindow.LoggedIn += MoblieLoginWindow_LoggedIn;
-                moblieLoginWindow.ConnectionFailed += MoblieLoginWindow_ConnectionFailed;
                 moblieLoginWindow.Canceled += MoblieLoginWindow_Canceled;
                 moblieLoginWindow.Show();
                 LoginBtn.Content = "登录中...";
@@ -128,16 +127,6 @@ namespace Bili_dl
         private void MoblieLoginWindow_Canceled(MoblieLoginWindow sender)
         {
             LoginBtn.Content = "登录";
-        }
-
-        private void MoblieLoginWindow_ConnectionFailed(MoblieLoginWindow sender, System.Net.WebException ex)
-        {
-            Dispatcher.Invoke(new Action(() =>
-            {
-                sender.Topmost = false;
-                MessageBox.Show("网络错误", "登录", MessageBoxButton.OK);
-                sender.Close();
-            }));
         }
 
         private void MoblieLoginWindow_LoggedIn(MoblieLoginWindow sender, System.Net.CookieCollection cookies, uint uid)

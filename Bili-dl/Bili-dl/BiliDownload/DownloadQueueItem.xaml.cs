@@ -43,14 +43,37 @@ namespace BiliDownload
         {
             downloadTask.StatusUpdate += DownloadTask_StatusUpdate;
             downloadTask.Finished += DownloadTask_Finished;
+            downloadTask.AnalysisFailed += DownloadTask_AnalysisFailed;
             downloadTask.Run();
             IsRunning = true;
+        }
+
+        private void DownloadTask_AnalysisFailed(DownloadTask downloadTask)
+        {
+            Dispatcher.Invoke(new Action(() =>
+            {
+                InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0xf2, 0x5d, 0x8e));
+                InfoBox.Text = "获取下载地址失败";
+            }));
+            for(int i=5; i>0; i--)
+            {
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    InfoBox.Text = string.Format("获取下载地址失败，将在{0}秒后重试", i);
+                }));
+                System.Threading.Thread.Sleep(1000);
+            }
+            Dispatcher.Invoke(new Action(() =>
+            {
+                downloadTask.Run();
+            }));
         }
 
         private void DownloadTask_StatusUpdate(double progressPercentage, long bps, DownloadTask.Statues statues)
         {
             Dispatcher.Invoke(new Action(() =>
             {
+                InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
                 switch (statues)
                 {
                     case DownloadTask.Statues.DownLoading:
@@ -80,7 +103,7 @@ namespace BiliDownload
                 return string.Format("{0:0.0} MB/s", (double)bps / (1024 * 1024));
         }
 
-        private void DownloadTask_Finished()
+        private void DownloadTask_Finished(DownloadTask downloadTask)
         {
             Finished?.Invoke(this);
         }

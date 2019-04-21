@@ -54,18 +54,21 @@ namespace BiliDownload
             QualityList.Items.Clear();
             PartsLoadingPrompt.Visibility = Visibility.Visible;
             VideoInfo videoInfo = await VideoInfo.GetInfoAsync(id, isSeason);
-            foreach (VideoInfo.Page page in videoInfo.pages)
+            if (videoInfo != null)
             {
-                TextBlock textBlock = new TextBlock();
-                textBlock.TextTrimming = TextTrimming.WordEllipsis;
-                textBlock.Text = string.Format("{0}-{1}", page.Num, page.Part);
+                foreach (VideoInfo.Page page in videoInfo.pages)
+                {
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.TextTrimming = TextTrimming.WordEllipsis;
+                    textBlock.Text = string.Format("{0}-{1}", page.Num, page.Part);
 
-                ListBoxItem listBoxItem = new ListBoxItem();
-                listBoxItem.Tag = page;
-                listBoxItem.Content = textBlock;
-                PageList.Items.Add(listBoxItem);
+                    ListBoxItem listBoxItem = new ListBoxItem();
+                    listBoxItem.Tag = page;
+                    listBoxItem.Content = textBlock;
+                    PageList.Items.Add(listBoxItem);
+                }
+                PartsLoadingPrompt.Visibility = Visibility.Hidden;
             }
-            PartsLoadingPrompt.Visibility = Visibility.Hidden;
         }
 
         private void PageListItem_Selected(object sender, RoutedEventArgs e)
@@ -73,34 +76,39 @@ namespace BiliDownload
             QualitiesLoadingPrompt.Visibility = Visibility.Visible;
             QualityList.Items.Clear();
             VideoInfo.Page page = (VideoInfo.Page)((ListBoxItem)sender).Tag;
-            if (showQualitiesThread != null)
-                showQualitiesThread.Abort();
-            showQualitiesThread = new Thread(delegate ()
+            if (page != null)
             {
-                ShowQualies(page);
-            });
-            showQualitiesThread.Start();
+                if (showQualitiesThread != null)
+                    showQualitiesThread.Abort();
+                showQualitiesThread = new Thread(delegate ()
+                {
+                    ShowQualies(page);
+                });
+                showQualitiesThread.Start();
+            }
         }
 
         private void ShowQualies(VideoInfo.Page page)
         {
             List<VideoInfo.Page.Quality> qualities = page.GetQualities();
-            Dispatcher.Invoke(new Action(() =>
-            {
-                foreach (VideoInfo.Page.Quality quality in qualities)
+            if(qualities != null)
+                Dispatcher.Invoke(new Action(() =>
                 {
-                    TextBlock textBlock = new TextBlock();
-                    textBlock.TextTrimming = TextTrimming.WordEllipsis;
-                    textBlock.Text = quality.Description;
+                    foreach (VideoInfo.Page.Quality quality in qualities)
+                    {
+                        TextBlock textBlock = new TextBlock();
+                        textBlock.TextTrimming = TextTrimming.WordEllipsis;
+                        textBlock.Text = quality.Description;
 
-                    ListBoxItem listBoxItem = new ListBoxItem();
-                    listBoxItem.Tag = quality;
-                    listBoxItem.Content = textBlock;
-                    listBoxItem.IsEnabled = quality.IsAvaliable;
-                    QualityList.Items.Add(listBoxItem);
-                }
-                QualitiesLoadingPrompt.Visibility = Visibility.Hidden;
-            }));
+                        ListBoxItem listBoxItem = new ListBoxItem();
+                        listBoxItem.Tag = quality;
+                        listBoxItem.Content = textBlock;
+                        listBoxItem.IsEnabled = quality.IsAvaliable;
+                        QualityList.Items.Add(listBoxItem);
+                    }
+                    QualitiesLoadingPrompt.Visibility = Visibility.Hidden;
+                }));
+
         }
 
         private void QualityListItem_Selected(object sender, RoutedEventArgs e)

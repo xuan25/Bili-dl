@@ -31,12 +31,15 @@ namespace BiliDownload
         public double ProgressPercentage;
         public Thread ProgressMonitorThread;
 
-        public delegate void FinishedDel();
+        public delegate void FinishedDel(DownloadTask downloadTask);
         public event FinishedDel Finished;
 
         public enum Statues { Analyzing, DownLoading, Merging, Finished };
         public delegate void StatusUpdateDel(double progressPercentage, long bps, Statues statues);
         public event StatusUpdateDel StatusUpdate;
+
+        public delegate void FailedDel(DownloadTask downloadTask);
+        public event FailedDel AnalysisFailed;
 
         public DownloadTask(DownloadInfo downloadInfo)
         {
@@ -63,28 +66,36 @@ namespace BiliDownload
             dic.Add("avid", Aid.ToString());
             dic.Add("cid", Cid.ToString());
             dic.Add("qn", Qn.ToString());
-            IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
-            if(json.GetValue("data").GetValue("quality").ToLong() == Qn)
+            try
             {
-                if (json.GetValue("data").Contains("durl"))
+                IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
+                if (json.GetValue("data").GetValue("quality").ToLong() == Qn)
                 {
-                    foreach (IJson v in json.GetValue("data").GetValue("durl"))
+                    if (json.GetValue("data").Contains("durl"))
                     {
-                        Segment segment = new Segment(Aid, Regex.Unescape(v.GetValue("url").ToString()), SegmentType.Mixed, v.GetValue("size").ToLong(), Threads);
-                        segment.Finished += Segment_Finished;
-                        Segments.Add(segment);
+                        foreach (IJson v in json.GetValue("data").GetValue("durl"))
+                        {
+                            Segment segment = new Segment(Aid, Regex.Unescape(v.GetValue("url").ToString()), SegmentType.Mixed, v.GetValue("size").ToLong(), Threads);
+                            segment.Finished += Segment_Finished;
+                            Segments.Add(segment);
+                        }
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
                 else
                 {
                     return false;
                 }
+                return true;
             }
-            else
+            catch (WebException)
             {
                 return false;
             }
-            return true;
+            
         }
 
         private void Segment_Finished()
@@ -126,7 +137,7 @@ namespace BiliDownload
                 IsFinished = true;
                 IsRunning = false;
                 StatusUpdate?.Invoke(100, 0, Statues.Finished);
-                Finished?.Invoke();
+                Finished?.Invoke(this);
             }
         }
 
@@ -138,16 +149,27 @@ namespace BiliDownload
             return stringBuilder.ToString();
         }
 
+        Thread runThread;
         public void Run()
         {
-            if (!IsFinished && !IsRunning)
+            if (runThread != null)
+                runThread.Abort();
+            runThread = new Thread(delegate ()
             {
-                Analysis();
-                CurrentSegment = 0;
-                Segments[CurrentSegment].Download();
-                StartProgressMonitor();
-                IsRunning = true;
-            }
+                if (!IsFinished && !IsRunning)
+                {
+                    if (!Analysis())
+                    {
+                        AnalysisFailed?.Invoke(this);
+                        return;
+                    }
+                    CurrentSegment = 0;
+                    Segments[CurrentSegment].Download();
+                    StartProgressMonitor();
+                    IsRunning = true;
+                }
+            });
+            runThread.Start();
         }
 
         public void Stop()
@@ -165,8 +187,9 @@ namespace BiliDownload
             if (!IsFinished)
             {
                 Stop();
-                foreach (Segment segment in Segments)
-                    segment.Clean();
+                if (Segments != null)
+                    foreach (Segment segment in Segments)
+                        segment.Clean();
             }
                 
         }
@@ -418,21 +441,28 @@ namespace BiliDownload
 
                         request.AddRange(From + Position, To);
 
-                        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                        Stream dataStream = response.GetResponseStream();
-
-                        long copied = 0;
-                        byte[] buffer = new byte[1024 * 1024 * 10];
-                        while (copied != response.ContentLength)
+                        try
                         {
-                            int size = dataStream.Read(buffer, 0, (int)buffer.Length);
-                            fileStream.Write(buffer, 0, size);
-                            copied += size;
-                            Position += size;
-                            //Console.WriteLine("{0} / {1} ({2}-{3})", Position, Length, From, To);
+                            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                            Stream dataStream = response.GetResponseStream();
+
+                            long copied = 0;
+                            byte[] buffer = new byte[1024 * 1024 * 10];
+                            while (copied != response.ContentLength)
+                            {
+                                int size = dataStream.Read(buffer, 0, (int)buffer.Length);
+                                fileStream.Write(buffer, 0, size);
+                                copied += size;
+                                Position += size;
+                                //Console.WriteLine("{0} / {1} ({2}-{3})", Position, Length, From, To);
+                            }
+                            response.Close();
+                            dataStream.Close();
                         }
-                        response.Close();
-                        dataStream.Close();
+                        catch (WebException)
+                        {
+                            Thread.Sleep(5000);
+                        }
                     }
                     fileStream.Close();
                     IsFinished = true;

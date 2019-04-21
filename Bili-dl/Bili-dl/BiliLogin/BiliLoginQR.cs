@@ -22,6 +22,9 @@ namespace BiliLogin
         public delegate void LoggedInDel(BiliLoginQR sender, CookieCollection cookies, uint uid);
         public event LoggedInDel LoggedIn;
 
+        public delegate void UpdatedDel(BiliLoginQR sender);
+        public event UpdatedDel Updated;
+
         public delegate void ConnectionFailedDel(BiliLoginQR sender, WebException ex);
         public event ConnectionFailedDel ConnectionFailed;
 
@@ -60,30 +63,43 @@ namespace BiliLogin
             }
         }
 
-        public void Init()
+        public bool Init()
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://passport.bilibili.com/qrcode/getLoginUrl");
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream dataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataStream);
-            string result = reader.ReadToEnd();
-            reader.Close();
-            response.Close();
-            dataStream.Close();
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://passport.bilibili.com/qrcode/getLoginUrl");
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                Stream dataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataStream);
+                string result = reader.ReadToEnd();
+                reader.Close();
+                response.Close();
+                dataStream.Close();
 
-            IJson getLoginUrl = JsonParser.Parse(result);
-            LoginUrlRecieved?.Invoke(this, getLoginUrl.GetValue("data").GetValue("url").ToString());
-            Bitmap qrBitmap = RenderQrCode(getLoginUrl.GetValue("data").GetValue("url").ToString());
-            QRImageLoaded?.Invoke(this, qrBitmap);
-            oauthKey = getLoginUrl.GetValue("data").GetValue("oauthKey").ToString();
+                IJson getLoginUrl = JsonParser.Parse(result);
+                LoginUrlRecieved?.Invoke(this, getLoginUrl.GetValue("data").GetValue("url").ToString());
+                Bitmap qrBitmap = RenderQrCode(getLoginUrl.GetValue("data").GetValue("url").ToString());
+                QRImageLoaded?.Invoke(this, qrBitmap);
+                oauthKey = getLoginUrl.GetValue("data").GetValue("oauthKey").ToString();
+                return true;
+            }
+            catch (WebException ex)
+            {
+                ConnectionFailed?.Invoke(this, ex);
+                return false;
+            }
+
         }
 
         private void LoginListener()
         {
-            try
+            while(!Init())
             {
-                Init();
-                while (true)
+                Thread.Sleep(5000);
+            }
+            while (true)
+            {
+                try
                 {
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://passport.bilibili.com/qrcode/getLoginInfo");
                     byte[] data = Encoding.UTF8.GetBytes("oauthKey=" + oauthKey);
@@ -107,9 +123,9 @@ namespace BiliLogin
                     if (loginInfo.GetValue("status").ToBool())
                     {
                         uint uid = 0;
-                        foreach(Cookie cookie in cookieCollection)
+                        foreach (Cookie cookie in cookieCollection)
                         {
-                            if(cookie.Name == "DedeUserID")
+                            if (cookie.Name == "DedeUserID")
                             {
                                 uid = uint.Parse(cookie.Value);
                             }
@@ -128,14 +144,14 @@ namespace BiliLogin
                             }
                             break;
                     }
-                    Thread.Sleep(1000);
+                    Updated?.Invoke(this);
                 }
+                catch (WebException ex)
+                {
+                    ConnectionFailed?.Invoke(this, ex);
+                }
+                Thread.Sleep(1000);
             }
-            catch (WebException ex)
-            {
-                ConnectionFailed?.Invoke(this, ex);
-            }
-
         }
 
         private Bitmap RenderQrCode(string text)
