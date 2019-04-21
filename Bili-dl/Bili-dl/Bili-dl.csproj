@@ -77,7 +77,6 @@
       <DependentUpon>MoblieLoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="BiliLogin\QRCoder\AbstractQRCode.cs" />
-    <Compile Include="BiliLogin\QRCoder\PayloadGenerator.cs" />
     <Compile Include="BiliLogin\QRCoder\QRCode.cs" />
     <Compile Include="BiliLogin\QRCoder\QRCodeData.cs" />
     <Compile Include="BiliLogin\QRCoder\QRCodeGenerator.cs" />

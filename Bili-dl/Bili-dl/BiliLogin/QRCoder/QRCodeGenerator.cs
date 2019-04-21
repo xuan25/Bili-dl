@@ -39,16 +39,6 @@ namespace QRCoder
             this.CreateAlignmentPatternTable();
         }
 
-        public QRCodeData CreateQrCode(PayloadGenerator.Payload payload)
-        {
-            return CreateQrCode(payload.ToString(), payload.EccLevel, false, false, payload.EciMode, payload.Version);
-        }
-
-        public QRCodeData CreateQrCode(PayloadGenerator.Payload payload, ECCLevel eccLevel)
-        {
-            return CreateQrCode(payload.ToString(), eccLevel, false, false, payload.EciMode, payload.Version);
-        }
-
         public QRCodeData CreateQrCode(string plainText, ECCLevel eccLevel, bool forceUtf8 = false, bool utf8BOM = false, EciMode eciMode = EciMode.Default, int requestedVersion = -1)
         {
             EncodingMode encoding = GetEncodingFromPlaintext(plainText, forceUtf8);
