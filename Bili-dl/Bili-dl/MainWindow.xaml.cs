@@ -117,6 +117,7 @@ namespace Bili_dl
             else if(LoginBtn.Content.ToString() == "登出")
             {
                 BiliApi.CookieCollection = null;
+                ConfigManager.ConfigManager.SetCookieCollection(null);
                 UserInfoBox.Text = string.Empty;
                 UserFaceImage.Source = null;
                 LoginBtn.Content = "登录";
