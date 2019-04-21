@@ -253,5 +253,54 @@
         <Grid Grid.Row="2" Background="#e5e9ef">
             <TextBlock Text="Bulid 1904211 by 瑄" Opacity="0.5" Margin="0,0,15,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
         </Grid>
+        <Grid x:Name="StatementGrid" Grid.Row="1" Background="#c4000000" Visibility="Hidden">
+            <Grid x:Name="StatementPanel" Background="#FFFFFFFF"  VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid.OpacityMask>
+                    <DrawingBrush>
+                        <DrawingBrush.Drawing>
+                            <GeometryDrawing Brush="#ff000000">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry RadiusX="4" RadiusY="4">
+                                        <RectangleGeometry.Rect>
+                                            <MultiBinding Converter="{StaticResource RectConverter}">
+                                                <Binding ElementName="StatementPanel" Path="ActualWidth"/>
+                                                <Binding ElementName="StatementPanel" Path="ActualHeight"/>
+                                            </MultiBinding>
+                                        </RectangleGeometry.Rect>
+                                    </RectangleGeometry>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Grid.OpacityMask>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="#e5e9ef">
+                    <TextBlock Grid.Column="1" Padding="10" Text="声明" FontSize="18" HorizontalAlignment="Center"/>
+                </Border>
+                <TextBlock Grid.Row="1" Margin="10" Padding="10" FontSize="16" TextAlignment="Left" LineHeight="25">
+                    <Run Text="本软件免费使用并遵从GPLv3开源协议。"/>
+                    <LineBreak/>
+                    <Run Text="本软件及使用本软件下载的资源仅供非商业用途使用。"/>
+                    <LineBreak/>
+                    <Run Text="在未取得著作权所有者许可的情况下，您在使用对应资源时需遵循【合理使用】的判断原则，"/>
+                    <LineBreak/>
+                    <Run Text="包括但不限于使用的目的及原则、版权作品的性质、"/>
+                    <LineBreak/>
+                    <Run Text="版权作品使用量、使用对作品的价值或潜在市场的影响等。"/>
+                    <LineBreak/>
+                    <Run Text="软件开发者对任何原因在使用本软件时可能会对用户自己或是他人造成的任何形式的损失和伤害不承担任何责任。"/>
+                </TextBlock>
+                <Grid Grid.Row="2" Background="#e5e9ef">
+                    <CheckBox x:Name="StatementConfirmChk" Margin="10" Content="我已认真阅读以上声明" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Checked="StatementConfirmChk_Checked"/>
+                </Grid>
+            </Grid>
+            
+
+        </Grid>
+        
     </Grid>
 </Window>

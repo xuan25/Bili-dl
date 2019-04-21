@@ -16,12 +16,13 @@ namespace ConfigManager
         [Serializable]
         public class Config
         {
+            public bool StatementConfirmed;
             public CookieCollection CookieCollection;
             public List<DownloadInfo> DownloadInfos;
 
-
             public Config()
             {
+                StatementConfirmed = false;
                 DownloadInfos = new List<DownloadInfo>();
             }
         }
@@ -37,6 +38,17 @@ namespace ConfigManager
                 config = Deserialize();
             else
                 config = new Config();
+        }
+
+        public static void ConfirmStatement()
+        {
+            config.StatementConfirmed = true;
+            Serialize();
+        }
+
+        public static bool GetStatementConfirmed()
+        {
+            return config.StatementConfirmed;
         }
 
         public static void SetCookieCollection(CookieCollection cookieCollection)

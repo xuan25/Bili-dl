@@ -43,6 +43,10 @@ namespace Bili_dl
         private async void LoadConfig()
         {
             ConfigManager.ConfigManager.Init();
+
+            if (!ConfigManager.ConfigManager.GetStatementConfirmed())
+                StatementGrid.Visibility = Visibility.Visible;
+
             BiliApi.CookieCollection = ConfigManager.ConfigManager.GetCookieCollection();
 
             List<DownloadInfo> infos = ConfigManager.ConfigManager.GetDownloadInfos();
@@ -230,9 +234,24 @@ namespace Bili_dl
 
         #endregion
 
+        #region Closing
+
         private void This_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             DownloadQueuePanel.StopAll();
         }
+
+        #endregion
+
+        #region Statement
+
+        private void StatementConfirmChk_Checked(object sender, RoutedEventArgs e)
+        {
+            ConfigManager.ConfigManager.ConfirmStatement();
+            StatementGrid.Visibility = Visibility.Hidden;
+        }
+
+        #endregion
+
     }
 }
