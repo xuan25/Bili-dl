@@ -15,6 +15,7 @@
             <Setter Property="Height" Value="26"/>
             <Setter Property="Width" Value="40"/>
             <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="OpacityMask">
                 <Setter.Value>
                     <DrawingBrush>
@@ -295,7 +296,7 @@
                     <Run Text="软件开发者对任何原因在使用本软件时可能会对用户自己或是他人造成的任何形式的损失和伤害不承担任何责任。"/>
                 </TextBlock>
                 <Grid Grid.Row="2" Background="#e5e9ef">
-                    <CheckBox x:Name="StatementConfirmChk" Margin="10" Content="我已认真阅读以上声明" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Checked="StatementConfirmChk_Checked"/>
+                    <CheckBox x:Name="StatementConfirmChk" Margin="10" Content="我已认真阅读以上声明" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" FocusVisualStyle="{x:Null}" Checked="StatementConfirmChk_Checked"/>
                 </Grid>
             </Grid>
             
