@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C15D675D-ECBC-4EAE-84F9-B115A5FA8D56}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Bili_dl</RootNamespace>
+    <AssemblyName>Bili-dl</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="BiliApi.cs" />
+    <Compile Include="BiliDownload\DownloadInfo.cs" />
+    <Compile Include="BiliDownload\DownloadOption.xaml.cs">
+      <DependentUpon>DownloadOption.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BiliDownload\DownloadQueue.xaml.cs">
+      <DependentUpon>DownloadQueue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BiliDownload\DownloadQueueItem.xaml.cs">
+      <DependentUpon>DownloadQueueItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BiliDownload\DownloadTask.cs" />
+    <Compile Include="BiliDownload\Flv.cs" />
+    <Compile Include="BiliDownload\VideoInfo.cs" />
+    <Compile Include="BiliLogin\BiliLoginQR.cs" />
+    <Compile Include="BiliLogin\MoblieLoginWindow.xaml.cs">
+      <DependentUpon>MoblieLoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BiliLogin\QRCoder\AbstractQRCode.cs" />
+    <Compile Include="BiliLogin\QRCoder\PayloadGenerator.cs" />
+    <Compile Include="BiliLogin\QRCoder\QRCode.cs" />
+    <Compile Include="BiliLogin\QRCoder\QRCodeData.cs" />
+    <Compile Include="BiliLogin\QRCoder\QRCodeGenerator.cs" />
+    <Compile Include="BiliLogin\UserInfo.cs" />
+    <Compile Include="BiliSearch\ResultBox.xaml.cs">
+      <DependentUpon>ResultBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BiliSearch\ResultSeason.xaml.cs">
+      <DependentUpon>ResultSeason.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BiliSearch\ResultUser.xaml.cs">
+      <DependentUpon>ResultUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BiliSearch\ResultVideo.xaml.cs">
+      <DependentUpon>ResultVideo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BiliSearch\SearchBox.xaml.cs">
+      <DependentUpon>SearchBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BiliSearch\SuggestItem.xaml.cs">
+      <DependentUpon>SuggestItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BiliSearch\SuggestItemSeason.xaml.cs">
+      <DependentUpon>SuggestItemSeason.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BiliSearch\SuggestItemUser.xaml.cs">
+      <DependentUpon>SuggestItemUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigManager.cs" />
+    <Compile Include="Framework\HitTest.cs" />
+    <Compile Include="Framework\Screen.cs" />
+    <Compile Include="Framework\WindowLong.cs" />
+    <Compile Include="Json\IJson.cs" />
+    <Compile Include="Json\JsonArray.cs" />
+    <Compile Include="Json\JsonObject.cs" />
+    <Compile Include="Json\JsonParser.cs" />
+    <Compile Include="Json\JsonValue.cs" />
+    <Compile Include="ValueConverters.cs" />
+    <Compile Include="WpfAnimatedGif\AnimationCache.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifApplicationExtension.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifBlock.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifBlockKind.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifColor.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifCommentExtension.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifDecoderException.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifExtension.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifFile.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifFrame.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifGraphicControlExtension.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifHeader.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifHelpers.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifImageData.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifImageDescriptor.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifLogicalScreenDescriptor.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifPlainTextExtension.cs" />
+    <Compile Include="WpfAnimatedGif\Decoding\GifTrailer.cs" />
+    <Compile Include="WpfAnimatedGif\ImageAnimationController.cs" />
+    <Compile Include="WpfAnimatedGif\ImageBehavior.cs" />
+    <Page Include="BiliDownload\DownloadOption.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BiliDownload\DownloadQueue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BiliDownload\DownloadQueueItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BiliLogin\MoblieLoginWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BiliSearch\ResultBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BiliSearch\ResultSeason.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BiliSearch\ResultUser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BiliSearch\ResultVideo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BiliSearch\SearchBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BiliSearch\SuggestItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BiliSearch\SuggestItemSeason.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BiliSearch\SuggestItemUser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BiliLogin\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BiliLogin\img\2233pic.png" />
+    <Resource Include="BiliLogin\img\banner.jpg" />
+    <Resource Include="BiliLogin\img\icons.png" />
+    <Resource Include="BiliLogin\img\loadTV.gif" />
+    <Resource Include="BiliLogin\img\qr-refresh.png" />
+    <Resource Include="BiliLogin\img\tv.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BiliDownload\img\loading.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BiliSearch\img\img_loading.png" />
+    <Resource Include="BiliSearch\img\loading.gif" />
+    <Resource Include="BiliSearch\img\sprite.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

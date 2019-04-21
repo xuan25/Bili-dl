@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="BiliSearch.SuggestItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BiliSearch"
+             mc:Ignorable="d" 
+             d:DesignHeight="20" d:DesignWidth="500">
+    <Grid>
+        <TextBlock x:Name="SuggestBox" FontSize="14" Text="" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+        <TextBlock x:Name="TypeBox" FontSize="12" Text="" Foreground="#999999" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+    </Grid>
+</UserControl>

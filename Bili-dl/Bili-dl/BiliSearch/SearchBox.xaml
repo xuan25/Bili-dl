@@ -1,0 +1,205 @@
+﻿<UserControl x:Class="BiliSearch.SearchBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BiliSearch"
+             xmlns:dl="clr-namespace:Bili_dl"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <dl:RectConverter x:Key="RectConverter"/>
+        <dl:BorderRectConverter x:Key="BorderRectConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid Height="44" ClipToBounds="False" VerticalAlignment="Top">
+            <TextBox x:Name="InputBox" HorizontalAlignment="Stretch" Height="44" Margin="0,0,100,0" Padding="15,11" FontSize="14" TextWrapping="NoWrap" VerticalAlignment="Center" TextChanged="InputBox_TextChanged" PreviewKeyDown="InputBox_PreviewKeyDown">
+                <TextBox.OpacityMask>
+                    <DrawingBrush>
+                        <DrawingBrush.Drawing>
+                            <GeometryDrawing Brush="White">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry RadiusX="4" RadiusY="4">
+                                        <RectangleGeometry.Rect>
+                                            <MultiBinding Converter="{StaticResource RectConverter}">
+                                                <Binding ElementName="InputBox" Path="ActualWidth"/>
+                                                <Binding ElementName="InputBox" Path="ActualHeight"/>
+                                            </MultiBinding>
+                                        </RectangleGeometry.Rect>
+                                    </RectangleGeometry>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </TextBox.OpacityMask>
+                <TextBox.Background>
+                    <DrawingBrush>
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                                <GeometryDrawing Brush="#ccd0d7">
+                                    <GeometryDrawing.Geometry>
+                                        <RectangleGeometry>
+                                            <RectangleGeometry.Rect>
+                                                <MultiBinding Converter="{StaticResource RectConverter}">
+                                                    <Binding ElementName="InputBox" Path="ActualWidth"/>
+                                                    <Binding ElementName="InputBox" Path="ActualHeight"/>
+                                                </MultiBinding>
+                                            </RectangleGeometry.Rect>
+                                        </RectangleGeometry>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                                <GeometryDrawing Brush="White">
+                                    <GeometryDrawing.Geometry>
+                                        <RectangleGeometry RadiusX="2" RadiusY="2">
+                                            <RectangleGeometry.Rect>
+                                                <MultiBinding Converter="{StaticResource BorderRectConverter}">
+                                                    <Binding ElementName="InputBox" Path="ActualWidth"/>
+                                                    <Binding ElementName="InputBox" Path="ActualHeight"/>
+                                                </MultiBinding>
+                                            </RectangleGeometry.Rect>
+                                        </RectangleGeometry>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </TextBox.Background>
+            </TextBox>
+            <Button x:Name="SearchBtn" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center" Width="90" Height="42" Click="SearchButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                        <Setter Property="Background" Value="#00a1d6"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#00b5e5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.OpacityMask>
+                    <DrawingBrush>
+                        <DrawingBrush.Drawing>
+                            <GeometryDrawing Brush="White">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry RadiusX="4" RadiusY="4">
+                                        <RectangleGeometry.Rect>
+                                            <MultiBinding Converter="{StaticResource RectConverter}">
+                                                <Binding ElementName="SearchBtn" Path="ActualWidth"/>
+                                                <Binding ElementName="SearchBtn" Path="ActualHeight"/>
+                                            </MultiBinding>
+                                        </RectangleGeometry.Rect>
+                                    </RectangleGeometry>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Button.OpacityMask>
+                <Button.Content>
+                    <Image Stretch="None">
+                        <Image.Source>
+                            <BitmapImage UriSource="img/sprite.png" SourceRect="148,327,18,19"/>
+                        </Image.Source>
+                    </Image>
+                </Button.Content>
+            </Button>
+        </Grid>
+        <ListBox x:Name="SuggestList" Padding="0,10" HorizontalAlignment="Stretch" Margin="0,49,100,0" VerticalAlignment="Top" Visibility="Hidden" PreviewKeyDown="SuggestList_PreviewKeyDown" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
+            <ListBox.OpacityMask>
+                <DrawingBrush>
+                    <DrawingBrush.Drawing>
+                        <GeometryDrawing Brush="White">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="4" RadiusY="4">
+                                    <RectangleGeometry.Rect>
+                                        <MultiBinding Converter="{StaticResource RectConverter}">
+                                            <Binding ElementName="SuggestList" Path="ActualWidth"/>
+                                            <Binding ElementName="SuggestList" Path="ActualHeight"/>
+                                        </MultiBinding>
+                                    </RectangleGeometry.Rect>
+                                </RectangleGeometry>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </ListBox.OpacityMask>
+            <ListBox.Background>
+                <DrawingBrush>
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Brush="#ccd0d7">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry>
+                                        <RectangleGeometry.Rect>
+                                            <MultiBinding Converter="{StaticResource RectConverter}">
+                                                <Binding ElementName="SuggestList" Path="ActualWidth"/>
+                                                <Binding ElementName="SuggestList" Path="ActualHeight"/>
+                                            </MultiBinding>
+                                        </RectangleGeometry.Rect>
+                                    </RectangleGeometry>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                            <GeometryDrawing Brush="White">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry RadiusX="2" RadiusY="2">
+                                        <RectangleGeometry.Rect>
+                                            <MultiBinding Converter="{StaticResource BorderRectConverter}">
+                                                <Binding ElementName="SuggestList" Path="ActualWidth"/>
+                                                <Binding ElementName="SuggestList" Path="ActualHeight"/>
+                                            </MultiBinding>
+                                        </RectangleGeometry.Rect>
+                                    </RectangleGeometry>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </ListBox.Background>
+            <ListBox.Effect>
+                <DropShadowEffect Color="#000000" ShadowDepth="2" BlurRadius="4" Direction="-90" Opacity="0.16"/>
+            </ListBox.Effect>
+            <ListBox.Style>
+                <Style TargetType="ListBox">
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="ItemContainerStyle">
+                        <Setter.Value>
+                            <Style TargetType="ListBoxItem">
+                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListBoxItem_PreviewMouseLeftButtonDown"/>
+                                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                <Setter Property="Focusable" Value="False"/>
+                                <Setter Property="FontSize" Value="14"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border x:Name="ListBoxItemBorder" Margin="0,2" Padding="20,9" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                <ContentPresenter VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="ListBoxItemBorder" Property="Background" Value="#e5e9ef"/>
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="ListBoxItemBorder" Property="Background" Value="#e5e9ef"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.Style>
+        </ListBox>
+    </Grid>
+</UserControl>
