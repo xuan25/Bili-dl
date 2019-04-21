@@ -145,10 +145,12 @@ namespace BiliSearch
                 if(json != null)
                     Dispatcher.Invoke(new Action(() =>
                     {
+                        if (cancellationToken.IsCancellationRequested)
+                            return;
                         ShowResult(json, type);
                         LoadingPrompt.Visibility = Visibility.Hidden;
                     }));
-            }, cancellationTokenSource.Token);
+            });
             task.Start();
             return task;
         }

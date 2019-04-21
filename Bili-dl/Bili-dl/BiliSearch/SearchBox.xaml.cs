@@ -145,14 +145,7 @@ namespace BiliSearch
             if (this.IsInitialized && InputBox.IsFocused)
             {
                 List<Suggest> suggests = null;
-                try
-                {
-                    suggests = await GetSuggestAsync(InputBox.Text, SuggestDelay);
-                }
-                catch (TaskCanceledException)
-                {
-                    
-                }
+                suggests = await GetSuggestAsync(InputBox.Text, SuggestDelay);
                 
                 SuggestList.Items.Clear();
                 if (suggests != null)
@@ -208,7 +201,7 @@ namespace BiliSearch
                 if (cancellationToken.IsCancellationRequested)
                     return null;
                 return result;
-            }, cancellationTokenSource.Token);
+            });
             task.Start();
             return task;
         }
