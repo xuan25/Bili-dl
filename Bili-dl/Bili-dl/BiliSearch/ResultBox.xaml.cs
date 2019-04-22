@@ -142,7 +142,7 @@ namespace BiliSearch
             {
                 string type = NavType;
                 IJson json = GetResult(text, type);
-                if(json != null)
+                if (json != null)
                     Dispatcher.Invoke(new Action(() =>
                     {
                         if (cancellationToken.IsCancellationRequested)
@@ -162,7 +162,7 @@ namespace BiliSearch
             ContentPanel.Children.Clear();
             string type = NavType;
             IJson json = GetResult(text, type);
-            if(json != null)
+            if (json != null)
                 ShowResult(json, type);
         }
 
@@ -188,7 +188,7 @@ namespace BiliSearch
 
         private async void ShowResult(IJson json, string type)
         {
-            if(((JsonArray)json.GetValue("data").GetValue("result")).Count > 0)
+            if(json.GetValue("code").ToLong() == 0 && ((JsonArray)json.GetValue("data").GetValue("result")).Count > 0)
                 switch (type)
                 {
                     case "video":
