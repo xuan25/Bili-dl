@@ -86,5 +86,10 @@ namespace BiliDownload
                 if(((DownloadQueueItem)listBoxItem.Content).downloadTask.IsRunning)
                     ((DownloadQueueItem)listBoxItem.Content).downloadTask.Stop();
         }
+
+        private void OpenDownloadDirectoryBtn_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer", Bili_dl.SettingPanel.settings.DownloadPath);
+        }
     }
 }

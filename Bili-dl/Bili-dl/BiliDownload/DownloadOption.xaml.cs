@@ -113,7 +113,7 @@ namespace BiliDownload
 
         private void QualityListItem_Selected(object sender, RoutedEventArgs e)
         {
-            DownloadTask downloadTask = new DownloadTask(new DownloadInfo(((VideoInfo.Page.Quality)((ListBoxItem)sender).Tag), 5));
+            DownloadTask downloadTask = new DownloadTask(new DownloadInfo(((VideoInfo.Page.Quality)((ListBoxItem)sender).Tag), Bili_dl.SettingPanel.settings.DownloadThreads));
             TaskCreated?.Invoke(downloadTask);
         }
 

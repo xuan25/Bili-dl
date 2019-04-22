@@ -1,4 +1,5 @@
-﻿using BiliDownload;
+﻿using Bili_dl;
+using BiliDownload;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,11 +20,13 @@ namespace ConfigManager
             public bool StatementConfirmed;
             public CookieCollection CookieCollection;
             public List<DownloadInfo> DownloadInfos;
+            public SettingPanel.Settings Settings;
 
             public Config()
             {
                 StatementConfirmed = false;
                 DownloadInfos = new List<DownloadInfo>();
+                Settings = new SettingPanel.Settings();
             }
         }
 
@@ -83,6 +86,17 @@ namespace ConfigManager
         public static List<DownloadInfo> GetDownloadInfos()
         {
             return config.DownloadInfos;
+        }
+
+        public static void SetSettings(SettingPanel.Settings settings)
+        {
+            config.Settings = settings;
+            Serialize();
+        }
+
+        public static SettingPanel.Settings GetSettings()
+        {
+            return config.Settings;
         }
 
         private static void Serialize()

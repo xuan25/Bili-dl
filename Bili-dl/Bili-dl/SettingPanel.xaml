@@ -1,0 +1,235 @@
+﻿<UserControl x:Class="Bili_dl.SettingPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Bili_dl"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" UseLayoutRounding="True">
+    <UserControl.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FF00a1d6"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="26"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="OpacityMask">
+                <Setter.Value>
+                    <DrawingBrush>
+                        <DrawingBrush.Drawing>
+                            <GeometryDrawing Brush="#FF000000">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry Rect="0,0,40,26" RadiusX="13" RadiusY="13"/>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF00b5e5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="RoundButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#e5e9ef"/>
+            <Setter Property="Foreground" Value="#FF000000"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="OpacityMask">
+                <Setter.Value>
+                    <DrawingBrush>
+                        <DrawingBrush.Drawing>
+                            <GeometryDrawing Brush="#FF000000">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry Rect="0,0,20,20" RadiusX="10" RadiusY="10"/>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#f25d8e"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <local:RectConverter x:Key="RectConverter"/>
+        <local:BorderRectConverter x:Key="BorderRectConverter"/>
+    </UserControl.Resources>
+    <Grid x:Name="SettingsPanel">
+        <Grid.OpacityMask>
+            <DrawingBrush>
+                <DrawingBrush.Drawing>
+                    <GeometryDrawing Brush="White">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="4" RadiusY="4">
+                                <RectangleGeometry.Rect>
+                                    <MultiBinding Converter="{StaticResource RectConverter}">
+                                        <Binding ElementName="SettingsPanel" Path="ActualWidth"/>
+                                        <Binding ElementName="SettingsPanel" Path="ActualHeight"/>
+                                    </MultiBinding>
+                                </RectangleGeometry.Rect>
+                            </RectangleGeometry>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
+        </Grid.OpacityMask>
+        <Grid.Background>
+            <DrawingBrush>
+                <DrawingBrush.Drawing>
+                    <DrawingGroup>
+                        <GeometryDrawing Brush="#ccd0d7">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry>
+                                    <RectangleGeometry.Rect>
+                                        <MultiBinding Converter="{StaticResource RectConverter}">
+                                            <Binding ElementName="SettingsPanel" Path="ActualWidth"/>
+                                            <Binding ElementName="SettingsPanel" Path="ActualHeight"/>
+                                        </MultiBinding>
+                                    </RectangleGeometry.Rect>
+                                </RectangleGeometry>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="White">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="3" RadiusY="3">
+                                    <RectangleGeometry.Rect>
+                                        <MultiBinding Converter="{StaticResource BorderRectConverter}">
+                                            <Binding ElementName="SettingsPanel" Path="ActualWidth"/>
+                                            <Binding ElementName="SettingsPanel" Path="ActualHeight"/>
+                                        </MultiBinding>
+                                    </RectangleGeometry.Rect>
+                                </RectangleGeometry>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
+        </Grid.Background>
+        <Grid.Effect>
+            <DropShadowEffect Color="#000000" ShadowDepth="2" BlurRadius="4" Direction="-90" Opacity="0.16"/>
+        </Grid.Effect>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border Height="41" Width="64" BorderThickness="0,0,0,5" BorderBrush="#FF00a1d6" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="45,0,0,4">
+            <TextBlock Text="设置" FontSize="18" Foreground="#FF00a1d6" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Border>
+        <ScrollViewer Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <Grid Margin="40">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="80"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextTrimming="CharacterEllipsis">
+                        <Run Text="下载目录: "/>
+                        <Run x:Name="DownloadPathBox" Text=""/>
+                    </TextBlock>
+                    <Button x:Name="SelectDownloadPathBtn" Grid.Column="1" Margin="5,0" Content="选择" Width="70" FontSize="14" Style="{StaticResource ButtonStyle}" Click="SelectDownloadPathBtn_Click">
+                        <Button.OpacityMask>
+                            <DrawingBrush>
+                                <DrawingBrush.Drawing>
+                                    <GeometryDrawing Brush="#FF000000">
+                                        <GeometryDrawing.Geometry>
+                                            <RectangleGeometry Rect="0,0,70,26" RadiusX="13" RadiusY="13"/>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                        </Button.OpacityMask>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="80"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextTrimming="CharacterEllipsis">
+                        <Run Text="临时文件目录 (重启后生效): "/>
+                        <Run x:Name="TempPathBox" Text=""/>
+                    </TextBlock>
+                    <Button x:Name="SelectTempPathBtn" Grid.Column="1" Margin="5,0" Content="选择" Width="70" FontSize="14" Style="{StaticResource ButtonStyle}" Click="SelectTempPathBtn_Click">
+                        <Button.OpacityMask>
+                            <DrawingBrush>
+                                <DrawingBrush.Drawing>
+                                    <GeometryDrawing Brush="#FF000000">
+                                        <GeometryDrawing.Geometry>
+                                            <RectangleGeometry Rect="0,0,70,26" RadiusX="13" RadiusY="13"/>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                        </Button.OpacityMask>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <WrapPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                        <TextBlock Text="重试间隔: " FontSize="14"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="ReduceRetryIntervalBtn" Grid.Column="0" Margin="5,0" Padding="0" Content="-" Style="{StaticResource RoundButtonStyle}" Click="ReduceRetryIntervalBtn_Click"/>
+                            <TextBlock x:Name="RetryIntervalBox" Grid.Column="1" Margin="5,0" Text="" FontSize="14"/>
+                            <Button x:Name="IncreaseRetryIntervalBtn" Grid.Column="2" Margin="5,0" Padding="0" Content="+" Style="{StaticResource RoundButtonStyle}" Click="IncreaseRetryIntervalBtn_Click"/>
+                        </Grid>
+                        <TextBlock Text=" 秒" FontSize="14"/>
+                    </WrapPanel>
+                    <WrapPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                        <TextBlock Text="下载线程数量: " FontSize="14"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="ReduceDownloadThreadsBtn" Grid.Column="0" Margin="5,0" Padding="0" Content="-" Style="{StaticResource RoundButtonStyle}" Click="ReduceDownloadThreadsBtn_Click"/>
+                            <TextBlock x:Name="DownloadThreadsBox" Grid.Column="1" Margin="5,0" Text="" FontSize="14"/>
+                            <Button x:Name="IncreaseDownloadThreadsBtn" Grid.Column="2" Margin="5,0" Padding="0" Content="+" Style="{StaticResource RoundButtonStyle}" Click="IncreaseDownloadThreadsBtn_Click"/>
+                        </Grid>
+                        <TextBlock Text=" 个" FontSize="14"/>
+                    </WrapPanel>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

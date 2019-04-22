@@ -48,6 +48,7 @@ namespace Bili_dl
                 StatementGrid.Visibility = Visibility.Visible;
 
             BiliApi.CookieCollection = ConfigManager.ConfigManager.GetCookieCollection();
+            SettingsBox.SetSettings(ConfigManager.ConfigManager.GetSettings());
 
             List<DownloadInfo> infos = ConfigManager.ConfigManager.GetDownloadInfos();
             foreach (DownloadInfo info in infos)
@@ -210,7 +211,7 @@ namespace Bili_dl
 
         #endregion
 
-        #region Download Queue
+        #region DownloadQueue
 
         private void ShowQueueBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -224,11 +225,55 @@ namespace Bili_dl
 
         #endregion
 
+        #region Settings
+
+        private void ShowSettingsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsBox.Visibility = Visibility.Visible;
+        }
+
+        private void SettingsGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            SettingsBox.Visibility = Visibility.Hidden;
+        }
+
+        #endregion
+
         #region Closing
 
         private void This_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             DownloadQueuePanel.StopAll();
+            SettingPanel.Settings settings = ConfigManager.ConfigManager.GetSettings();
+            if (settings.MovedTempPath != null && settings.MovedTempPath != settings.TempPath)
+            {
+                CopyDirectory(settings.TempPath, settings.MovedTempPath);
+                settings.TempPath = settings.MovedTempPath;
+                settings.MovedTempPath = null;
+                ConfigManager.ConfigManager.SetSettings(settings);
+            }
+        }
+
+        public static void CopyDirectory(string sourcePath, string destinationPath)
+        {
+            System.IO.DirectoryInfo info = new System.IO.DirectoryInfo(sourcePath);
+            System.IO.Directory.CreateDirectory(destinationPath);
+            foreach (System.IO.FileSystemInfo fsi in info.GetFileSystemInfos())
+            {
+                string destName = System.IO.Path.Combine(destinationPath, fsi.Name);
+
+                if (fsi is System.IO.FileInfo)
+                {
+                    System.IO.File.Copy(fsi.FullName, destName, true);
+                    System.IO.File.Delete(fsi.FullName);
+                } 
+                else
+                {
+                    System.IO.Directory.CreateDirectory(destName);
+                    CopyDirectory(fsi.FullName, destName);
+                }
+            }
+            System.IO.Directory.Delete(sourcePath);
         }
 
         #endregion

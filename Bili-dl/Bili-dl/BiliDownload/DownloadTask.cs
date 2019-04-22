@@ -112,7 +112,7 @@ namespace BiliDownload
                 AbortProgressMonitor();
                 ProgressPercentage = 100;
                 StatusUpdate?.Invoke(ProgressPercentage, 0, Statues.Merging);
-                string directory = string.Format("{0}Download\\", AppDomain.CurrentDomain.BaseDirectory);
+                string directory = Bili_dl.SettingPanel.settings.DownloadPath + "\\";
                 Directory.CreateDirectory(directory);
                 if (Segments.Count > 1)
                 {
@@ -151,7 +151,7 @@ namespace BiliDownload
             return stringBuilder.ToString();
         }
 
-        Thread runThread;
+        private Thread runThread;
         public void Run()
         {
             if (runThread != null)
@@ -176,6 +176,8 @@ namespace BiliDownload
 
         public void Stop()
         {
+            if (runThread != null)
+                runThread.Abort();
             if (!IsFinished && IsRunning)
             {
                 Segments[CurrentSegment].AbortDownload();
@@ -269,7 +271,7 @@ namespace BiliDownload
                 Url = url;
                 Type = segmentType;
                 Length = contentLength;
-                string directory = string.Format("{0}Temp\\", AppDomain.CurrentDomain.BaseDirectory);
+                string directory = Bili_dl.SettingPanel.settings.TempPath + "\\";
                 Directory.CreateDirectory(directory);
                 Filepath = string.Format("{0}{1}", directory, Url.Substring(Url.LastIndexOf('/') + 1, Url.IndexOf('?') - Url.LastIndexOf('/') - 1));
                 Threads = threads;
@@ -463,7 +465,11 @@ namespace BiliDownload
                         }
                         catch (WebException)
                         {
-                            Thread.Sleep(5000);
+                            Thread.Sleep(Bili_dl.SettingPanel.settings.RetryInterval);
+                        }
+                        catch (IOException)
+                        {
+
                         }
                     }
                     fileStream.Close();

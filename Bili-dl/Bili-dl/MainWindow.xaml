@@ -92,7 +92,8 @@
         <Grid x:Name="Header" Grid.Row="0" Background="#f25d8e" MouseLeftButtonDown="Header_MouseLeftButtonDown" ClipToBounds="False">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0" Height="16" Width="16" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Source="icon.ico" RenderOptions.BitmapScalingMode="Fant"/>
@@ -144,7 +145,20 @@
                     </DrawingBrush>
                 </Button.OpacityMask>
             </Button>
-            <Grid Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Right">
+            <Button x:Name="ShowSettingsBtn" Grid.Column="2" Margin="5,0" Content="设置" Width="70" FontSize="14" Style="{StaticResource ButtonStyle}" Click="ShowSettingsBtn_Click">
+                <Button.OpacityMask>
+                    <DrawingBrush>
+                        <DrawingBrush.Drawing>
+                            <GeometryDrawing Brush="#FF000000">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry Rect="0,0,70,26" RadiusX="13" RadiusY="13"/>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Button.OpacityMask>
+            </Button>
+            <Grid Grid.Column="3" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Right">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -228,6 +242,19 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <bld:DownloadQueue x:Name="DownloadQueuePanel" Visibility="Hidden" Grid.Column="1" Grid.Row="1"/>
+            </Grid>
+            <Grid x:Name="SettingsGrid" Visibility="{Binding ElementName=SettingsBox, Path=Visibility}" Background="#88000000" MouseLeftButtonDown="SettingsGrid_MouseLeftButtonDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="6*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <local:SettingPanel x:Name="SettingsBox" Visibility="Hidden" Grid.Column="1" Grid.Row="1"/>
             </Grid>
             <Grid x:Name="PromptGrid" Background="#CC000000" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0" IsHitTestVisible="False">
                 <Grid.OpacityMask>

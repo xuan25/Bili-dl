@@ -50,23 +50,31 @@ namespace BiliDownload
 
         private void DownloadTask_AnalysisFailed(DownloadTask downloadTask)
         {
-            Dispatcher.Invoke(new Action(() =>
-            {
-                InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0xf2, 0x5d, 0x8e));
-                InfoBox.Text = "获取下载地址失败";
-            }));
-            for(int i=5; i>0; i--)
+            try
             {
                 Dispatcher.Invoke(new Action(() =>
                 {
-                    InfoBox.Text = string.Format("获取下载地址失败，将在{0}秒后重试", i);
+                    InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0xf2, 0x5d, 0x8e));
+                    InfoBox.Text = "获取下载地址失败";
                 }));
-                System.Threading.Thread.Sleep(1000);
+                for (int i = Bili_dl.SettingPanel.settings.RetryInterval; i > 0; i--)
+                {
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        InfoBox.Text = string.Format("获取下载地址失败，将在{0}秒后重试", i);
+                    }));
+                    System.Threading.Thread.Sleep(1000);
+                }
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    downloadTask.Run();
+                }));
             }
-            Dispatcher.Invoke(new Action(() =>
+            catch (TaskCanceledException)
             {
-                downloadTask.Run();
-            }));
+
+            }
+            
         }
 
         private void DownloadTask_StatusUpdate(double progressPercentage, long bps, DownloadTask.Statues statues)
