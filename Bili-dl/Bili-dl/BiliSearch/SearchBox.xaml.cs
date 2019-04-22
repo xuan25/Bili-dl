@@ -158,19 +158,19 @@ namespace BiliSearch
                         if (suggest.GetType() == typeof(Suggest))
                         {
                             listBoxItem.Content = new SuggestItem(suggest);
-                            listBoxItem.Tag = suggest.Keyword;
+                            listBoxItem.Tag = Regex.Unescape(suggest.Keyword);
                         }
                         else if (suggest.GetType() == typeof(SeasonSuggest))
                         {
                             SeasonSuggest seasonSuggest = (SeasonSuggest)suggest;
                             listBoxItem.Content = new SuggestItemSeason(seasonSuggest);
-                            listBoxItem.Tag = seasonSuggest.Keyword;
+                            listBoxItem.Tag = Regex.Unescape(seasonSuggest.Keyword);
                         }
                         else if (suggest.GetType() == typeof(UserSuggest))
                         {
                             UserSuggest userSuggest = (UserSuggest)suggest;
                             listBoxItem.Content = new SuggestItemUser(userSuggest);
-                            listBoxItem.Tag = userSuggest.Keyword;
+                            listBoxItem.Tag = Regex.Unescape(userSuggest.Keyword);
                         }
                         SuggestList.Items.Add(listBoxItem);
                     }
