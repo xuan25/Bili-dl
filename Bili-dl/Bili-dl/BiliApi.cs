@@ -32,7 +32,7 @@ namespace Bili
                     stringBuilder.Append("&");
                     stringBuilder.Append(item.Key);
                     stringBuilder.Append("=");
-                    stringBuilder.Append(item.Value);
+                    stringBuilder.Append(item.Value.Replace(" ", "%20").Replace("&", "%26").Replace("=", "%3D"));
                 }
                 return stringBuilder.ToString().Substring(1);
             }
