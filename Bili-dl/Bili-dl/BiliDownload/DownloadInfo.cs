@@ -10,6 +10,7 @@ namespace BiliDownload
     public class DownloadInfo
     {
         public string Title;
+        public string Index;
         public uint Aid;
         public uint Num;
         public uint Cid;
@@ -21,6 +22,7 @@ namespace BiliDownload
         public DownloadInfo(VideoInfo.Page.Quality quality, int threads)
         {
             Title = quality.Title;
+            Index = quality.Index;
             Aid = quality.Aid;
             Num = quality.Num;
             Cid = quality.Cid;

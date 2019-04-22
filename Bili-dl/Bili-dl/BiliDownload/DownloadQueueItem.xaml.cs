@@ -34,7 +34,7 @@ namespace BiliDownload
             IsRunning = false;
             this.downloadTask = downloadTask;
             Title.Text = downloadTask.Title;
-            SubTitle.Text = string.Format("{0}-{1}", downloadTask.Num, downloadTask.Part);
+            SubTitle.Text = string.Format("{0}-{1}", downloadTask.Index, downloadTask.Part);
             Quality.Text = downloadTask.Description;
             InfoBox.Text = "等待中...";
         }

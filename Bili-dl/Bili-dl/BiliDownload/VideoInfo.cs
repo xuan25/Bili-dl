@@ -89,6 +89,7 @@ namespace BiliDownload
         public class Page
         {
             public string Title;
+            public string Index;
             public uint Aid;
             public uint Num;
             public uint Cid;
@@ -101,6 +102,7 @@ namespace BiliDownload
                 if (!isSeason)
                 {
                     Title = title;
+                    Index = json.GetValue("page").ToLong().ToString();
                     Aid = aid;
                     Num = (uint)json.GetValue("page").ToLong();
                     Cid = (uint)json.GetValue("cid").ToLong();
@@ -110,6 +112,7 @@ namespace BiliDownload
                 else
                 {
                     Title = title;
+                    Index = json.GetValue("index").ToString();
                     Aid = (uint)json.GetValue("aid").ToLong();
                     Num = (uint)json.GetValue("page").ToLong();
                     Cid = (uint)json.GetValue("cid").ToLong();
@@ -133,7 +136,7 @@ namespace BiliDownload
                     if (json.GetValue("code").ToLong() == 0)
                         for (int i = 0; i < ((JsonArray)json.GetValue("data").GetValue("accept_quality")).Count; i++)
                         {
-                            Qualities.Add(new Quality(Title, Num, Part, Aid, Cid, (uint)json.GetValue("data").GetValue("accept_quality").GetValue(i).ToLong(), json.GetValue("data").GetValue("accept_description").GetValue(i).ToString()));
+                            Qualities.Add(new Quality(Title, Index, Num, Part, Aid, Cid, (uint)json.GetValue("data").GetValue("accept_quality").GetValue(i).ToLong(), json.GetValue("data").GetValue("accept_description").GetValue(i).ToString()));
                         }
                     return Qualities;
                 }
@@ -157,6 +160,7 @@ namespace BiliDownload
             public class Quality
             {
                 public string Title;
+                public string Index;
                 public uint Num;
                 public string Part;
                 public uint Aid;
@@ -165,9 +169,10 @@ namespace BiliDownload
                 public string Description;
                 public bool IsAvaliable;
 
-                public Quality(string title, uint num, string part, uint aid, uint cid, uint qn, string description)
+                public Quality(string title, string index, uint num, string part, uint aid, uint cid, uint qn, string description)
                 {
                     Title = title;
+                    Index = index;
                     Num = num;
                     Part = part;
                     Aid = aid;

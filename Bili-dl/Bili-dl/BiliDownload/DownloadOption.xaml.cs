@@ -60,7 +60,7 @@ namespace BiliDownload
                 {
                     TextBlock textBlock = new TextBlock();
                     textBlock.TextTrimming = TextTrimming.WordEllipsis;
-                    textBlock.Text = string.Format("{0}-{1}", page.Num, page.Part);
+                    textBlock.Text = string.Format("{0}-{1}", page.Index, page.Part);
 
                     ListBoxItem listBoxItem = new ListBoxItem();
                     listBoxItem.Tag = page;

@@ -16,6 +16,7 @@ namespace BiliDownload
     {
         public DownloadInfo Info;
         public string Title;
+        public string Index;
         public uint Aid;
         public uint Num;
         public uint Cid;
@@ -49,6 +50,7 @@ namespace BiliDownload
             IsFinished = false;
 
             Title = downloadInfo.Title;
+            Index = downloadInfo.Index;
             Aid = downloadInfo.Aid;
             Num = downloadInfo.Num;
             Cid = downloadInfo.Cid;
@@ -119,7 +121,7 @@ namespace BiliDownload
                     {
                         paths.Add(segment.Filepath);
                     }
-                    Flv.Merge(paths, directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.flv", Description, Title, Num, Part)));
+                    Flv.Merge(paths, directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.flv", Description, Title, Index, Part)));
                     foreach (string path in paths)
                     {
                         File.Delete(path);
@@ -128,7 +130,7 @@ namespace BiliDownload
                 else
                 {
                     FileStream fileStreamInput = new FileStream(Segments[0].Filepath, FileMode.Open);
-                    FileStream fileStreamOutput = new FileStream(directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.flv", Description, Title, Num, Part)), FileMode.Create);
+                    FileStream fileStreamOutput = new FileStream(directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.flv", Description, Title, Index, Part)), FileMode.Create);
                     fileStreamInput.CopyTo(fileStreamOutput);
                     fileStreamInput.Close();
                     fileStreamOutput.Close();
