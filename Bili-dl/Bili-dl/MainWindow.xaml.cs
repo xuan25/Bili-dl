@@ -98,7 +98,9 @@ namespace Bili_dl
 
         private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            this.ResizeMode = ResizeMode.NoResize;
             this.DragMove();
+            this.ResizeMode = ResizeMode.CanResize;
         }
 
         #endregion
