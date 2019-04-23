@@ -73,7 +73,7 @@
             <TextBlock Text="正在加载..." Foreground="#99a2aa" VerticalAlignment="Center" HorizontalAlignment="Right"/>
         </Grid>
         
-        <ScrollViewer x:Name="ContentViewer" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer x:Name="ContentViewer" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" FocusVisualStyle="{x:Null}">
             <WrapPanel x:Name="ContentPanel" Margin="10" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center"/>
         </ScrollViewer>
     </Grid>
