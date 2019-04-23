@@ -126,44 +126,63 @@ namespace BiliSearch
         public RadioButton TypeBtn;
 
         private CancellationTokenSource cancellationTokenSource;
-        public Task SearchAsync(string text)
+        public void SearchAsync(string text)
         {
-            ContentViewer.ScrollToHome();
-            TypeBtn.IsChecked = true;
             if (cancellationTokenSource != null)
                 cancellationTokenSource.Cancel();
-                
-            cancellationTokenSource = new CancellationTokenSource();
-            CancellationToken cancellationToken = cancellationTokenSource.Token;
-
+            ContentViewer.ScrollToHome();
             ContentPanel.Children.Clear();
-            LoadingPrompt.Visibility = Visibility.Visible;
-            Task task = new Task(() =>
+            if (text != null && text.Trim() != string.Empty)
             {
-                string type = NavType;
-                IJson json = GetResult(text, type);
-                if (json != null)
-                    Dispatcher.Invoke(new Action(() =>
-                    {
-                        if (cancellationToken.IsCancellationRequested)
-                            return;
-                        ShowResult(json, type);
-                        LoadingPrompt.Visibility = Visibility.Hidden;
-                    }));
-            });
-            task.Start();
-            return task;
+                HistoryBox.Insert(text);
+                HistoryBox.Visibility = Visibility.Hidden;
+                TypeBtn.IsChecked = true;
+
+                cancellationTokenSource = new CancellationTokenSource();
+                CancellationToken cancellationToken = cancellationTokenSource.Token;
+
+                LoadingPrompt.Visibility = Visibility.Visible;
+                Task task = new Task(() =>
+                {
+                    string type = NavType;
+                    IJson json = GetResult(text, type);
+                    if (json != null)
+                        Dispatcher.Invoke(new Action(() =>
+                        {
+                            if (cancellationToken.IsCancellationRequested)
+                                return;
+                            ShowResult(json, type);
+                            LoadingPrompt.Visibility = Visibility.Hidden;
+                        }));
+                });
+                task.Start();
+            }
+            else
+            {
+                HistoryBox.Visibility = Visibility.Visible;
+            }
+                
         }
 
         public void Search(string text)
         {
             ContentViewer.ScrollToHome();
-            TypeBtn.IsChecked = true;
             ContentPanel.Children.Clear();
-            string type = NavType;
-            IJson json = GetResult(text, type);
-            if (json != null)
-                ShowResult(json, type);
+            if (text != null && text.Trim() != string.Empty)
+            {
+                HistoryBox.Insert(text);
+                HistoryBox.Visibility = Visibility.Hidden;
+                TypeBtn.IsChecked = true;
+                string type = NavType;
+                IJson json = GetResult(text, type);
+                if (json != null)
+                    ShowResult(json, type);
+            }
+            else
+            {
+                HistoryBox.Visibility = Visibility.Visible;
+            }
+            
         }
 
         private IJson GetResult(string text, string type)
@@ -312,14 +331,24 @@ namespace BiliSearch
             VideoSelected?.Invoke(((ResultVideo)sender).Title, ((ResultVideo)sender).Aid);
         }
 
-        private async void RadioButton_Checked(object sender, RoutedEventArgs e)
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             TypeBtn = (RadioButton)sender;
             NavType = ((RadioButton)sender).Tag.ToString();
             if (SearchText != null && SearchText != "")
             {
-                await SearchAsync(SearchText);
+                SearchAsync(SearchText);
             }
+        }
+        
+        public void SetHistory(List<string> history)
+        {
+            HistoryBox.SetHistory(history);
+        }
+
+        private void HistoryList_Search(string text)
+        {
+            SearchAsync(text);
         }
     }
 }

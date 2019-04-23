@@ -265,6 +265,7 @@ namespace BiliSearch
             else if(e.Key == Key.Enter)
             {
                 Confirm();
+                e.Handled = true;
             }
         }
 

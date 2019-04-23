@@ -21,12 +21,14 @@ namespace ConfigManager
             public CookieCollection CookieCollection;
             public List<DownloadInfo> DownloadInfos;
             public SettingPanel.Settings Settings;
+            public List<string> SearchHistory;
 
             public Config()
             {
                 StatementConfirmed = false;
                 DownloadInfos = new List<DownloadInfo>();
                 Settings = new SettingPanel.Settings();
+                SearchHistory = new List<string>();
             }
         }
 
@@ -38,7 +40,16 @@ namespace ConfigManager
         {
             configPath = AppDomain.CurrentDomain.BaseDirectory + "Config.dat";
             if (File.Exists(configPath))
+            {
                 config = Deserialize();
+
+                if(config.DownloadInfos == null)
+                    config.DownloadInfos = new List<DownloadInfo>();
+                if (config.Settings == null)
+                    config.Settings = new SettingPanel.Settings();
+                if (config.SearchHistory == null)
+                    config.SearchHistory = new List<string>();
+            }
             else
                 config = new Config();
         }
@@ -99,6 +110,17 @@ namespace ConfigManager
             return config.Settings;
         }
 
+        public static void SetSearchHistory(List<string> searchHistory)
+        {
+            config.SearchHistory = searchHistory;
+            Serialize();
+        }
+
+        public static List<string> GetSearchHistory()
+        {
+            return config.SearchHistory;
+        }
+
         private static void Serialize()
         {
             FileStream fileStream = new FileStream(configPath, FileMode.Create);
@@ -116,7 +138,6 @@ namespace ConfigManager
                 fileStream.Close();
             }
         }
-
 
         private static Config Deserialize()
         {

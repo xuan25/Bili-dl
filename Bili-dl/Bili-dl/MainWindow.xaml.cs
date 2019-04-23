@@ -54,6 +54,8 @@ namespace Bili_dl
             foreach (DownloadInfo info in infos)
                 DownloadQueuePanel.Append(new DownloadTask(info));
 
+            ResultBox.SetHistory(ConfigManager.ConfigManager.GetSearchHistory());
+
             if (BiliApi.CookieCollection != null)
             {
                 UserInfo userInfo = await UserInfo.GetUserInfoAsync(BiliApi.CookieCollection);
@@ -171,9 +173,9 @@ namespace Bili_dl
 
         #region Search
 
-        private async void SearchBox_Search(BiliSearch.SearchBox sender, string text)
+        private void SearchBox_Search(BiliSearch.SearchBox sender, string text)
         {
-            await ResultBox.SearchAsync(text);
+            ResultBox.SearchAsync(text);
         }
 
         #endregion

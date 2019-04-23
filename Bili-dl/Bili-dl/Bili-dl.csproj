@@ -82,6 +82,12 @@
     <Compile Include="BiliLogin\QRCoder\QRCodeData.cs" />
     <Compile Include="BiliLogin\QRCoder\QRCodeGenerator.cs" />
     <Compile Include="BiliLogin\UserInfo.cs" />
+    <Compile Include="BiliSearch\HistoryList.xaml.cs">
+      <DependentUpon>HistoryList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BiliSearch\HistoryListItem.xaml.cs">
+      <DependentUpon>HistoryListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BiliSearch\ResultBox.xaml.cs">
       <DependentUpon>ResultBox.xaml</DependentUpon>
     </Compile>
@@ -154,6 +160,14 @@
     <Page Include="BiliLogin\MoblieLoginWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BiliSearch\HistoryList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BiliSearch\HistoryListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BiliSearch\ResultBox.xaml">
       <Generator>MSBuild:Compile</Generator>
