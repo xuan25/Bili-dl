@@ -35,7 +35,7 @@ namespace BiliDownload
         public async void ShowParts(string title, uint id, bool isSeason)
         {
             TitleBox.Inlines.Clear();
-            MatchCollection mc = Regex.Matches(title, "(\\<em.*?\\>(?<Word>.*?)\\</em\\>|.)");
+            MatchCollection mc = Regex.Matches(Regex.Unescape(title), "(\\<em.*?\\>(?<Word>.*?)\\</em\\>|.)");
             foreach (Match m in mc)
             {
                 Inline inline = new Run(m.Value);
@@ -60,7 +60,7 @@ namespace BiliDownload
                 {
                     TextBlock textBlock = new TextBlock();
                     textBlock.TextTrimming = TextTrimming.WordEllipsis;
-                    textBlock.Text = string.Format("{0}-{1}", page.Index, page.Part);
+                    textBlock.Text = string.Format("{0}-{1}", page.Index, Regex.Unescape(page.Part));
 
                     ListBoxItem listBoxItem = new ListBoxItem();
                     listBoxItem.Tag = page;
@@ -98,7 +98,7 @@ namespace BiliDownload
                     {
                         TextBlock textBlock = new TextBlock();
                         textBlock.TextTrimming = TextTrimming.WordEllipsis;
-                        textBlock.Text = quality.Description;
+                        textBlock.Text = Regex.Unescape(quality.Description);
 
                         ListBoxItem listBoxItem = new ListBoxItem();
                         listBoxItem.Tag = quality;

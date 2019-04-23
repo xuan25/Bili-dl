@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BiliDownload
@@ -21,14 +22,14 @@ namespace BiliDownload
 
         public DownloadInfo(VideoInfo.Page.Quality quality, int threads)
         {
-            Title = quality.Title;
-            Index = quality.Index;
+            Title = Regex.Unescape(quality.Title);
+            Index = Regex.Unescape(quality.Index);
             Aid = quality.Aid;
             Num = quality.Num;
             Cid = quality.Cid;
-            Part = quality.Part;
+            Part = Regex.Unescape(quality.Part);
             Qn = quality.Qn;
-            Description = quality.Description;
+            Description = Regex.Unescape(quality.Description);
             Threads = threads;
         }
     }
