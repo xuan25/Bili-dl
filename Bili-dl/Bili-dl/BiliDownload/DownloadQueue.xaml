@@ -8,42 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" UseLayoutRounding="True" MouseLeftButtonDown="UserControl_MouseLeftButtonDown">
     <UserControl.Resources>
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#e5e9ef"/>
-            <Setter Property="Foreground" Value="#FF000000"/>
-            <Setter Property="Height" Value="26"/>
-            <Setter Property="Width" Value="100"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Setter Property="OpacityMask">
-                <Setter.Value>
-                    <DrawingBrush>
-                        <DrawingBrush.Drawing>
-                            <GeometryDrawing Brush="#FF000000">
-                                <GeometryDrawing.Geometry>
-                                    <RectangleGeometry Rect="0,0,100,26" RadiusX="13" RadiusY="13"/>
-                                </GeometryDrawing.Geometry>
-                            </GeometryDrawing>
-                        </DrawingBrush.Drawing>
-                    </DrawingBrush>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#f25d8e"/>
-                    <Setter Property="Foreground" Value="#FFFFFFFF"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
         <dl:RectConverter x:Key="RectConverter"/>
         <dl:BorderRectConverter x:Key="BorderRectConverter"/>
     </UserControl.Resources>
@@ -108,7 +72,46 @@
         <Border Height="41" Width="84" BorderThickness="0,0,0,5" BorderBrush="#FF00a1d6" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="45,0,0,4">
             <TextBlock Text="下载管理" FontSize="18" Foreground="#FF00a1d6" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Border>
-        <Button x:Name="OpenDownloadDirectoryBtn" Grid.Column="1" Margin="24,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="打开下载目录" FontSize="14" Style="{StaticResource ButtonStyle}" Click="OpenDownloadDirectoryBtn_Click"/>
+        <Button x:Name="OpenDownloadDirectoryBtn" Grid.Column="1" Margin="24,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="打开下载目录" FontSize="14" Click="OpenDownloadDirectoryBtn_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#e5e9ef"/>
+                    <Setter Property="Foreground" Value="#FF000000"/>
+                    <Setter Property="Height" Value="26"/>
+                    <Setter Property="Width" Value="100"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="OpacityMask">
+                        <Setter.Value>
+                            <DrawingBrush>
+                                <DrawingBrush.Drawing>
+                                    <GeometryDrawing Brush="#FF000000">
+                                        <GeometryDrawing.Geometry>
+                                            <RectangleGeometry Rect="0,0,100,26" RadiusX="13" RadiusY="13"/>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#f25d8e"/>
+                            <Setter Property="Foreground" Value="#FFFFFFFF"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
         <ListBox x:Name="QueueList" Grid.Row="2" Margin="2" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False">
             <ListBox.Style>
                 <Style TargetType="ListBox">
