@@ -25,7 +25,7 @@ namespace Bili_dl
 
         #region Window
 
-        private void This_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // Enable the minimize animation
             IntPtr windowHandle = new WindowInteropHelper(this).Handle;
@@ -241,7 +241,7 @@ namespace Bili_dl
 
         #region Closing
 
-        private void This_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             DownloadQueuePanel.StopAll();
             SettingPanel.Settings settings = ConfigManager.ConfigManager.GetSettings();
