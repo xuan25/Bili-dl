@@ -38,8 +38,8 @@ namespace BiliDownload
         public delegate void FinishedDel(DownloadTask downloadTask);
         public event FinishedDel Finished;
 
-        public enum Statues { Analyzing, DownLoading, Merging, Finished };
-        public delegate void StatusUpdateDel(double progressPercentage, long bps, Statues statues);
+        public enum Status { Analyzing, DownLoading, Merging, Finished };
+        public delegate void StatusUpdateDel(double progressPercentage, long bps, Status statues);
         public event StatusUpdateDel StatusUpdate;
 
         public delegate void FailedDel(DownloadTask downloadTask);
@@ -65,7 +65,7 @@ namespace BiliDownload
 
         private bool Analysis()
         {
-            StatusUpdate?.Invoke(ProgressPercentage, 0, Statues.Analyzing);
+            StatusUpdate?.Invoke(ProgressPercentage, 0, Status.Analyzing);
             Segments = new List<Segment>();
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("avid", Aid.ToString());
@@ -113,7 +113,7 @@ namespace BiliDownload
             {
                 AbortProgressMonitor();
                 ProgressPercentage = 100;
-                StatusUpdate?.Invoke(ProgressPercentage, 0, Statues.Merging);
+                StatusUpdate?.Invoke(ProgressPercentage, 0, Status.Merging);
                 string directory = Bili_dl.SettingPanel.settings.DownloadPath + "\\";
                 Directory.CreateDirectory(directory);
                 if (Segments.Count > 1)
@@ -140,7 +140,7 @@ namespace BiliDownload
                 }
                 IsFinished = true;
                 IsRunning = false;
-                StatusUpdate?.Invoke(100, 0, Statues.Finished);
+                StatusUpdate?.Invoke(100, 0, Status.Finished);
                 Finished?.Invoke(this);
             }
         }
@@ -251,7 +251,7 @@ namespace BiliDownload
                             downloaded += thread.Position;
                         }
                 }
-                StatusUpdate?.Invoke((double)downloaded / total * 100, downloaded - downloadedLast, Statues.DownLoading);
+                StatusUpdate?.Invoke((double)downloaded / total * 100, downloaded - downloadedLast, Status.DownLoading);
                 downloadedLast = downloaded;
                 Thread.Sleep(1000);
             }

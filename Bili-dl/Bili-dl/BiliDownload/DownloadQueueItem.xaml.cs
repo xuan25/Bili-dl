@@ -86,23 +86,23 @@ namespace BiliDownload
             
         }
 
-        private void DownloadTask_StatusUpdate(double progressPercentage, long bps, DownloadTask.Statues statues)
+        private void DownloadTask_StatusUpdate(double progressPercentage, long bps, DownloadTask.Status statues)
         {
             Dispatcher.Invoke(new Action(() =>
             {
                 InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
                 switch (statues)
                 {
-                    case DownloadTask.Statues.DownLoading:
+                    case DownloadTask.Status.DownLoading:
                         InfoBox.Text = string.Format("{0:0.0}%    {1}    下载中...", progressPercentage, FormatBps(bps));
                         break;
-                    case DownloadTask.Statues.Analyzing:
+                    case DownloadTask.Status.Analyzing:
                         InfoBox.Text = "正在获取下载地址...";
                         break;
-                    case DownloadTask.Statues.Merging:
+                    case DownloadTask.Status.Merging:
                         InfoBox.Text = "正在完成...";
                         break;
-                    case DownloadTask.Statues.Finished:
+                    case DownloadTask.Status.Finished:
                         InfoBox.Text = "下载完成!!!";
                         break;
                 }
