@@ -38,7 +38,7 @@ namespace BiliDownload
         public delegate void FinishedDel(DownloadTask downloadTask);
         public event FinishedDel Finished;
 
-        public enum Status { Analyzing, DownLoading, Merging, Finished };
+        public enum Status { Analyzing, Downloading, Merging, Finished };
         public delegate void StatusUpdateDel(double progressPercentage, long bps, Status statues);
         public event StatusUpdateDel StatusUpdate;
 
@@ -251,7 +251,7 @@ namespace BiliDownload
                             downloaded += thread.Position;
                         }
                 }
-                StatusUpdate?.Invoke((double)downloaded / total * 100, downloaded - downloadedLast, Status.DownLoading);
+                StatusUpdate?.Invoke((double)downloaded / total * 100, downloaded - downloadedLast, Status.Downloading);
                 downloadedLast = downloaded;
                 Thread.Sleep(1000);
             }

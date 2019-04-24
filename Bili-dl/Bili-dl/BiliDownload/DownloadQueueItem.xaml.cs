@@ -93,7 +93,7 @@ namespace BiliDownload
                 InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
                 switch (status)
                 {
-                    case DownloadTask.Status.DownLoading:
+                    case DownloadTask.Status.Downloading:
                         InfoBox.Text = string.Format("{0:0.0}%    {1}    下载中...", progressPercentage, FormatBps(bps));
                         break;
                     case DownloadTask.Status.Analyzing:
