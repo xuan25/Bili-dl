@@ -124,6 +124,9 @@
     <Compile Include="SettingPanel.xaml.cs">
       <DependentUpon>SettingPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UpdatePrompt.xaml.cs">
+      <DependentUpon>UpdatePrompt.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ValueConverters.cs" />
     <Compile Include="WpfAnimatedGif\AnimationCache.cs" />
     <Compile Include="WpfAnimatedGif\Decoding\GifApplicationExtension.cs" />
@@ -217,6 +220,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UpdatePrompt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -265,6 +272,10 @@
     <Resource Include="BiliSearch\img\img_loading.png" />
     <Resource Include="BiliSearch\img\loading.gif" />
     <Resource Include="BiliSearch\img\sprite.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Updater\Bili-dl-updater.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bili-dl", "Bili-dl\Bili-dl.csproj", "{C15D675D-ECBC-4EAE-84F9-B115A5FA8D56}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1C789A5C-F259-4765-B4E3-941758E1BDF1} = {1C789A5C-F259-4765-B4E3-941758E1BDF1}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bili-dl-updater", "Bili-dl-updater\Bili-dl-updater.csproj", "{1C789A5C-F259-4765-B4E3-941758E1BDF1}"
 EndProject

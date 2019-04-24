@@ -243,6 +243,7 @@ namespace Bili_dl
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            UpdatePromptBox.StopCheckVersion();
             DownloadQueuePanel.StopAll();
             SettingPanel.Settings settings = ConfigManager.ConfigManager.GetSettings();
             if (settings.MovedTempPath != null && settings.MovedTempPath != settings.TempPath)
@@ -288,5 +289,14 @@ namespace Bili_dl
 
         #endregion
 
+        #region Update
+
+        private void UpdatePromptBox_Confirmed(bool IsUpdate)
+        {
+            if (IsUpdate)
+                this.Close();
+        }
+
+        #endregion
     }
 }
