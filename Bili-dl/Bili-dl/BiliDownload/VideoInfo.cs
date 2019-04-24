@@ -1,13 +1,15 @@
 ﻿using Bili;
 using Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BiliDownload
 {
+    /// <summary>
+    /// Class <c>VideoInfo</c> models the info of a video/season on Bilibili.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     public class VideoInfo
     {
         public uint Aid;
@@ -39,6 +41,12 @@ namespace BiliDownload
             
         }
 
+        /// <summary>
+        /// Get infos of a video/season.
+        /// </summary>
+        /// <param name="id">Aid/Season-id</param>
+        /// <param name="isSeason">IsSeason</param>
+        /// <returns>Video info</returns>
         public static VideoInfo GetInfo(uint id, bool isSeason)
         {
             if (!isSeason)
@@ -76,6 +84,12 @@ namespace BiliDownload
             
         }
 
+        /// <summary>
+        /// Get infos of a video/season asynchronously.
+        /// </summary>
+        /// <param name="id">Aid/Season-id</param>
+        /// <param name="isSeason">IsSeason</param>
+        /// <returns>Video info</returns>
         public static Task<VideoInfo> GetInfoAsync(uint id, bool isSeason)
         {
             Task<VideoInfo> task = new Task<VideoInfo>(() =>
@@ -86,6 +100,11 @@ namespace BiliDownload
             return task;
         }
 
+        /// <summary>
+        /// Class <c>Page</c> models the info of a page/episode on Bilibili.
+        /// Author: Xuan525
+        /// Date: 24/04/2019
+        /// </summary>
         public class Page
         {
             public string Title;
@@ -122,6 +141,10 @@ namespace BiliDownload
                 
             }
 
+            /// <summary>
+            /// Get qualities of the page/episode.
+            /// </summary>
+            /// <returns>A list of qualities</returns>
             public List<Quality> GetQualities()
             {
                 Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -147,6 +170,10 @@ namespace BiliDownload
                 
             }
 
+            /// <summary>
+            /// Get qualities of the page/episode asynchronously.
+            /// </summary>
+            /// <returns>A list of qualities</returns>
             public Task<List<Quality>> GetQualitiesAsync()
             {
                 Task<List<Quality>> task = new Task<List<Quality>>(() =>
@@ -157,6 +184,11 @@ namespace BiliDownload
                 return task;
             }
 
+            /// <summary>
+            /// Class <c>Quality</c> models the info of a quality of a page/episode on Bilibili.
+            /// Author: Xuan525
+            /// Date: 24/04/2019
+            /// </summary>
             public class Quality
             {
                 public string Title;

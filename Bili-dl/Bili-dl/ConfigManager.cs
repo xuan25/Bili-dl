@@ -3,15 +3,17 @@ using BiliDownload;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConfigManager
 {
+    /// <summary>
+    /// Class <c>ConfigManager</c> used to storing/loading configuration.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     class ConfigManager
     {
         [Serializable]
@@ -32,10 +34,14 @@ namespace ConfigManager
             }
         }
 
+        // Current config instance.
         private static Config config;
-
+        // The filepath of the config file.
         private static string configPath;
 
+        /// <summary>
+        /// Load/Create a config instance
+        /// </summary>
         public static void Init()
         {
             configPath = AppDomain.CurrentDomain.BaseDirectory + "Config.dat";
@@ -129,9 +135,9 @@ namespace ConfigManager
             {
                 formatter.Serialize(fileStream, config);
             }
-            catch (SerializationException e)
+            catch (SerializationException)
             {
-                Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+                //Console.WriteLine("Failed to serialize. Reason: " + e.Message);
             }
             finally
             {
@@ -148,9 +154,9 @@ namespace ConfigManager
                 BinaryFormatter formatter = new BinaryFormatter();
                 config = (Config)formatter.Deserialize(fileStream);
             }
-            catch (SerializationException e)
+            catch (SerializationException)
             {
-                Console.WriteLine("Failed to deserialize. Reason: " + e.Message);
+                //Console.WriteLine("Failed to deserialize. Reason: " + e.Message);
                 config = new Config();
             }
             finally

@@ -7,7 +7,7 @@ namespace Json
     /// <summary>
     /// Class <c>JsonParser</c> provides parsing methods for converting json strings to C# objects.
     /// Author: Xuan525
-    /// Date: 08/04/2019
+    /// Date: 24/04/2019
     /// </summary>
     class JsonParser
     {
@@ -171,13 +171,15 @@ namespace Json
         }
 
         /// <summary>
-        /// Parse a json string to an object
+        /// Parse a json string to an object.
         /// <example>For example:
         /// <code>
         ///    dynamic json = JsonParser.Parse(jsonStr);
-        ///    string keyData = json.data;
-        ///    string keyData1 = json["data"];
-        ///    string arrayItem = json.arrayExample[0];
+        ///    string keyData = json.data.ToString();
+        ///    string keyData1 = json["data"].ToString();
+        ///    string keyData2 = json.GetValue("data").ToString();
+        ///    string arrayItem = json.arrayExample[0].ToString();
+        ///    string arrayItem1 = json.GetValue("arrayExample").GetValue(0).ToString();
         /// </code>
         /// </example>
         /// </summary>

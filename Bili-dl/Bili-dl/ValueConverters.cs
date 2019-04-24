@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
 namespace Bili_dl
 {
+    /// <summary>
+    /// A MultiValueConverter for converting width & height to Rect instance.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     public class RectConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -29,6 +30,11 @@ namespace Bili_dl
         }
     }
 
+    /// <summary>
+    /// A MultiValueConverter for converting width & height to Rect instance with a 1px offset.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     public class BorderRectConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

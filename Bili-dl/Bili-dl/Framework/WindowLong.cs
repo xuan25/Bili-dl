@@ -3,6 +3,11 @@ using System.Runtime.InteropServices;
 
 namespace Framework
 {
+    /// <summary>
+    /// Class <c>WindowLong</c> packaged Win32 apis for Get/Set WindowLong.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     class WindowLong
     {
         [DllImport("USER32.DLL")]

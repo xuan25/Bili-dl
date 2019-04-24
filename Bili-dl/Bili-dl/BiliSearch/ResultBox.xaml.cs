@@ -2,8 +2,6 @@
 using Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -11,25 +9,37 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BiliSearch
 {
     /// <summary>
     /// SearchResultBox.xaml 的交互逻辑
+    /// Author: Xuan525
+    /// Date: 24/04/2019
     /// </summary>
     public partial class ResultBox : UserControl
     {
+        /// <summary>
+        /// Selected delegate.
+        /// </summary>
+        /// <param name="title">Title of the selected item</param>
+        /// <param name="id">Aid/Season-id of the selected item</param>
         public delegate void SelectedDel(string title, long id);
+        /// <summary>
+        /// Occurs when a Video has been selected.
+        /// </summary>
         public event SelectedDel VideoSelected;
+        /// <summary>
+        /// Occurs when a Season has been selected.
+        /// </summary>
         public event SelectedDel SeasonSelected;
 
+        /// <summary>
+        /// Class <c>Video</c> models the info of a Video.
+        /// Author: Xuan525
+        /// Date: 24/04/2019
+        /// </summary>
         public class Video
         {
             public string Pic;
@@ -58,6 +68,11 @@ namespace BiliSearch
             }
         }
 
+        /// <summary>
+        /// Class <c>Season</c> models the info of a Season.
+        /// Author: Xuan525
+        /// Date: 24/04/2019
+        /// </summary>
         public class Season
         {
             public string Cover;
@@ -91,6 +106,11 @@ namespace BiliSearch
             }
         }
 
+        /// <summary>
+        /// Class <c>User</c> models the info of a User.
+        /// Author: Xuan525
+        /// Date: 24/04/2019
+        /// </summary>
         public class User
         {
             public long Mid;
@@ -126,6 +146,11 @@ namespace BiliSearch
         public RadioButton TypeBtn;
 
         private CancellationTokenSource cancellationTokenSource;
+
+        /// <summary>
+        /// Search a text asynchronously.
+        /// </summary>
+        /// <param name="text">text</param>
         public void SearchAsync(string text)
         {
             if (cancellationTokenSource != null)
@@ -164,6 +189,10 @@ namespace BiliSearch
                 
         }
 
+        /// <summary>
+        /// Search a text.
+        /// </summary>
+        /// <param name="text">text</param>
         public void Search(string text)
         {
             ContentViewer.ScrollToHome();

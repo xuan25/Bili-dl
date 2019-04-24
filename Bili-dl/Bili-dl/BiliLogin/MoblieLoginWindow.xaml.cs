@@ -4,22 +4,47 @@ using System.Drawing;
 using System.Net;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
 namespace BiliLogin
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
+    /// Author: Xuan525
+    /// Date: 24/04/2019
     /// </summary>
     public partial class MoblieLoginWindow : Window
     {
+        /// <summary>
+        /// LoggedIn delegate.
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="cookies">Identity cookie</param>
+        /// <param name="uid">Loged in uid</param>
         public delegate void LoggedInDel(MoblieLoginWindow sender, CookieCollection cookies, uint uid);
+        /// <summary>
+        /// Occurs when user logged in.
+        /// </summary>
         public event LoggedInDel LoggedIn;
 
+        /// <summary>
+        /// ConnectionFailed delegate.
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="ex">Exception</param>
         public delegate void ConnectionFailedDel(MoblieLoginWindow sender, WebException ex);
+        /// <summary>
+        /// Occurs when connection failed.
+        /// </summary>
         public event ConnectionFailedDel ConnectionFailed;
 
+        /// <summary>
+        /// Canceled delegate.
+        /// </summary>
+        /// <param name="sender">Sender</param>
         public delegate void CanceledDel(MoblieLoginWindow sender);
+        /// <summary>
+        /// Occurs when login has been canceled.
+        /// </summary>
         public event CanceledDel Canceled;
 
         public MoblieLoginWindow(Window parent)

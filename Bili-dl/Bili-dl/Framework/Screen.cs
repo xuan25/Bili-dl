@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Framework
 {
+    /// <summary>
+    /// Class <c>Screen</c> used to gets the cursor coordinates via Win32 apis.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     class Screen
     {
         [DllImport("user32.dll")]

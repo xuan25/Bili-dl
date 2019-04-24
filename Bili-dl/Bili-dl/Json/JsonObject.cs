@@ -7,7 +7,7 @@ namespace Json
     /// <summary>
     /// Class <c>JsonObject</c> models an Object in json.
     /// Author: Xuan525
-    /// Date: 12/04/2019
+    /// Date: 24/04/2019
     /// </summary>
     public class JsonObject : DynamicObject, IEnumerable, IJson
     {
@@ -25,7 +25,7 @@ namespace Json
         }
 
         /// <summary>
-        /// Add a key-value pair to the Object
+        /// Add a key-value pair to the Object.
         /// </summary>
         /// <param name="key">The Key of the key-value pair</param>
         /// <param name="value">The Value of the key-value pair</param>
@@ -77,6 +77,10 @@ namespace Json
             return true;
         }
 
+        /// <summary>
+        /// Return an instance of the specified key.
+        /// </summary>
+        /// <param name="name">key</param>
         public IJson GetValue(object name)
         {
             if (dictionary.ContainsKey(((string)name).ToLower()))
@@ -85,6 +89,11 @@ namespace Json
                 throw new System.NullReferenceException();
         }
 
+        /// <summary>
+        /// Set an instance of the specified key.
+        /// </summary>
+        /// <param name="name">key</param>
+        /// <param name="value">value</param>
         public bool SetValue(object name, object value)
         {
             if (dictionary.ContainsKey(((string)name).ToLower()))
@@ -94,6 +103,10 @@ namespace Json
             return true;
         }
 
+        /// <summary>
+        /// Check if the key is available.
+        /// </summary>
+        /// <param name="name">key</param>
         public bool Contains(object name)
         {
             return dictionary.ContainsKey((string)name);

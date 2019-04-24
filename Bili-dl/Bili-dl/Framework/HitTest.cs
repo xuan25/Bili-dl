@@ -2,6 +2,11 @@
 
 namespace Framework
 {
+    /// <summary>
+    /// Class <c>HitTest</c> used to handling resize event via hittest.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     class HitTest
     {
         public const int WM_NCHITTEST = 0x0084;

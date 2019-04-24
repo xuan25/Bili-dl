@@ -7,14 +7,14 @@ namespace Json
     /// <summary>
     /// Class <c>JsonArray</c> models an Array in json.
     /// Author: Xuan525
-    /// Date: 08/04/2019
+    /// Date: 24/04/2019
     /// </summary>
     public class JsonArray : DynamicObject, IEnumerable, IJson
     {
         private List<object> list = new List<object>();
 
         /// <summary>
-        /// The number of items in the Array
+        /// The number of items in the Array.
         /// </summary>
         public int Count
         {
@@ -25,7 +25,7 @@ namespace Json
         }
 
         /// <summary>
-        /// Add a value to the Array
+        /// Add a value to the Array.
         /// </summary>
         /// <param name="value">The Value</param>
         public void Add(object value)
@@ -66,6 +66,10 @@ namespace Json
             return true;
         }
 
+        /// <summary>
+        /// Return an instance of the specified index.
+        /// </summary>
+        /// <param name="index">index</param>
         public IJson GetValue(object index)
         {
             if (list.Count > (int)index)
@@ -74,6 +78,11 @@ namespace Json
                 throw new System.NullReferenceException();
         }
 
+        /// <summary>
+        /// Set an instance of the specified index.
+        /// </summary>
+        /// <param name="index">index</param>
+        /// <param name="value">value</param>
         public bool SetValue(object index, object value)
         {
             if (list.Count > (int)index)
@@ -87,6 +96,10 @@ namespace Json
             return true;
         }
 
+        /// <summary>
+        /// Check if the index is available.
+        /// </summary>
+        /// <param name="index">index</param>
         public bool Contains(object index)
         {
             if ((int)index < list.Count)

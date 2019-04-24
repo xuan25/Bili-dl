@@ -3,8 +3,18 @@ using System.IO;
 
 namespace BiliDownload
 {
+    /// <summary>
+    /// Class <c>Flv</c> used to merge flv files.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     class Flv
     {
+        /// <summary>
+        /// Merge a number of flv files.
+        /// </summary>
+        /// <param name="inputs">A list of paths of input files</param>
+        /// <param name="output">The path of the output file</param>
         public static void Merge(List<string> inputs, string output)
         {
             FileStream outputStream = new FileStream(output, FileMode.Create);

@@ -1,29 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BiliDownload
 {
     /// <summary>
     /// DownloadQueueItem.xaml 的交互逻辑
+    /// Author: Xuan525
+    /// Date: 24/04/2019
     /// </summary>
     public partial class DownloadQueueItem : UserControl
     {
+        /// <summary>
+        /// Item delegate.
+        /// </summary>
+        /// <param name="downloadQueueItem">DownloadQueueItem</param>
         public delegate void ItemDel(DownloadQueueItem downloadQueueItem);
+        /// <summary>
+        /// Occurs when a DownloadQueueItem has been finished.
+        /// </summary>
         public event ItemDel Finished;
+        /// <summary>
+        /// Occurs when a DownloadQueueItem need to be removed.
+        /// </summary>
         public event ItemDel Remove;
 
+        /// <summary>
+        /// IsRunning
+        /// </summary>
         public bool IsRunning;
 
         public DownloadTask downloadTask;
@@ -39,6 +45,9 @@ namespace BiliDownload
             InfoBox.Text = "等待中...";
         }
 
+        /// <summary>
+        /// Start the task.
+        /// </summary>
         public void Start()
         {
             downloadTask.StatusUpdate += DownloadTask_StatusUpdate;

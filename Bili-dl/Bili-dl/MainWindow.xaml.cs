@@ -4,24 +4,17 @@ using BiliLogin;
 using Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Bili_dl
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
+    /// Author: Xuan525
+    /// Date: 24/04/2019
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -34,6 +27,7 @@ namespace Bili_dl
 
         private void This_Loaded(object sender, RoutedEventArgs e)
         {
+            // Enable the minimize animation
             IntPtr windowHandle = new WindowInteropHelper(this).Handle;
             WindowLong.SetWindowLong(windowHandle, WindowLong.GWL_STYLE, (WindowLong.GetWindowLong(windowHandle, WindowLong.GWL_STYLE) | WindowLong.WS_CAPTION));
 
@@ -69,6 +63,7 @@ namespace Bili_dl
 
         protected override void OnSourceInitialized(EventArgs e)
         {
+            // Add an event handler for window messages
             base.OnSourceInitialized(e);
             HwndSource hwndSource = (HwndSource)PresentationSource.FromVisual(this);
             if (hwndSource != null)
@@ -81,6 +76,7 @@ namespace Bili_dl
         {
             switch (msg)
             {
+                // handle resize
                 case HitTest.WM_NCHITTEST:
                     handled = true;
                     return HitTest.Hit(lParam, this.Top, this.Left, this.ActualHeight, this.ActualWidth);
@@ -199,7 +195,7 @@ namespace Bili_dl
             DownloadOptionPanel.Visibility = Visibility.Hidden;
         }
 
-        private void DownloadOptionPanel_TaskCreated(BiliDownload.DownloadTask downloadTask)
+        private void DownloadOptionPanel_TaskCreated(DownloadTask downloadTask)
         {
             if (DownloadQueuePanel.Append(downloadTask))
             {

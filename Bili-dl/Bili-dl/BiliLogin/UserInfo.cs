@@ -1,17 +1,17 @@
 ﻿using Bili;
 using Json;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BiliLogin
 {
+    /// <summary>
+    /// Class <c>UserInfo</c> models a UserInfo.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     class UserInfo
     {
         public uint CurrentLevel;

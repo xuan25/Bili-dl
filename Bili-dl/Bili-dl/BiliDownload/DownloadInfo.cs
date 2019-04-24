@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace BiliDownload
 {
+    /// <summary>
+    /// Class <c>DownloadInfo</c> models the info of a download task.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     [Serializable]
     public class DownloadInfo
     {

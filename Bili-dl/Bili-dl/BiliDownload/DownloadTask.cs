@@ -1,17 +1,19 @@
 ﻿using Bili;
 using Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace BiliDownload
 {
+    /// <summary>
+    /// Class <c>DownloadTask</c> models a download task.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     public class DownloadTask
     {
         public DownloadInfo Info;
@@ -31,6 +33,7 @@ namespace BiliDownload
         public bool IsRunning;
         public double ProgressPercentage;
         public Thread ProgressMonitorThread;
+        private Thread runThread;
 
         public delegate void FinishedDel(DownloadTask downloadTask);
         public event FinishedDel Finished;
@@ -60,7 +63,7 @@ namespace BiliDownload
             Threads = downloadInfo.Threads;
         }
 
-        public bool Analysis()
+        private bool Analysis()
         {
             StatusUpdate?.Invoke(ProgressPercentage, 0, Statues.Analyzing);
             Segments = new List<Segment>();
@@ -97,7 +100,6 @@ namespace BiliDownload
             {
                 return false;
             }
-            
         }
 
         private void Segment_Finished()
@@ -151,7 +153,9 @@ namespace BiliDownload
             return stringBuilder.ToString();
         }
 
-        private Thread runThread;
+        /// <summary>
+        /// Run a task.
+        /// </summary>
         public void Run()
         {
             if (runThread != null)
@@ -174,6 +178,9 @@ namespace BiliDownload
             runThread.Start();
         }
 
+        /// <summary>
+        /// Stop a task.
+        /// </summary>
         public void Stop()
         {
             if (runThread != null)
@@ -186,6 +193,9 @@ namespace BiliDownload
             }
         }
 
+        /// <summary>
+        /// Clean up temp files for a task.
+        /// </summary>
         public void Clean()
         {
             if (!IsFinished)
@@ -194,11 +204,10 @@ namespace BiliDownload
                 if (Segments != null)
                     foreach (Segment segment in Segments)
                         segment.Clean();
-            }
-                
+            }  
         }
 
-        public void StartProgressMonitor()
+        private void StartProgressMonitor()
         {
             AbortProgressMonitor();
             ProgressMonitorThread = new Thread(delegate ()
@@ -208,13 +217,13 @@ namespace BiliDownload
             ProgressMonitorThread.Start();
         }
 
-        public void AbortProgressMonitor()
+        private void AbortProgressMonitor()
         {
             if (ProgressMonitorThread != null)
                 ProgressMonitorThread.Abort();
         }
 
-        public void ProgressMonitor()
+        private void ProgressMonitor()
         {
             long total = 0;
             foreach(Segment segment in Segments)
@@ -248,6 +257,11 @@ namespace BiliDownload
             }
         }
 
+        /// <summary>
+        /// Class <c>Segment</c> models a download task segment.
+        /// Author: Xuan525
+        /// Date: 24/04/2019
+        /// </summary>
         public class Segment
         {
             public uint Aid;
@@ -288,6 +302,9 @@ namespace BiliDownload
                 }
             }
 
+            /// <summary>
+            /// Start the download.
+            /// </summary>
             public void Download()
             {
                 if (File.Exists(Filepath))
@@ -316,6 +333,9 @@ namespace BiliDownload
                 } 
             }
 
+            /// <summary>
+            /// Abort the download.
+            /// </summary>
             public void AbortDownload()
             {
                 foreach (DownloadThread downloadThread in DownloadThreads)
@@ -324,6 +344,9 @@ namespace BiliDownload
                 }
             }
 
+            /// <summary>
+            /// Clean up the temp files of the segment.
+            /// </summary>
             public void Clean()
             {
                 if (IsFinished)
@@ -367,6 +390,11 @@ namespace BiliDownload
                 }
             }
 
+            /// <summary>
+            /// Class <c>DownloadThread</c> models a thread of a download task segment.
+            /// Author: Xuan525
+            /// Date: 24/04/2019
+            /// </summary>
             public class DownloadThread
             {
                 public uint Aid;
@@ -397,6 +425,9 @@ namespace BiliDownload
                     ConnectionLimit = connectionLimit;
                 }
 
+                /// <summary>
+                /// Start the thread.
+                /// </summary>
                 public void StartDownloadThread()
                 {
                     AbortDownloadThread();
@@ -407,6 +438,9 @@ namespace BiliDownload
                     downloadThread.Start();
                 }
 
+                /// <summary>
+                /// Abort the thread.
+                /// </summary>
                 public void AbortDownloadThread()
                 {
                     if (downloadThread != null)
@@ -415,6 +449,9 @@ namespace BiliDownload
                         fileStream.Close();
                 }
 
+                /// <summary>
+                /// Clean up the temp file of the thread.
+                /// </summary>
                 public void Clean()
                 {
                     if (!IsFinished)
@@ -424,7 +461,7 @@ namespace BiliDownload
                     }
                 }
 
-                public void Download()
+                private void Download()
                 {
                     fileStream = new FileStream(Filepath, FileMode.Append);
                     Position = fileStream.Position;

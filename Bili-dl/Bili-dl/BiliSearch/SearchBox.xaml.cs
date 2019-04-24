@@ -3,29 +3,36 @@ using Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
-using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
 namespace BiliSearch
 {
     /// <summary>
     /// SearchBox.xaml 的交互逻辑
+    /// Author: Xuan525
+    /// Date: 24/04/2019
     /// </summary>
     public partial class SearchBox : UserControl
     {
+        /// <summary>
+        /// Search delegate.
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="text">Text</param>
         public delegate void SearchDel(SearchBox sender, string text);
+        /// <summary>
+        /// Occurs when a text ceed to be search.
+        /// </summary>
         public event SearchDel Search;
 
         public static readonly DependencyProperty SuggestDelayProperty = DependencyProperty.Register("SuggestDelay", typeof(int), typeof(SearchBox), new FrameworkPropertyMetadata(100));
+        // Suggest delay in millisecond.
         public int SuggestDelay
         {
             get
@@ -50,6 +57,11 @@ namespace BiliSearch
             SuggestDelayPropertyDescriptor.AddValueChanged(this, SuggestDelayChanged);
         }
 
+        /// <summary>
+        /// Class <c>SeasonSuggest</c> models the info of a Season suggestion.
+        /// Author: Xuan525
+        /// Date: 24/04/2019
+        /// </summary>
         public class SeasonSuggest : Suggest
         {
             public string Cover;
@@ -84,6 +96,11 @@ namespace BiliSearch
             }
         }
 
+        /// <summary>
+        /// Class <c>UserSuggest</c> models the info of a User suggestion.
+        /// Author: Xuan525
+        /// Date: 24/04/2019
+        /// </summary>
         public class UserSuggest : Suggest
         {
             public string Cover;
@@ -110,6 +127,11 @@ namespace BiliSearch
             }
         }
 
+        /// <summary>
+        /// Class <c>Suggest</c> models the info of a suggestion.
+        /// Author: Xuan525
+        /// Date: 24/04/2019
+        /// </summary>
         public class Suggest
         {
             public uint Position;
@@ -246,7 +268,7 @@ namespace BiliSearch
                 }
                 return null;
             }
-            catch (System.Net.WebException)
+            catch (WebException)
             {
                 return null;
             }
@@ -310,47 +332,6 @@ namespace BiliSearch
             await GetSuggestAsync("", 0);
             SuggestList.Visibility = Visibility.Hidden;
             Search?.Invoke(this, InputBox.Text);
-        }
-    }
-
-    public class RectConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            double w = (double)values[0];
-            double h = (double)values[1];
-            Rect rect;
-            if (w > 0 && h > 0)
-                rect = new Rect(0, 0, w, h);
-            else
-                rect = new Rect(0, 0, 1, 1);
-            return rect;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            return null;
-        }
-    }
-
-    public class BorderRectConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            double borderThickness = 1;
-            double w = (double)values[0] - 2 * borderThickness;
-            double h = (double)values[1] - 2 * borderThickness;
-            Rect rect;
-            if (w > 2 && h > 2)
-                rect = new Rect(borderThickness, borderThickness, w, h);
-            else
-                rect = new Rect(borderThickness, borderThickness, 2, 2);
-            return rect;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            return null;
         }
     }
 }

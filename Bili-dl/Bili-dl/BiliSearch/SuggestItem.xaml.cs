@@ -7,6 +7,8 @@ namespace BiliSearch
 {
     /// <summary>
     /// SuggestItem.xaml 的交互逻辑
+    /// Author: Xuan525
+    /// Date: 24/04/2019
     /// </summary>
     public partial class SuggestItem : UserControl
     {

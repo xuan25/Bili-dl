@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
 namespace Json
 {
+    /// <summary>
+    /// Class <c>JsonString</c> models a string value in json.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     public class JsonString : IJson
     {
         public string Value;
@@ -56,6 +56,11 @@ namespace Json
         }
     }
 
+    /// <summary>
+    /// Class <c>JsonLong</c> models a long value in json.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     public class JsonLong : IJson
     {
         public long Value;
@@ -108,6 +113,11 @@ namespace Json
         }
     }
 
+    /// <summary>
+    /// Class <c>JsonDouble</c> models a double value in json.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     public class JsonDouble : IJson
     {
         public double Value;
@@ -160,6 +170,11 @@ namespace Json
         }
     }
 
+    /// <summary>
+    /// Class <c>JsonBool</c> models a boolean value in json.
+    /// Author: Xuan525
+    /// Date: 24/04/2019
+    /// </summary>
     public class JsonBool : IJson
     {
         public bool Value;

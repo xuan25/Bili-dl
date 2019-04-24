@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BiliDownload
 {
     /// <summary>
     /// DownloadOptionPannel.xaml 的交互逻辑
+    /// Author: Xuan525
+    /// Date: 24/04/2019
     /// </summary>
     public partial class DownloadOption : UserControl
     {
+        /// <summary>
+        /// TaskCreated delegate.
+        /// </summary>
+        /// <param name="downloadTask">DownloadTask</param>
         public delegate void TaskCreatedDel(DownloadTask downloadTask);
+        /// <summary>
+        /// Occurs when a DownloadTask has been generated.
+        /// </summary>
         public event TaskCreatedDel TaskCreated;
 
         private Thread showQualitiesThread;
@@ -32,6 +33,12 @@ namespace BiliDownload
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Show parts/episodes of a video/season.
+        /// </summary>
+        /// <param name="title">Title of the video/season</param>
+        /// <param name="id">Aid/Season-id of the video/season</param>
+        /// <param name="isSeason">IsSeason</param>
         public async void ShowParts(string title, uint id, bool isSeason)
         {
             TitleBox.Inlines.Clear();

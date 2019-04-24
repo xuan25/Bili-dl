@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Bili_dl
 {
     /// <summary>
     /// Settings.xaml 的交互逻辑
+    /// Author: Xuan525
+    /// Date: 24/04/2019
     /// </summary>
     public partial class SettingPanel : UserControl
     {
+        /// <summary>
+        /// Class <c>Settings</c> models settings of the SettingPanel.
+        /// Author: Xuan525
+        /// Date: 24/04/2019
+        /// </summary>
         [Serializable]
         public class Settings
         {
@@ -38,6 +34,7 @@ namespace Bili_dl
             }
         }
         
+        // Settings instance.
         public static Settings settings;
 
         public SettingPanel()
@@ -45,6 +42,10 @@ namespace Bili_dl
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Set settings.
+        /// </summary>
+        /// <param name="settings">settings</param>
         public void SetSettings(Settings settings)
         {
             SettingPanel.settings = settings;

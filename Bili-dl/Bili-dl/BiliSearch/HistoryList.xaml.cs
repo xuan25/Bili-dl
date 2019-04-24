@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BiliSearch
 {
     /// <summary>
     /// HistoryList.xaml 的交互逻辑
+    /// Author: Xuan525
+    /// Date: 24/04/2019
     /// </summary>
     public partial class HistoryList : UserControl
     {
+        /// <summary>
+        /// Search delegate.
+        /// </summary>
+        /// <param name="text">search text</param>
         public delegate void SearchDel(string text);
+        /// <summary>
+        /// Occurs when a search history has been selected.
+        /// </summary>
         public event SearchDel Search;
 
         private Dictionary<HistoryListItem, ListBoxItem> ItemMap;
@@ -32,6 +31,10 @@ namespace BiliSearch
             ItemMap = new Dictionary<HistoryListItem, ListBoxItem>();
         }
 
+        /// <summary>
+        /// Set the history list.
+        /// </summary>
+        /// <param name="history">A list of history</param>
         public void SetHistory(List<string> history)
         {
             History = history;
@@ -41,6 +44,10 @@ namespace BiliSearch
                 ClearListBtn.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Insert a history
+        /// </summary>
+        /// <param name="text">history text</param>
         public void Insert(string text)
         {
             ClearListBtn.Visibility = Visibility.Visible;

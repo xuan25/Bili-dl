@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BiliSearch
 {
     /// <summary>
     /// HistoryListItem.xaml 的交互逻辑
+    /// Author: Xuan525
+    /// Date: 24/04/2019
     /// </summary>
     public partial class HistoryListItem : UserControl
     {
+        /// <summary>
+        /// Remove delegate.
+        /// </summary>
+        /// <param name="historyListItem">HistoryListItem</param>
         public delegate void RemoveDel(HistoryListItem historyListItem);
+        /// <summary>
+        /// Occurs when a search history need to be remove.
+        /// </summary>
         public event RemoveDel Remove;
 
+        // The text of the history
         public string Text;
 
         public HistoryListItem()
@@ -37,6 +35,10 @@ namespace BiliSearch
             HistoryTextBox.Text = text;
         }
 
+        /// <summary>
+        /// Set the text of the history
+        /// </summary>
+        /// <param name="text">text</param>
         public void SetText(string text)
         {
             Text = text;
