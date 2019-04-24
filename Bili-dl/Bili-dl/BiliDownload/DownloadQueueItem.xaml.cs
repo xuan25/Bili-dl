@@ -86,12 +86,12 @@ namespace BiliDownload
             
         }
 
-        private void DownloadTask_StatusUpdate(double progressPercentage, long bps, DownloadTask.Status statues)
+        private void DownloadTask_StatusUpdate(double progressPercentage, long bps, DownloadTask.Status status)
         {
             Dispatcher.Invoke(new Action(() =>
             {
                 InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
-                switch (statues)
+                switch (status)
                 {
                     case DownloadTask.Status.DownLoading:
                         InfoBox.Text = string.Format("{0:0.0}%    {1}    下载中...", progressPercentage, FormatBps(bps));
