@@ -7,7 +7,7 @@
         xmlns:bls="clr-namespace:BiliSearch"
         xmlns:bld="clr-namespace:BiliDownload"
         mc:Ignorable="d"
-        Title="MainWindow" x:Name="Window" Height="675" Width="1200" MinHeight="405" MinWidth="720" AllowsTransparency="True" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing">
+        Title="{Binding ElementName=TitleBox, Path=Text}" x:Name="Window" Height="675" Width="1200" MinHeight="405" MinWidth="720" AllowsTransparency="True" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing">
     <Window.Resources>
         <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#00000000"/>
