@@ -88,26 +88,33 @@ namespace BiliDownload
 
         private void DownloadTask_StatusUpdate(double progressPercentage, long bps, DownloadTask.Status status)
         {
-            Dispatcher.Invoke(new Action(() =>
+            try
             {
-                InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
-                switch (status)
+                Dispatcher.Invoke(new Action(() =>
                 {
-                    case DownloadTask.Status.Downloading:
-                        InfoBox.Text = string.Format("{0:0.0}%    {1}    下载中...", progressPercentage, FormatBps(bps));
-                        break;
-                    case DownloadTask.Status.Analyzing:
-                        InfoBox.Text = "正在获取下载地址...";
-                        break;
-                    case DownloadTask.Status.Merging:
-                        InfoBox.Text = "正在完成...";
-                        break;
-                    case DownloadTask.Status.Finished:
-                        InfoBox.Text = "下载完成!!!";
-                        break;
-                }
-                PBar.Value = progressPercentage;
-            }));
+                    InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
+                    switch (status)
+                    {
+                        case DownloadTask.Status.Downloading:
+                            InfoBox.Text = string.Format("{0:0.0}%    {1}    下载中...", progressPercentage, FormatBps(bps));
+                            break;
+                        case DownloadTask.Status.Analyzing:
+                            InfoBox.Text = "正在获取下载地址...";
+                            break;
+                        case DownloadTask.Status.Merging:
+                            InfoBox.Text = "正在完成...";
+                            break;
+                        case DownloadTask.Status.Finished:
+                            InfoBox.Text = "下载完成!!!";
+                            break;
+                    }
+                    PBar.Value = progressPercentage;
+                }));
+            }
+            catch (TaskCanceledException)
+            {
+
+            }
         }
 
         private string FormatBps(long bps)

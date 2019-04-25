@@ -95,7 +95,8 @@ namespace Bili
         public static string GetTextResult(string url, Dictionary<string, string> paramsDic, bool addVerification)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Format("{0}?{1}", url, DicToParams(paramsDic, addVerification)));
-            if(CookieCollection != null)
+            request.Referer = System.Text.RegularExpressions.Regex.Match(url, "https?://[^/]+").Value;
+            if (CookieCollection != null)
             {
                 request.CookieContainer = new CookieContainer();
                 request.CookieContainer.Add(CookieCollection);

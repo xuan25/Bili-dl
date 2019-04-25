@@ -107,6 +107,7 @@ namespace BiliDownload
         /// </summary>
         public class Page
         {
+            public bool IsSeason;
             public string Title;
             public string Index;
             public uint Aid;
@@ -118,6 +119,7 @@ namespace BiliDownload
 
             public Page(string title, uint aid, IJson json, bool isSeason)
             {
+                IsSeason = isSeason;
                 if (!isSeason)
                 {
                     Title = title;
@@ -154,13 +156,19 @@ namespace BiliDownload
                 try
                 {
                     IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
-
                     Qualities = new List<Quality>();
                     if (json.GetValue("code").ToLong() == 0)
-                        for (int i = 0; i < ((JsonArray)json.GetValue("data").GetValue("accept_quality")).Count; i++)
+                            for (int i = 0; i < ((JsonArray)json.GetValue("data").GetValue("accept_quality")).Count; i++)
+                                Qualities.Add(new Quality(Title, Index, Num, Part, Aid, Cid, (uint)json.GetValue("data").GetValue("accept_quality").GetValue(i).ToLong(), json.GetValue("data").GetValue("accept_description").GetValue(i).ToString(), false));
+                    else if (IsSeason)
+                    {
+                        json = BiliApi.GetJsonResult("http://api.bilibili.com/pgc/player/web/playurl", dic, false);
+                        if (json.GetValue("code").ToLong() == 0)
                         {
-                            Qualities.Add(new Quality(Title, Index, Num, Part, Aid, Cid, (uint)json.GetValue("data").GetValue("accept_quality").GetValue(i).ToLong(), json.GetValue("data").GetValue("accept_description").GetValue(i).ToString()));
+                            for (int i = 0; i < ((JsonArray)json.GetValue("result").GetValue("accept_quality")).Count; i++)
+                                Qualities.Add(new Quality(Title, Index, Num, Part, Aid, Cid, (uint)json.GetValue("result").GetValue("accept_quality").GetValue(i).ToLong(), json.GetValue("result").GetValue("accept_description").GetValue(i).ToString(), true));
                         }
+                    }
                     return Qualities;
                 }
                 catch (System.Net.WebException)
@@ -200,9 +208,11 @@ namespace BiliDownload
                 public uint Qn;
                 public string Description;
                 public bool IsAvaliable;
+                public bool SeasonApiOnly;
 
-                public Quality(string title, string index, uint num, string part, uint aid, uint cid, uint qn, string description)
+                public Quality(string title, string index, uint num, string part, uint aid, uint cid, uint qn, string description, bool seasonApiOnly)
                 {
+                    SeasonApiOnly = seasonApiOnly;
                     Title = title;
                     Index = index;
                     Num = num;
@@ -219,8 +229,17 @@ namespace BiliDownload
                     //dic.Add("fnval", "16");
                     try
                     {
-                        IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
-                        IsAvaliable = json.GetValue("data").GetValue("quality").ToLong() == Qn;
+                        if (!seasonApiOnly)
+                        {
+                            IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
+                            IsAvaliable = json.GetValue("data").GetValue("quality").ToLong() == Qn;
+                        }
+                        else
+                        {
+                            IJson json = BiliApi.GetJsonResult("http://api.bilibili.com/pgc/player/web/playurl", dic, false);
+                            IsAvaliable = json.GetValue("result").GetValue("quality").ToLong() == Qn;
+                        }
+                        
                     }
                     catch (System.Net.WebException)
                     {

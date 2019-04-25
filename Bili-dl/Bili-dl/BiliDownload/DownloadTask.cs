@@ -74,25 +74,31 @@ namespace BiliDownload
             try
             {
                 IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
-                if (json.GetValue("data").GetValue("quality").ToLong() == Qn)
-                {
-                    if (json.GetValue("data").Contains("durl"))
-                    {
+                if(json.GetValue("code").ToLong() == 0)
+                    if (json.GetValue("data").GetValue("quality").ToLong() == Qn)
                         foreach (IJson v in json.GetValue("data").GetValue("durl"))
                         {
                             Segment segment = new Segment(Aid, Regex.Unescape(v.GetValue("url").ToString()), SegmentType.Mixed, v.GetValue("size").ToLong(), Threads);
                             segment.Finished += Segment_Finished;
                             Segments.Add(segment);
                         }
-                    }
                     else
-                    {
                         return false;
-                    }
-                }
                 else
                 {
-                    return false;
+                    json = BiliApi.GetJsonResult("http://api.bilibili.com/pgc/player/web/playurl", dic, false);
+                    if (json.GetValue("code").ToLong() == 0)
+                        if (json.GetValue("result").GetValue("quality").ToLong() == Qn)
+                            foreach (IJson v in json.GetValue("result").GetValue("durl"))
+                            {
+                                Segment segment = new Segment(Aid, Regex.Unescape(v.GetValue("url").ToString()), SegmentType.Mixed, v.GetValue("size").ToLong(), Threads);
+                                segment.Finished += Segment_Finished;
+                                Segments.Add(segment);
+                            }
+                        else
+                            return false;
+                    else
+                        return false;
                 }
                 return true;
             }
@@ -158,11 +164,13 @@ namespace BiliDownload
         /// </summary>
         public void Run()
         {
+            CurrentSegment = -1;
             if (runThread != null)
                 runThread.Abort();
             runThread = new Thread(delegate ()
             {
-                if (!IsFinished && !IsRunning)
+                IsRunning = true;
+                if (!IsFinished)
                 {
                     if (!Analysis())
                     {
@@ -172,7 +180,6 @@ namespace BiliDownload
                     CurrentSegment = 0;
                     Segments[CurrentSegment].Download();
                     StartProgressMonitor();
-                    IsRunning = true;
                 }
             });
             runThread.Start();
@@ -187,7 +194,8 @@ namespace BiliDownload
                 runThread.Abort();
             if (!IsFinished && IsRunning)
             {
-                Segments[CurrentSegment].AbortDownload();
+                if(CurrentSegment != -1)
+                    Segments[CurrentSegment].AbortDownload();
                 AbortProgressMonitor();
                 IsRunning = false;
             }
