@@ -121,6 +121,7 @@ namespace Bili_dl
                 ConfigManager.ConfigManager.SetCookieCollection(null);
                 UserInfoBox.Text = string.Empty;
                 UserFaceImage.Source = null;
+                FavoriteBtn.Visibility = Visibility.Collapsed;
                 LoginBtn.Content = "登录";
             }
             
@@ -155,6 +156,8 @@ namespace Bili_dl
 
         private async void ShowUserInfo(UserInfo userInfo)
         {
+            FavoriteBtn.Visibility = Visibility.Visible;
+
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(userInfo.Uname);
             stringBuilder.Append(string.Format(" [Lv.{0}]", userInfo.CurrentLevel));
@@ -295,6 +298,27 @@ namespace Bili_dl
         {
             if (IsUpdate)
                 this.Close();
+        }
+
+        #endregion
+
+        #region Favourite
+
+        private void FavoriteBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FavListBox.LoadAsync();
+            FavListBox.Visibility = Visibility.Visible;
+        }
+
+        private void FavListBox_VideoSelected(string title, long id)
+        {
+            DownloadOptionPanel.ShowParts(title, (uint)id, false);
+            DownloadOptionPanel.Visibility = Visibility.Visible;
+        }
+
+        private void FavGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            FavListBox.Visibility = Visibility.Hidden;
         }
 
         #endregion

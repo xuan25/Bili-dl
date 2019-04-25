@@ -112,6 +112,12 @@
     <Compile Include="BiliSearch\SuggestItemUser.xaml.cs">
       <DependentUpon>SuggestItemUser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BiliUser\FavItem.xaml.cs">
+      <DependentUpon>FavItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BiliUser\FavList.xaml.cs">
+      <DependentUpon>FavList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConfigManager.cs" />
     <Compile Include="Framework\HitTest.cs" />
     <Compile Include="Framework\Screen.cs" />
@@ -204,6 +210,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="BiliUser\FavItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BiliUser\FavList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -273,9 +287,14 @@
     <Resource Include="BiliSearch\img\loading.gif" />
     <Resource Include="BiliSearch\img\sprite.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="BiliUser\img\img_loading.png" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Updater\Bili-dl-updater.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BiliUser\img\loading.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

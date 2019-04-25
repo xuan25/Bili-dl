@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:Bili_dl"
         xmlns:bls="clr-namespace:BiliSearch"
         xmlns:bld="clr-namespace:BiliDownload"
+        xmlns:bu="clr-namespace:BiliUser"
         mc:Ignorable="d"
         Title="{Binding ElementName=TitleBox, Path=Text}" x:Name="Window" Height="675" Width="1200" MinHeight="405" MinWidth="720" AllowsTransparency="True" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing">
     <Window.Resources>
-        <Style x:Key="ButtonStyle" TargetType="Button">
+        <Style x:Key="NarrowButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#00000000"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Height" Value="26"/>
@@ -23,6 +24,76 @@
                             <GeometryDrawing Brush="#FF000000">
                                 <GeometryDrawing.Geometry>
                                     <RectangleGeometry Rect="0,0,40,26" RadiusX="13" RadiusY="13"/>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#88792E47"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="NormalButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#00000000"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="26"/>
+            <Setter Property="Width" Value="60"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="OpacityMask">
+                <Setter.Value>
+                    <DrawingBrush>
+                        <DrawingBrush.Drawing>
+                            <GeometryDrawing Brush="#FF000000">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry Rect="0,0,60,26" RadiusX="13" RadiusY="13"/>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#88792E47"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="WideButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#00000000"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="26"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="OpacityMask">
+                <Setter.Value>
+                    <DrawingBrush>
+                        <DrawingBrush.Drawing>
+                            <GeometryDrawing Brush="#FF000000">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry Rect="0,0,80,26" RadiusX="13" RadiusY="13"/>
                                 </GeometryDrawing.Geometry>
                             </GeometryDrawing>
                         </DrawingBrush.Drawing>
@@ -90,95 +161,10 @@
             <RowDefinition Height="28"/>
         </Grid.RowDefinitions>
         <Grid x:Name="Header" Grid.Row="0" Background="#f25d8e" MouseLeftButtonDown="Header_MouseLeftButtonDown" ClipToBounds="False">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="120"/>
-            </Grid.ColumnDefinitions>
             <Image Grid.Column="0" Height="16" Width="16" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Source="icon.ico" RenderOptions.BitmapScalingMode="Fant"/>
             <TextBlock x:Name="TitleBox" Grid.Column="0" Foreground="#FFFFFFFF" FontSize="16" Margin="40,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Bili-dl"/>
-            <Grid Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Name="UserInfoBox" Grid.Column="0" FontSize="14" Foreground="#FFFFFFFF" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                <Image x:Name="UserFaceImage" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" Height="32" VerticalAlignment="Center" Width="32" Stretch="Fill" RenderOptions.BitmapScalingMode="Fant">
-                    <Image.OpacityMask>
-                        <DrawingBrush>
-                            <DrawingBrush.Drawing>
-                                <GeometryDrawing Brush="#FFFFFFFF">
-                                    <GeometryDrawing.Geometry>
-                                        <EllipseGeometry RadiusX="16" RadiusY="16"/>
-                                    </GeometryDrawing.Geometry>
-                                </GeometryDrawing>
-                            </DrawingBrush.Drawing>
-                        </DrawingBrush>
-                    </Image.OpacityMask>
-                </Image>
-                <Button x:Name="LoginBtn" Grid.Column="2" Margin="5,0" Content="登录" Width="65" FontSize="14" Style="{StaticResource ButtonStyle}" Click="LoginBtn_Click">
-                    <Button.OpacityMask>
-                        <DrawingBrush>
-                            <DrawingBrush.Drawing>
-                                <GeometryDrawing Brush="#FF000000">
-                                    <GeometryDrawing.Geometry>
-                                        <RectangleGeometry Rect="0,0,65,26" RadiusX="13" RadiusY="13"/>
-                                    </GeometryDrawing.Geometry>
-                                </GeometryDrawing>
-                            </DrawingBrush.Drawing>
-                        </DrawingBrush>
-                    </Button.OpacityMask>
-                </Button>
-            </Grid>
-            <Button x:Name="ShowQueueBtn" Grid.Column="1" Margin="5,0" Content="下载管理" Width="70" FontSize="14" Style="{StaticResource ButtonStyle}" Click="ShowQueueBtn_Click">
-                <Button.OpacityMask>
-                    <DrawingBrush>
-                        <DrawingBrush.Drawing>
-                            <GeometryDrawing Brush="#FF000000">
-                                <GeometryDrawing.Geometry>
-                                    <RectangleGeometry Rect="0,0,70,26" RadiusX="13" RadiusY="13"/>
-                                </GeometryDrawing.Geometry>
-                            </GeometryDrawing>
-                        </DrawingBrush.Drawing>
-                    </DrawingBrush>
-                </Button.OpacityMask>
-            </Button>
-            <Button x:Name="ShowSettingsBtn" Grid.Column="2" Margin="5,0" Content="设置" Width="70" FontSize="14" Style="{StaticResource ButtonStyle}" Click="ShowSettingsBtn_Click">
-                <Button.OpacityMask>
-                    <DrawingBrush>
-                        <DrawingBrush.Drawing>
-                            <GeometryDrawing Brush="#FF000000">
-                                <GeometryDrawing.Geometry>
-                                    <RectangleGeometry Rect="0,0,70,26" RadiusX="13" RadiusY="13"/>
-                                </GeometryDrawing.Geometry>
-                            </GeometryDrawing>
-                        </DrawingBrush.Drawing>
-                    </DrawingBrush>
-                </Button.OpacityMask>
-            </Button>
-            <Grid Grid.Column="3" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Right">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Button x:Name="MinimizeBtn" Grid.Column="0" Margin="5,0" Style="{StaticResource ButtonStyle}" Click="MinimizeBtn_Click">
-                    <Button.Content>
-                        <Path Fill="#FFFFFFFF">
-                            <Path.Data>
-                                <PathGeometry>
-                                    <PathFigure IsClosed="True" StartPoint="1,0">
-                                        <ArcSegment Point="1,2" Size="1,1"/>
-                                        <LineSegment Point="15,2"/>
-                                        <ArcSegment Point="15,0" Size="1,1"/>
-                                    </PathFigure>
-                                </PathGeometry>
-                            </Path.Data>
-                        </Path>
-                    </Button.Content>
-                </Button>
-                <Button x:Name="CloseBtn" Grid.Column="1" Margin="5,0" Style="{StaticResource ButtonStyle}" Click="CloseBtn_Click">
+            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,0,10,0">
+                <Button x:Name="CloseBtn" Margin="5,0" Style="{StaticResource NarrowButtonStyle}" FlowDirection="LeftToRight" Click="CloseBtn_Click">
                     <Button.Content>
                         <Grid>
                             <Path Fill="#FFFFFFFF">
@@ -206,7 +192,40 @@
                         </Grid>
                     </Button.Content>
                 </Button>
-            </Grid>
+                <Button x:Name="MinimizeBtn" Margin="5,0" Style="{StaticResource NarrowButtonStyle}" FlowDirection="LeftToRight" Click="MinimizeBtn_Click">
+                    <Button.Content>
+                        <Path Fill="#FFFFFFFF">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathFigure IsClosed="True" StartPoint="1,0">
+                                        <ArcSegment Point="1,2" Size="1,1"/>
+                                        <LineSegment Point="15,2"/>
+                                        <ArcSegment Point="15,0" Size="1,1"/>
+                                    </PathFigure>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                    </Button.Content>
+                </Button>
+                <Button x:Name="ShowSettingsBtn" Margin="5,0" Content="设置" FontSize="14" Style="{StaticResource NormalButtonStyle}" FlowDirection="LeftToRight" Click="ShowSettingsBtn_Click"/>
+                <Button x:Name="ShowQueueBtn" Margin="5,0" Content="下载管理" FontSize="14" Style="{StaticResource WideButtonStyle}" FlowDirection="LeftToRight" Click="ShowQueueBtn_Click"/>
+                <Button x:Name="FavoriteBtn" Margin="5,0" Content="收藏夹" FontSize="14" Style="{StaticResource WideButtonStyle}" FlowDirection="LeftToRight" Visibility="Collapsed" Click="FavoriteBtn_Click"/>
+                <Button x:Name="LoginBtn" Margin="5,0" Content="登录" FontSize="14" Style="{StaticResource NormalButtonStyle}" FlowDirection="LeftToRight" Click="LoginBtn_Click"/>
+                <Image x:Name="UserFaceImage" Grid.Column="1" Margin="5,0" HorizontalAlignment="Center" Height="32" VerticalAlignment="Center" Width="32" Stretch="Fill" RenderOptions.BitmapScalingMode="Fant" FlowDirection="LeftToRight">
+                    <Image.OpacityMask>
+                        <DrawingBrush>
+                            <DrawingBrush.Drawing>
+                                <GeometryDrawing Brush="#FFFFFFFF">
+                                    <GeometryDrawing.Geometry>
+                                        <EllipseGeometry RadiusX="16" RadiusY="16"/>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Image.OpacityMask>
+                </Image>
+                <TextBlock x:Name="UserInfoBox" Margin="10,0" FontSize="14" Foreground="#FFFFFFFF" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight"/>
+            </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
             <Grid Margin="0,12,0,0">
@@ -216,6 +235,19 @@
                 </Grid.RowDefinitions>
                 <bls:ResultBox Grid.Row="1" x:Name="ResultBox" VideoSelected="ResultBox_VideoSelected" SeasonSelected="ResultBox_SeasonSelected"/>
                 <bls:SearchBox Margin="50,10" Grid.Row="0" Grid.RowSpan="2" SuggestDelay="100" MaxWidth="800" Search="SearchBox_Search"/>
+            </Grid>
+            <Grid x:Name="FavGrid" Visibility="{Binding ElementName=FavListBox, Path=Visibility}" Background="#88000000" MouseLeftButtonDown="FavGrid_MouseLeftButtonDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="6*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <bu:FavList x:Name="FavListBox" Visibility="Hidden" Grid.Column="1" Grid.Row="1" VideoSelected="FavListBox_VideoSelected"/>
             </Grid>
             <Grid x:Name="DownloadOptionGrid" Visibility="{Binding ElementName=DownloadOptionPanel, Path=Visibility}" Background="#88000000" MouseLeftButtonDown="DownloadOptionGrid_MouseLeftButtonDown">
                 <Grid.ColumnDefinitions>
