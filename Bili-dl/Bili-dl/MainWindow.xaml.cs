@@ -121,7 +121,7 @@ namespace Bili_dl
                 ConfigManager.ConfigManager.SetCookieCollection(null);
                 UserInfoBox.Text = string.Empty;
                 UserFaceImage.Source = null;
-                FavoriteBtn.Visibility = Visibility.Collapsed;
+                ShowFavoritesBtn.Visibility = Visibility.Collapsed;
                 LoginBtn.Content = "登录";
             }
             
@@ -156,7 +156,7 @@ namespace Bili_dl
 
         private async void ShowUserInfo(UserInfo userInfo)
         {
-            FavoriteBtn.Visibility = Visibility.Visible;
+            ShowFavoritesBtn.Visibility = Visibility.Visible;
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(userInfo.Uname);
@@ -218,6 +218,11 @@ namespace Bili_dl
 
         private void ShowQueueBtn_Click(object sender, RoutedEventArgs e)
         {
+            if(DownloadQueuePanel.Visibility == Visibility.Visible)
+            {
+                DownloadQueuePanel.Visibility = Visibility.Hidden;
+                return;
+            }
             DownloadQueuePanel.Visibility = Visibility.Visible;
         }
 
@@ -232,6 +237,11 @@ namespace Bili_dl
 
         private void ShowSettingsBtn_Click(object sender, RoutedEventArgs e)
         {
+            if(SettingsBox.Visibility == Visibility.Visible)
+            {
+                SettingsBox.Visibility = Visibility.Hidden;
+                return;
+            }
             SettingsBox.Visibility = Visibility.Visible;
         }
 
@@ -304,8 +314,13 @@ namespace Bili_dl
 
         #region Favourite
 
-        private void FavoriteBtn_Click(object sender, RoutedEventArgs e)
+        private void ShowFavoritesBtn_Click(object sender, RoutedEventArgs e)
         {
+            if(FavListBox.Visibility == Visibility.Visible)
+            {
+                FavListBox.Visibility = Visibility.Hidden;
+                return;
+            }
             FavListBox.LoadAsync();
             FavListBox.Visibility = Visibility.Visible;
         }

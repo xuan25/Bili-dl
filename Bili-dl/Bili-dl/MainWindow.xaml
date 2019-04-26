@@ -209,7 +209,7 @@
                 </Button>
                 <Button x:Name="ShowSettingsBtn" Margin="5,0" Content="设置" FontSize="14" Style="{StaticResource NormalButtonStyle}" FlowDirection="LeftToRight" Click="ShowSettingsBtn_Click"/>
                 <Button x:Name="ShowQueueBtn" Margin="5,0" Content="下载管理" FontSize="14" Style="{StaticResource WideButtonStyle}" FlowDirection="LeftToRight" Click="ShowQueueBtn_Click"/>
-                <Button x:Name="FavoriteBtn" Margin="5,0" Content="收藏夹" FontSize="14" Style="{StaticResource WideButtonStyle}" FlowDirection="LeftToRight" Visibility="Collapsed" Click="FavoriteBtn_Click"/>
+                <Button x:Name="ShowFavoritesBtn" Margin="5,0" Content="收藏夹" FontSize="14" Style="{StaticResource WideButtonStyle}" FlowDirection="LeftToRight" Visibility="Collapsed" Click="ShowFavoritesBtn_Click"/>
                 <Button x:Name="LoginBtn" Margin="5,0" Content="登录" FontSize="14" Style="{StaticResource NormalButtonStyle}" FlowDirection="LeftToRight" Click="LoginBtn_Click"/>
                 <Image x:Name="UserFaceImage" Grid.Column="1" Margin="5,0" HorizontalAlignment="Center" Height="32" VerticalAlignment="Center" Width="32" Stretch="Fill" RenderOptions.BitmapScalingMode="Fant" FlowDirection="LeftToRight">
                     <Image.OpacityMask>
