@@ -338,7 +338,7 @@
                         <TextBlock Grid.Column="1" Padding="10" Text="声明" FontSize="18" HorizontalAlignment="Center"/>
                     </Border>
                     <TextBlock Grid.Row="1" Margin="10" Padding="10" FontSize="16" TextAlignment="Left" LineHeight="25">
-                    <Run Text="本软件免费使用并遵从GPLv3开源协议。"/>
+                    <Run Text="本软件为第三方开源软件。"/>
                     <LineBreak/>
                     <Run Text="本软件及使用本软件下载的资源仅供非商业用途使用。"/>
                     <LineBreak/>
