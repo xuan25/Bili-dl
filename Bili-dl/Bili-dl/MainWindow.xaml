@@ -340,7 +340,7 @@
                     <TextBlock Grid.Row="1" Margin="10" Padding="10" FontSize="16" TextAlignment="Left" LineHeight="25">
                     <Run Text="本软件为第三方开源软件。"/>
                     <LineBreak/>
-                    <Run Text="本软件及使用本软件下载的资源仅供非商业用途使用。"/>
+                    <Run Text="本软件及使用本软件下载的资源仅供合法非商业用途使用。"/>
                     <LineBreak/>
                     <Run Text="在未取得著作权所有者许可的情况下，您在使用对应资源时需遵循【合理使用】的判断原则，"/>
                     <LineBreak/>
