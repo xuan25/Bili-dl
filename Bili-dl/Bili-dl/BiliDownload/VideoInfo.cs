@@ -31,7 +31,7 @@ namespace BiliDownload
             else
             {
                 Aid = (uint)json.GetValue("season_id").ToLong();
-                Title = json.GetValue("series_title").ToString();
+                Title = json.GetValue("title").ToString();
                 pages = new List<Page>();
                 foreach (IJson p in json.GetValue("episodes"))
                 {

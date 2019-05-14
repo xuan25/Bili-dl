@@ -249,14 +249,14 @@ namespace BiliSearch
                         }
                         break;
                     case "media_bangumi":
-                        StringBuilder stringBuilder = new StringBuilder();
+                        StringBuilder stringBuilderBangumi = new StringBuilder();
                         foreach (IJson v in json.GetValue("data").GetValue("result"))
                         {
-                            stringBuilder.Append(',');
-                            stringBuilder.Append(v.GetValue("season_id").ToString());
+                            stringBuilderBangumi.Append(',');
+                            stringBuilderBangumi.Append(v.GetValue("season_id").ToString());
                         }
                         Dictionary<string, string> dic = new Dictionary<string, string>();
-                        dic.Add("season_ids", stringBuilder.ToString().Substring(1));
+                        dic.Add("season_ids", stringBuilderBangumi.ToString().Substring(1));
                         try
                         {
                             IJson cardsJson = await BiliApi.GetJsonResultAsync("https://api.bilibili.com/pgc/web/season/cards", dic, true);
@@ -274,14 +274,14 @@ namespace BiliSearch
                         }
                         break;
                     case "media_ft":
-                        StringBuilder stringBuilder1 = new StringBuilder();
+                        StringBuilder stringBuilderFt = new StringBuilder();
                         foreach (IJson v in json.GetValue("data").GetValue("result"))
                         {
-                            stringBuilder1.Append(',');
-                            stringBuilder1.Append(v.GetValue("season_id").ToString());
+                            stringBuilderFt.Append(',');
+                            stringBuilderFt.Append(v.GetValue("season_id").ToString());
                         }
                         Dictionary<string, string> dic1 = new Dictionary<string, string>();
-                        dic1.Add("season_ids", stringBuilder1.ToString().Substring(1));
+                        dic1.Add("season_ids", stringBuilderFt.ToString().Substring(1));
                         try
                         {
                             IJson cardsJson1 = await BiliApi.GetJsonResultAsync("https://api.bilibili.com/pgc/web/season/cards", dic1, false);
@@ -290,7 +290,7 @@ namespace BiliSearch
                                 Season season = new Season(v, cardsJson1);
                                 ResultSeason resultSeason = new ResultSeason(season);
                                 resultSeason.PreviewMouseLeftButtonDown += ResultSeason_PreviewMouseLeftButtonDown;
-                                ContentPanel.Children.Add(new ResultSeason(season));
+                                ContentPanel.Children.Add(resultSeason);
                             }
                         }
                         catch (WebException)
