@@ -236,7 +236,7 @@ namespace BiliSearch
 
         private async void ShowResult(IJson json, string type)
         {
-            if(json.GetValue("code").ToLong() == 0 && ((JsonArray)json.GetValue("data").GetValue("result")).Count > 0)
+            if(json.GetValue("code").ToLong() == 0 && json.GetValue("data").GetValue("numresults").ToLong() > 0)
                 switch (type)
                 {
                     case "video":
