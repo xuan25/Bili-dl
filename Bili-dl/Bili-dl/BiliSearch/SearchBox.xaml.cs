@@ -49,6 +49,18 @@ namespace BiliSearch
             
         }
 
+        public string Text
+        {
+            get
+            {
+                return InputBox.Text;
+            }
+            set
+            {
+                InputBox.Text = value;
+            }
+        }
+
         public SearchBox()
         {
             InitializeComponent();

@@ -103,6 +103,9 @@
     <Compile Include="BiliSearch\SearchBox.xaml.cs">
       <DependentUpon>SearchBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BiliSearch\SearchPanel.xaml.cs">
+      <DependentUpon>SearchPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BiliSearch\SuggestItem.xaml.cs">
       <DependentUpon>SuggestItem.xaml</DependentUpon>
     </Compile>
@@ -197,6 +200,10 @@
     <Page Include="BiliSearch\SearchBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BiliSearch\SearchPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BiliSearch\SuggestItem.xaml">
       <Generator>MSBuild:Compile</Generator>

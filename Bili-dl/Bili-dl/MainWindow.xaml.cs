@@ -48,7 +48,7 @@ namespace Bili_dl
             foreach (DownloadInfo info in infos)
                 DownloadQueuePanel.Append(new DownloadTask(info));
 
-            ResultBox.SetHistory(ConfigManager.ConfigManager.GetSearchHistory());
+            Search.SetHistory(ConfigManager.ConfigManager.GetSearchHistory());
 
             if (BiliApi.CookieCollection != null)
             {
@@ -166,15 +166,6 @@ namespace Bili_dl
             UserInfoBox.Text = stringBuilder.ToString();
 
             UserFaceImage.Source = BiliApi.BitmapToImageSource(await userInfo.GetFaceBitmapAsync());
-        }
-
-        #endregion
-
-        #region Search
-
-        private void SearchBox_Search(BiliSearch.SearchBox sender, string text)
-        {
-            ResultBox.SearchAsync(text);
         }
 
         #endregion

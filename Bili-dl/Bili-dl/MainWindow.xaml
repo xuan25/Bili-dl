@@ -228,14 +228,7 @@
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
-            <Grid Margin="0,12,0,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="70"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <bls:ResultBox Grid.Row="1" x:Name="ResultBox" VideoSelected="ResultBox_VideoSelected" SeasonSelected="ResultBox_SeasonSelected"/>
-                <bls:SearchBox Margin="50,10" Grid.Row="0" Grid.RowSpan="2" SuggestDelay="100" MaxWidth="800" Search="SearchBox_Search"/>
-            </Grid>
+            <bls:SearchPanel x:Name="Search" VideoSelected="ResultBox_VideoSelected" SeasonSelected="ResultBox_SeasonSelected"/>
             <Grid x:Name="FavGrid" Visibility="{Binding ElementName=FavListBox, Path=Visibility}" Background="#88000000" MouseLeftButtonDown="FavGrid_MouseLeftButtonDown">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>

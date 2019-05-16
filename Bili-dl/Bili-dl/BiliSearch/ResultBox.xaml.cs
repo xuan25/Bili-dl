@@ -36,6 +36,16 @@ namespace BiliSearch
         public event SelectedDel SeasonSelected;
 
         /// <summary>
+        /// History Selected delegate.
+        /// </summary>
+        /// <param name="text">History</param>
+        public delegate void HistorySelectedDel(string text);
+        /// <summary>
+        /// Occurs when a History has been selected.
+        /// </summary>
+        public event HistorySelectedDel HistorySelected;
+
+        /// <summary>
         /// Class <c>Video</c> models the info of a Video.
         /// Author: Xuan525
         /// Date: 24/04/2019
@@ -377,6 +387,7 @@ namespace BiliSearch
 
         private void HistoryList_Search(string text)
         {
+            HistorySelected?.Invoke(text);
             SearchAsync(text);
         }
     }
