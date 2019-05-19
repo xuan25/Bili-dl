@@ -108,7 +108,7 @@ namespace Bili_dl
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.github.com/repos/xuan525/Bili-dl/releases/latest");
             request.Accept = "application/vnd.github.v3+json";
-            request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36";
+            request.UserAgent = "Bili-dl";
             try
             {
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();

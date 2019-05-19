@@ -43,9 +43,6 @@ namespace Bili_dl_updater
                 return;
             }
             Filepath = args[0];
-
-            InfoBox.Text = "等待主程序关闭...";
-
             Update();
         }
 
@@ -79,11 +76,14 @@ namespace Bili_dl_updater
                     case Downloader.Status.Initializing:
                         InfoBox.Text = "正在初始化...";
                         break;
+                    case Downloader.Status.Waiting:
+                        InfoBox.Text = "等待主程序关闭...";
+                        break;
                     case Downloader.Status.Finishing:
                         InfoBox.Text = "正在完成...";
                         break;
                     case Downloader.Status.Finished:
-                        InfoBox.Text = "下载完成!!!";
+                        InfoBox.Text = "更新完成!!!";
                         break;
                 }
                 PBar.Value = progress;
