@@ -35,7 +35,7 @@ namespace BiliUser
             if (isFolder)
                 InfoBox.Text = string.Format("{0}个视频", info);
             else
-                InfoBox.Text = string.Format("收藏于: {0}", info);
+                InfoBox.Text = string.Format("收藏于: {0}", TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)).AddSeconds(info).ToString("yyyy-MM-dd"));
 
             if (cover != null)
                 this.Loaded += async delegate (object senderD, RoutedEventArgs eD)
