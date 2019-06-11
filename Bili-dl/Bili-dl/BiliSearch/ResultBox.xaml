@@ -74,7 +74,10 @@
         </Grid>
 
         <ScrollViewer x:Name="ContentViewer" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" FocusVisualStyle="{x:Null}">
-            <WrapPanel x:Name="ContentPanel" Margin="10" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <WrapPanel x:Name="ContentPanel" Margin="10" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <local:PageNavigation x:Name="PagesBox" Visibility="Hidden" JumpTo="PagesBox_JumpTo"/>
+            </WrapPanel>
         </ScrollViewer>
 
         <Grid Grid.Row="1">

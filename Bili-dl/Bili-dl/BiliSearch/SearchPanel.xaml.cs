@@ -47,7 +47,7 @@ namespace BiliSearch
 
         private void SearchBox_Search(SearchBox sender, string text)
         {
-            ResultBox.SearchAsync(text);
+            ResultBox.SearchAsync(text, 1);
         }
 
         private void ResultBox_HistorySelected(string text)
@@ -64,5 +64,18 @@ namespace BiliSearch
         {
             SeasonSelected?.Invoke(title, id);
         }
+
+        private void ResultBox_UserSelected(string title, long id)
+        {
+            UserVideoListBox.Visibility = Visibility.Visible;
+            UserVideoListBox.LoadAsync((int)id, 1, true);
+        }
+
+        private void UserVideoGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            UserVideoListBox.Visibility = Visibility.Hidden;
+        }
+
+        
     }
 }

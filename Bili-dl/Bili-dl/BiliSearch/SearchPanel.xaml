@@ -11,7 +11,20 @@
             <RowDefinition Height="70"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <local:ResultBox Grid.Row="1" x:Name="ResultBox" VideoSelected="ResultBox_VideoSelected" SeasonSelected="ResultBox_SeasonSelected" HistorySelected="ResultBox_HistorySelected"/>
+        <local:ResultBox Grid.Row="1" x:Name="ResultBox" VideoSelected="ResultBox_VideoSelected" SeasonSelected="ResultBox_SeasonSelected" UserSelected="ResultBox_UserSelected" HistorySelected="ResultBox_HistorySelected"/>
         <local:SearchBox x:Name="SearchBox" Margin="50,10" Grid.Row="0" Grid.RowSpan="2" SuggestDelay="100" MaxWidth="800" Search="SearchBox_Search"/>
+        <Grid x:Name="UserVideoGrid" Grid.RowSpan="2" Visibility="{Binding ElementName=UserVideoListBox, Path=Visibility}" Background="#88000000" MouseLeftButtonDown="UserVideoGrid_MouseLeftButtonDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="6*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <local:UserVideoList x:Name="UserVideoListBox" Visibility="Hidden" Grid.Column="1" Grid.Row="1" VideoSelected="ResultBox_VideoSelected"/>
+        </Grid>
     </Grid>
 </UserControl>

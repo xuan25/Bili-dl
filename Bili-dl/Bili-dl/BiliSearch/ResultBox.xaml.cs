@@ -34,6 +34,11 @@ namespace BiliSearch
         /// Occurs when a Season has been selected.
         /// </summary>
         public event SelectedDel SeasonSelected;
+        /// <summary>
+        /// Occurs when a User has been selected.
+        /// </summary>
+        public event SelectedDel UserSelected;
+
 
         /// <summary>
         /// History Selected delegate.
@@ -161,12 +166,13 @@ namespace BiliSearch
         /// Search a text asynchronously.
         /// </summary>
         /// <param name="text">text</param>
-        public void SearchAsync(string text)
+        public void SearchAsync(string text, int pagenum)
         {
             if (cancellationTokenSource != null)
                 cancellationTokenSource.Cancel();
             ContentViewer.ScrollToHome();
             ContentPanel.Children.Clear();
+            PagesBox.Visibility = Visibility.Hidden;
             if (text != null && text.Trim() != string.Empty)
             {
                 HistoryBox.Insert(text);
@@ -180,13 +186,15 @@ namespace BiliSearch
                 Task task = new Task(() =>
                 {
                     string type = NavType;
-                    IJson json = GetResult(text, type);
+                    IJson json = GetResult(text, type, pagenum);
                     if (json != null)
                         Dispatcher.Invoke(new Action(() =>
                         {
                             if (cancellationToken.IsCancellationRequested)
                                 return;
                             ShowResult(json, type);
+                            PagesBox.SetPage((int)json.GetValue("data").GetValue("numpages").ToLong(), (int)json.GetValue("data").GetValue("page").ToLong(), false);
+                            PagesBox.Visibility = Visibility.Visible;
                             LoadingPrompt.Visibility = Visibility.Hidden;
                         }));
                 });
@@ -199,32 +207,7 @@ namespace BiliSearch
                 
         }
 
-        /// <summary>
-        /// Search a text.
-        /// </summary>
-        /// <param name="text">text</param>
-        public void Search(string text)
-        {
-            ContentViewer.ScrollToHome();
-            ContentPanel.Children.Clear();
-            if (text != null && text.Trim() != string.Empty)
-            {
-                HistoryBox.Insert(text);
-                HistoryBox.Visibility = Visibility.Hidden;
-                TypeBtn.IsChecked = true;
-                string type = NavType;
-                IJson json = GetResult(text, type);
-                if (json != null)
-                    ShowResult(json, type);
-            }
-            else
-            {
-                HistoryBox.Visibility = Visibility.Visible;
-            }
-            
-        }
-
-        private IJson GetResult(string text, string type)
+        private IJson GetResult(string text, string type, int pagenum)
         {
             SearchText = text;
             Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -232,6 +215,7 @@ namespace BiliSearch
             dic.Add("highlight", "1");
             dic.Add("search_type", type);
             dic.Add("keyword", text);
+            dic.Add("page", pagenum.ToString());
             try
             {
                 IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/web-interface/search/type", dic, true);
@@ -322,42 +306,7 @@ namespace BiliSearch
 
         private void ResultUser_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            TypeBtn.IsChecked = false;
-            if (cancellationTokenSource != null)
-                cancellationTokenSource.Cancel();
-
-            cancellationTokenSource = new CancellationTokenSource();
-            CancellationToken cancellationToken = cancellationTokenSource.Token;
-
-            ContentPanel.Children.Clear();
-            LoadingPrompt.Visibility = Visibility.Visible;
-            Task task = new Task(() =>
-            {
-                Dictionary<string, string> dic = new Dictionary<string, string>();
-                dic.Add("mid", ((ResultUser)sender).Mid.ToString());
-                dic.Add("pagesize", "30");
-                dic.Add("page", "1");
-                try
-                {
-                    IJson json = BiliApi.GetJsonResult("https://space.bilibili.com/ajax/member/getSubmitVideos", dic, true);
-                    Dispatcher.Invoke(new Action(() =>
-                    {
-                        foreach (IJson v in json.GetValue("data").GetValue("vlist"))
-                        {
-                            Video video = new Video(v);
-                            ResultVideo resultVideo = new ResultVideo(video);
-                            resultVideo.PreviewMouseLeftButtonDown += ResultVideo_PreviewMouseLeftButtonDown;
-                            ContentPanel.Children.Add(resultVideo);
-                        }
-                        LoadingPrompt.Visibility = Visibility.Hidden;
-                    }));
-                }
-                catch (Exception)
-                {
-
-                }
-            }, cancellationTokenSource.Token);
-            task.Start();
+            UserSelected?.Invoke(null, ((ResultUser)sender).Mid);
         }
 
         private void ResultSeason_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -376,7 +325,7 @@ namespace BiliSearch
             NavType = ((RadioButton)sender).Tag.ToString();
             if (SearchText != null && SearchText != "")
             {
-                SearchAsync(SearchText);
+                SearchAsync(SearchText, 1);
             }
         }
         
@@ -388,7 +337,12 @@ namespace BiliSearch
         private void HistoryList_Search(string text)
         {
             HistorySelected?.Invoke(text);
-            SearchAsync(text);
+            SearchAsync(text, 1);
+        }
+
+        private void PagesBox_JumpTo(int pagenum)
+        {
+            SearchAsync(SearchText, pagenum);
         }
     }
 }
