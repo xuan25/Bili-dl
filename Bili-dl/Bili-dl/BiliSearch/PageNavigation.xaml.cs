@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BiliSearch
 {
@@ -40,7 +28,7 @@ namespace BiliSearch
 
             Wrapper.Children.Clear();
 
-            if(currentPage > 1)
+            if (currentPage > 1)
                 Wrapper.Children.Add(new Button
                 {
                     Style = (Style)Resources["TextButtonStyle"],
@@ -49,7 +37,7 @@ namespace BiliSearch
                 });
 
             if (currentPage < 5)
-                for(int i = 1; i < currentPage; i++)
+                for (int i = 1; i < currentPage; i++)
                     Wrapper.Children.Add(new Button
                     {
                         Style = (Style)Resources["NumberButtonStyle"],
@@ -68,7 +56,7 @@ namespace BiliSearch
                 {
                     Style = (Style)Resources["EllipsisButtonStyle"]
                 });
-                for(int i = currentPage - 3; i < currentPage; i++)
+                for (int i = currentPage - 3; i < currentPage; i++)
                     Wrapper.Children.Add(new Button
                     {
                         Style = (Style)Resources["NumberButtonStyle"],
@@ -94,7 +82,7 @@ namespace BiliSearch
                     });
             else
             {
-                
+
                 for (int i = currentPage + 1; i < currentPage + 4; i++)
                     Wrapper.Children.Add(new Button
                     {

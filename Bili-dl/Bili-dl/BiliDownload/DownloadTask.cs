@@ -74,7 +74,7 @@ namespace BiliDownload
             try
             {
                 IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
-                if(json.GetValue("code").ToLong() == 0)
+                if (json.GetValue("code").ToLong() == 0)
                     if (json.GetValue("data").GetValue("quality").ToLong() == Qn)
                         foreach (IJson v in json.GetValue("data").GetValue("durl"))
                         {
@@ -110,7 +110,7 @@ namespace BiliDownload
 
         private void Segment_Finished()
         {
-            if(CurrentSegment < Segments.Count-1)
+            if (CurrentSegment < Segments.Count - 1)
             {
                 CurrentSegment++;
                 Segments[CurrentSegment].Download();
@@ -194,7 +194,7 @@ namespace BiliDownload
                 runThread.Abort();
             if (!IsFinished && IsRunning)
             {
-                if(CurrentSegment != -1)
+                if (CurrentSegment != -1)
                     Segments[CurrentSegment].AbortDownload();
                 AbortProgressMonitor();
                 IsRunning = false;
@@ -212,7 +212,7 @@ namespace BiliDownload
                 if (Segments != null)
                     foreach (Segment segment in Segments)
                         segment.Clean();
-            }  
+            }
         }
 
         private void StartProgressMonitor()
@@ -234,7 +234,7 @@ namespace BiliDownload
         private void ProgressMonitor()
         {
             long total = 0;
-            foreach(Segment segment in Segments)
+            foreach (Segment segment in Segments)
             {
                 total += segment.Length;
             }
@@ -298,7 +298,7 @@ namespace BiliDownload
                 Filepath = string.Format("{0}{1}", directory, Url.Substring(Url.LastIndexOf('/') + 1, Url.IndexOf('?') - Url.LastIndexOf('/') - 1));
                 Threads = threads;
                 DownloadThreads = new List<DownloadThread>();
-                for (int i=0; i < threads; i++)
+                for (int i = 0; i < threads; i++)
                 {
                     DownloadThread downloadThread;
                     if (i != threads - 1)
@@ -338,7 +338,7 @@ namespace BiliDownload
                 foreach (DownloadThread downloadThread in DownloadThreads)
                 {
                     downloadThread.StartDownloadThread();
-                } 
+                }
             }
 
             /// <summary>
@@ -370,7 +370,7 @@ namespace BiliDownload
             private void DownloadThread_Finished()
             {
                 FinishedThreadCount++;
-                if(FinishedThreadCount == DownloadThreads.Count)
+                if (FinishedThreadCount == DownloadThreads.Count)
                 {
                     bool flag = true;
                     foreach (DownloadThread downloadThread in DownloadThreads)

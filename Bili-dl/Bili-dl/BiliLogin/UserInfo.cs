@@ -1,6 +1,5 @@
 ﻿using Bili;
 using Json;
-using System.Drawing;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -63,7 +62,7 @@ namespace BiliLogin
             {
                 return null;
             }
-            
+
         }
 
         public async static Task<UserInfo> GetUserInfoAsync(CookieCollection cookies)
@@ -80,37 +79,7 @@ namespace BiliLogin
             {
                 return null;
             }
-            
-        }
 
-        public Bitmap GetFaceBitmap()
-        {
-            return BiliApi.GetImage(Face);
-        }
-
-        public async Task<Bitmap> GetFaceBitmapAsync()
-        {
-            return await BiliApi.GetImageAsync(Face);
-        }
-
-        public Bitmap GetNamePlateBitmap()
-        {
-            return BiliApi.GetImage(NameplateCurrent);
-        }
-
-        public async Task<Bitmap> GetNamePlateBitmapAsync()
-        {
-            return await BiliApi.GetImageAsync(NameplateCurrent);
-        }
-
-        public Bitmap GetPendantBitmap()
-        {
-            return BiliApi.GetImage(PendantCurrent);
-        }
-
-        public async Task<Bitmap> GetPendantBitmapAsync()
-        {
-            return await BiliApi.GetImageAsync(PendantCurrent);
         }
     }
 }

@@ -49,7 +49,7 @@ namespace ConfigManager
             {
                 config = Deserialize();
 
-                if(config.DownloadInfos == null)
+                if (config.DownloadInfos == null)
                     config.DownloadInfos = new List<DownloadInfo>();
                 if (config.Settings == null)
                     config.Settings = new SettingPanel.Settings();

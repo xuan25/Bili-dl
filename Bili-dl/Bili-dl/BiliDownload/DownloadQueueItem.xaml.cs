@@ -83,7 +83,7 @@ namespace BiliDownload
             {
 
             }
-            
+
         }
 
         private void DownloadTask_StatusUpdate(double progressPercentage, long bps, DownloadTask.Status status)

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace Bili_dl
 {
@@ -58,7 +59,7 @@ namespace Bili_dl
                     ShowUserInfo(userInfo);
                     LoginBtn.Content = "登出";
                 }
-            }    
+            }
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -107,7 +108,7 @@ namespace Bili_dl
 
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(LoginBtn.Content.ToString() == "登录")
+            if (LoginBtn.Content.ToString() == "登录")
             {
                 MoblieLoginWindow moblieLoginWindow = new MoblieLoginWindow(this);
                 moblieLoginWindow.LoggedIn += MoblieLoginWindow_LoggedIn;
@@ -115,7 +116,7 @@ namespace Bili_dl
                 moblieLoginWindow.Show();
                 LoginBtn.Content = "登录中...";
             }
-            else if(LoginBtn.Content.ToString() == "登出")
+            else if (LoginBtn.Content.ToString() == "登出")
             {
                 BiliApi.CookieCollection = null;
                 ConfigManager.ConfigManager.SetCookieCollection(null);
@@ -124,7 +125,7 @@ namespace Bili_dl
                 ShowFavoritesBtn.Visibility = Visibility.Collapsed;
                 LoginBtn.Content = "登录";
             }
-            
+
         }
 
         private void MoblieLoginWindow_Canceled(MoblieLoginWindow sender)
@@ -144,17 +145,17 @@ namespace Bili_dl
 
                 UserInfo userInfo = await UserInfo.GetUserInfoAsync(BiliApi.CookieCollection);
 
-                if(userInfo != null)
+                if (userInfo != null)
                 {
                     ShowUserInfo(userInfo);
                     LoginBtn.Content = "登出";
                 }
                 sender.Close();
-                
+
             }));
         }
 
-        private async void ShowUserInfo(UserInfo userInfo)
+        private void ShowUserInfo(UserInfo userInfo)
         {
             ShowFavoritesBtn.Visibility = Visibility.Visible;
 
@@ -165,7 +166,7 @@ namespace Bili_dl
                 stringBuilder.Append(" [大会员]");
             UserInfoBox.Text = stringBuilder.ToString();
 
-            UserFaceImage.Source = BiliApi.BitmapToImageSource(await userInfo.GetFaceBitmapAsync());
+            UserFaceImage.Source = new BitmapImage(new Uri(userInfo.Face));
         }
 
         #endregion
@@ -209,7 +210,7 @@ namespace Bili_dl
 
         private void ShowQueueBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(DownloadQueuePanel.Visibility == Visibility.Visible)
+            if (DownloadQueuePanel.Visibility == Visibility.Visible)
             {
                 DownloadQueuePanel.Visibility = Visibility.Hidden;
                 return;
@@ -228,7 +229,7 @@ namespace Bili_dl
 
         private void ShowSettingsBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(SettingsBox.Visibility == Visibility.Visible)
+            if (SettingsBox.Visibility == Visibility.Visible)
             {
                 SettingsBox.Visibility = Visibility.Hidden;
                 return;
@@ -271,7 +272,7 @@ namespace Bili_dl
                 {
                     System.IO.File.Copy(fsi.FullName, destName, true);
                     System.IO.File.Delete(fsi.FullName);
-                } 
+                }
                 else
                 {
                     System.IO.Directory.CreateDirectory(destName);
@@ -307,7 +308,7 @@ namespace Bili_dl
 
         private void ShowFavoritesBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(FavListBox.Visibility == Visibility.Visible)
+            if (FavListBox.Visibility == Visibility.Visible)
             {
                 FavListBox.Visibility = Visibility.Hidden;
                 return;

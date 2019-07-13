@@ -1,10 +1,10 @@
 ﻿using Bili;
 using System;
 using System.Text.RegularExpressions;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace BiliSearch
 {
@@ -46,13 +46,9 @@ namespace BiliSearch
             PostdateBox.Text = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)).AddSeconds(video.Pubdate).ToString("yyyy-MM-dd");
             AuthorBox.Text = video.Author;
 
-            this.Loaded += async delegate (object senderD, RoutedEventArgs eD)
-            {
-                System.Drawing.Bitmap bitmap = await video.GetPicAsync();
-                ImageBox.Source = BiliApi.BitmapToImageSource(bitmap);
-            };
+            ImageBox.Source = new BitmapImage(new Uri(video.Pic));
         }
 
-        
+
     }
 }

@@ -13,7 +13,7 @@ namespace QRCoder
         /// </summary>
         public QRCode() { }
 
-        public QRCode(QRCodeData data) : base(data) {}
+        public QRCode(QRCodeData data) : base(data) { }
 
         public Bitmap GetGraphic(int pixelsPerModule)
         {
@@ -36,7 +36,7 @@ namespace QRCoder
             {
                 for (var y = 0; y < size + offset; y = y + pixelsPerModule)
                 {
-                    var module = this.QrCodeData.ModuleMatrix[(y + pixelsPerModule)/pixelsPerModule - 1][(x + pixelsPerModule)/pixelsPerModule - 1];
+                    var module = this.QrCodeData.ModuleMatrix[(y + pixelsPerModule) / pixelsPerModule - 1][(x + pixelsPerModule) / pixelsPerModule - 1];
                     if (module)
                     {
                         gfx.FillRectangle(new SolidBrush(darkColor), new Rectangle(x - offset, y - offset, pixelsPerModule, pixelsPerModule));
@@ -52,7 +52,7 @@ namespace QRCoder
             return bmp;
         }
 
-        public Bitmap GetGraphic(int pixelsPerModule, Color darkColor, Color lightColor, Bitmap icon=null, int iconSizePercent=15, int iconBorderWidth = 6, bool drawQuietZones = true)
+        public Bitmap GetGraphic(int pixelsPerModule, Color darkColor, Color lightColor, Bitmap icon = null, int iconSizePercent = 15, int iconBorderWidth = 6, bool drawQuietZones = true)
         {
             var size = (this.QrCodeData.ModuleMatrix.Count - (drawQuietZones ? 0 : 8)) * pixelsPerModule;
             var offset = drawQuietZones ? 0 : 4 * pixelsPerModule;
@@ -64,10 +64,10 @@ namespace QRCoder
             gfx.CompositingQuality = CompositingQuality.HighQuality;
             gfx.Clear(lightColor);
 
-            var drawIconFlag = icon != null && iconSizePercent>0 && iconSizePercent<=100;
+            var drawIconFlag = icon != null && iconSizePercent > 0 && iconSizePercent <= 100;
 
             GraphicsPath iconPath = null;
-            float iconDestWidth=0, iconDestHeight=0, iconX=0, iconY=0;
+            float iconDestWidth = 0, iconDestHeight = 0, iconX = 0, iconY = 0;
 
             if (drawIconFlag)
             {
@@ -84,15 +84,15 @@ namespace QRCoder
             var darkBrush = new SolidBrush(darkColor);
 
 
-            for (var x = 0; x < size+offset; x = x + pixelsPerModule)
+            for (var x = 0; x < size + offset; x = x + pixelsPerModule)
             {
                 for (var y = 0; y < size + offset; y = y + pixelsPerModule)
                 {
 
-                    var module = this.QrCodeData.ModuleMatrix[(y + pixelsPerModule)/pixelsPerModule - 1][(x + pixelsPerModule)/pixelsPerModule - 1];
+                    var module = this.QrCodeData.ModuleMatrix[(y + pixelsPerModule) / pixelsPerModule - 1][(x + pixelsPerModule) / pixelsPerModule - 1];
                     if (module)
                     {
-                        var r = new Rectangle(x-offset, y-offset, pixelsPerModule, pixelsPerModule);
+                        var r = new Rectangle(x - offset, y - offset, pixelsPerModule, pixelsPerModule);
 
                         if (drawIconFlag)
                         {
@@ -106,7 +106,7 @@ namespace QRCoder
                         }
                     }
                     else
-                        gfx.FillRectangle(lightBrush, new Rectangle(x-offset, y-offset, pixelsPerModule, pixelsPerModule));
+                        gfx.FillRectangle(lightBrush, new Rectangle(x - offset, y - offset, pixelsPerModule, pixelsPerModule));
 
                 }
             }

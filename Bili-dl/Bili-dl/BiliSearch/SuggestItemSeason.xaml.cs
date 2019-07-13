@@ -1,7 +1,6 @@
-﻿using Bili;
-using System;
-using System.Windows;
+﻿using System;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace BiliSearch
 {
@@ -16,7 +15,7 @@ namespace BiliSearch
         {
             InitializeComponent();
 
-            if(TitleInline.Text != null)
+            if (TitleInline.Text != null)
                 TitleInline.Text = seasonSuggest.Title;
 
             InfoInline.Text = string.Format("{0} | {1} | {2}", TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)).AddSeconds(seasonSuggest.Ptime).Year, seasonSuggest.SeasonTypeName, seasonSuggest.Area);
@@ -24,11 +23,7 @@ namespace BiliSearch
             if (seasonSuggest.Label != null)
                 LabelInline.Text = seasonSuggest.Label;
 
-            this.Loaded += async delegate (object senderD, RoutedEventArgs eD)
-            {
-                System.Drawing.Bitmap bitmap = await seasonSuggest.GetCoverAsync();
-                ImageBox.Source = BiliApi.BitmapToImageSource(bitmap);
-            };
+            ImageBox.Source = new BitmapImage(new Uri(seasonSuggest.Cover));
         }
     }
 }

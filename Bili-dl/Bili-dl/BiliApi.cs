@@ -7,8 +7,6 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media.Imaging;
 
 namespace Bili
 {
@@ -35,7 +33,7 @@ namespace Bili
         /// <returns>Parameter string</returns>
         public static string DicToParams(Dictionary<string, string> dic, bool addVerification)
         {
-            if(dic != null)
+            if (dic != null)
             {
                 if (addVerification)
                     dic = AddVerification(dic);
@@ -159,57 +157,6 @@ namespace Bili
             });
             task.Start();
             return task;
-        }
-
-        /// <summary>
-        /// Download an Image asynchronously.
-        /// </summary>
-        /// <param name="url">Image url</param>
-        /// <returns>Image data</returns>
-        public static Task<System.Drawing.Bitmap> GetImageAsync(string url)
-        {
-            Task<System.Drawing.Bitmap> task = new Task<System.Drawing.Bitmap>(() =>
-            {
-                return GetImage(url);
-            });
-            task.Start();
-            return task;
-        }
-
-        /// <summary>
-        /// Download an Image.
-        /// </summary>
-        /// <param name="url">Image url</param>
-        /// <returns>Image data</returns>
-        public static System.Drawing.Bitmap GetImage(string url)
-        {
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                Stream dataStream = response.GetResponseStream();
-                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(dataStream);
-                response.Close();
-                dataStream.Close();
-                return bitmap;
-            }
-            catch (Exception)
-            {
-                return new System.Drawing.Bitmap(1,1);
-            }
-            
-        }
-
-        /// <summary>
-        /// Convert a bitmap to an ImageSource.
-        /// </summary>
-        /// <param name="bitmap">Source bitmap</param>
-        /// <returns>ImageSource</returns>
-        public static BitmapSource BitmapToImageSource(System.Drawing.Bitmap bitmap)
-        {
-            IntPtr ip = bitmap.GetHbitmap();
-            BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(ip, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            return bitmapSource;
         }
 
         /// <summary>

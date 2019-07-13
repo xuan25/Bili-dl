@@ -1,9 +1,9 @@
-﻿using Bili;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Net;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace BiliLogin
 {
@@ -50,7 +50,7 @@ namespace BiliLogin
         public MoblieLoginWindow(Window parent)
         {
             InitializeComponent();
-            if(parent != null)
+            if (parent != null)
                 parent.Closed += Parent_Closed;
         }
 
@@ -94,11 +94,15 @@ namespace BiliLogin
             biliLoginQR.Begin();
         }
 
+        [System.Runtime.InteropServices.DllImport("gdi32")] static extern int DeleteObject(IntPtr o);
         private void BiliLoginQR_QRImageLoaded(BiliLoginQR sender, Bitmap qrImage)
         {
             Dispatcher.Invoke(new Action(() =>
             {
-                QrImageBox.Source = BiliApi.BitmapToImageSource(qrImage);
+                IntPtr hBitmapIntPtr = qrImage.GetHbitmap();
+                BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmapIntPtr, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                DeleteObject(hBitmapIntPtr);
+                QrImageBox.Source = bitmapSource;
             }));
         }
 

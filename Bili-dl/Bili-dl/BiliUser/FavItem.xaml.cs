@@ -1,18 +1,6 @@
-﻿using Bili;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BiliUser
 {
@@ -38,11 +26,7 @@ namespace BiliUser
                 InfoBox.Text = string.Format("收藏于: {0}", TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)).AddSeconds(info).ToString("yyyy-MM-dd"));
 
             if (cover != null)
-                this.Loaded += async delegate (object senderD, RoutedEventArgs eD)
-                {
-                    System.Drawing.Bitmap bitmap = await BiliApi.GetImageAsync(cover);
-                    ImageBox.Source = BiliApi.BitmapToImageSource(bitmap);
-                };
+                ImageBox.Source = new BitmapImage(new Uri(cover));
         }
     }
 }

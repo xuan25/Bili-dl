@@ -1,6 +1,7 @@
 ﻿using Bili;
-using System.Windows;
+using System;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace BiliSearch
 {
@@ -22,11 +23,7 @@ namespace BiliSearch
             FansBox.Text = BiliApi.FormatNum(user.Fans, 1);
             UsignBox.Text = user.Usign;
 
-            this.Loaded += async delegate (object senderD, RoutedEventArgs eD)
-            {
-                System.Drawing.Bitmap bitmap = await user.GetPicAsync();
-                ImageBox.Source = BiliApi.BitmapToImageSource(bitmap);
-            };
+            ImageBox.Source = new BitmapImage(new Uri(user.Upic));
         }
     }
 }

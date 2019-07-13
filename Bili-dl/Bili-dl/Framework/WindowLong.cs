@@ -50,7 +50,7 @@ namespace Framework
         public static uint WS_TILEDWINDOW = (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX);
         public static uint WS_VISIBLE = 0x10000000;
         public static uint WS_VSCROLL = 0x00200000;
-        
+
         public static uint WS_EX_ACCEPTFILES = 0x00000010;
         public static uint WS_EX_APPWINDOW = 0x00040000;
         public static uint WS_EX_CLIENTEDGE = 0x00000200;

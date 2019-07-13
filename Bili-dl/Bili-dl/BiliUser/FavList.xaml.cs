@@ -2,19 +2,11 @@
 using Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BiliUser
 {
@@ -138,8 +130,8 @@ namespace BiliUser
                             favItem.PreviewMouseLeftButtonDown += FavItem_PreviewMouseLeftButtonDown;
                             ContentPanel.Children.Add(favItem);
                         }
-                        if(init)
-                            PagesBox.SetPage((int)Math.Ceiling((double)json.GetValue("data").GetValue("info").GetValue("media_count").ToLong()/20), 1, true);
+                        if (init)
+                            PagesBox.SetPage((int)Math.Ceiling((double)json.GetValue("data").GetValue("info").GetValue("media_count").ToLong() / 20), 1, true);
                         PagesBox.Visibility = Visibility.Visible;
                     }));
                 }

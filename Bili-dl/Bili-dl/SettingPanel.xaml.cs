@@ -33,7 +33,7 @@ namespace Bili_dl
                 DownloadThreads = 5;
             }
         }
-        
+
         // Settings instance.
         public static Settings settings;
 

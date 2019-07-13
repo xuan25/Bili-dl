@@ -27,10 +27,10 @@ namespace BiliDownload
         /// <returns>Successful</returns>
         public bool Append(DownloadTask downloadTask)
         {
-            foreach(ListBoxItem i in QueueList.Items)
+            foreach (ListBoxItem i in QueueList.Items)
             {
                 DownloadQueueItem dqi = (DownloadQueueItem)i.Content;
-                if(dqi.downloadTask.Aid == downloadTask.Aid &&
+                if (dqi.downloadTask.Aid == downloadTask.Aid &&
                     dqi.downloadTask.Cid == downloadTask.Cid &&
                     dqi.downloadTask.Qn == downloadTask.Qn)
                 {
@@ -67,7 +67,7 @@ namespace BiliDownload
             {
                 QueueList.Items.Remove(ItemMap[downloadQueueItem]);
                 ItemMap.Remove(downloadQueueItem);
-                if(QueueList.Items.Count > 0)
+                if (QueueList.Items.Count > 0)
                     ((DownloadQueueItem)((ListBoxItem)QueueList.Items[0]).Content).Start();
             }));
             ConfigManager.ConfigManager.RemoveDownloadInfo(downloadQueueItem.downloadTask.Info);
@@ -80,8 +80,8 @@ namespace BiliDownload
 
         public void StopAll()
         {
-            foreach(ListBoxItem listBoxItem in QueueList.Items)
-                if(((DownloadQueueItem)listBoxItem.Content).downloadTask.IsRunning)
+            foreach (ListBoxItem listBoxItem in QueueList.Items)
+                if (((DownloadQueueItem)listBoxItem.Content).downloadTask.IsRunning)
                     ((DownloadQueueItem)listBoxItem.Content).downloadTask.Stop();
         }
 

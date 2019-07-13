@@ -1,10 +1,9 @@
-﻿using Bili;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace BiliSearch
 {
@@ -53,11 +52,7 @@ namespace BiliSearch
             CvBox.Text = season.Cv.Replace('\n', ' ');
             DescriptionBox.Text = season.Description.Replace('\n', ' ');
 
-            this.Loaded += async delegate (object senderD, RoutedEventArgs eD)
-            {
-                System.Drawing.Bitmap bitmap = await season.GetCoverAsync();
-                ImageBox.Source = BiliApi.BitmapToImageSource(bitmap);
-            };
+            ImageBox.Source = new BitmapImage(new Uri(season.Cover));
         }
     }
 }

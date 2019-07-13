@@ -46,7 +46,7 @@ namespace BiliSearch
         }
         private void SuggestDelayChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         public string Text
@@ -101,11 +101,6 @@ namespace BiliSearch
                 else
                     Label = null;
             }
-
-            public Task<System.Drawing.Bitmap> GetCoverAsync()
-            {
-                return BiliApi.GetImageAsync(Cover);
-            }
         }
 
         /// <summary>
@@ -131,11 +126,6 @@ namespace BiliSearch
                 Level = (uint)item.GetValue("level").ToLong();
                 Fans = item.GetValue("fans").ToLong();
                 Archives = item.GetValue("archives").ToLong();
-            }
-
-            public Task<System.Drawing.Bitmap> GetCoverAsync()
-            {
-                return BiliApi.GetImageAsync(Cover);
             }
         }
 
@@ -180,7 +170,7 @@ namespace BiliSearch
             {
                 List<Suggest> suggests = null;
                 suggests = await GetSuggestAsync(InputBox.Text, SuggestDelay);
-                
+
                 SuggestList.Items.Clear();
                 if (suggests != null)
                 {
@@ -219,9 +209,9 @@ namespace BiliSearch
         private CancellationTokenSource cancellationTokenSource;
         private Task<List<Suggest>> GetSuggestAsync(string text, int delay)
         {
-            if(cancellationTokenSource != null)
+            if (cancellationTokenSource != null)
                 cancellationTokenSource.Cancel();
-                
+
             cancellationTokenSource = new CancellationTokenSource();
             CancellationToken cancellationToken = cancellationTokenSource.Token;
             Task<List<Suggest>> task = new Task<List<Suggest>>(() =>
@@ -284,7 +274,7 @@ namespace BiliSearch
             {
                 return null;
             }
-            
+
 
         }
 
@@ -296,7 +286,7 @@ namespace BiliSearch
                 SuggestList.SelectedIndex = 0;
                 e.Handled = true;
             }
-            else if(e.Key == Key.Enter)
+            else if (e.Key == Key.Enter)
             {
                 Confirm();
                 e.Handled = true;
@@ -307,11 +297,11 @@ namespace BiliSearch
         {
             if (e.Key == Key.Down)
             {
-                if(SuggestList.SelectedIndex < SuggestList.Items.Count - 1)
+                if (SuggestList.SelectedIndex < SuggestList.Items.Count - 1)
                     SuggestList.SelectedIndex++;
                 e.Handled = true;
             }
-            else if(e.Key == Key.Up)
+            else if (e.Key == Key.Up)
             {
                 SuggestList.SelectedIndex--;
                 if (SuggestList.SelectedIndex == -1)

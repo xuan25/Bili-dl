@@ -69,17 +69,12 @@ namespace BiliSearch
                 Pic = "https:" + Regex.Unescape(json.GetValue("pic").ToString());
                 Title = System.Net.WebUtility.HtmlDecode(Regex.Unescape(json.GetValue("title").ToString()));
                 Play = json.GetValue("play").ToLong();
-                if(json.Contains("pubdate"))
+                if (json.Contains("pubdate"))
                     Pubdate = json.GetValue("pubdate").ToLong();
                 else
                     Pubdate = json.GetValue("created").ToLong();
                 Author = Regex.Unescape(json.GetValue("author").ToString());
                 Aid = json.GetValue("aid").ToLong();
-            }
-
-            public Task<System.Drawing.Bitmap> GetPicAsync()
-            {
-                return BiliApi.GetImageAsync(Pic);
             }
         }
 
@@ -114,11 +109,6 @@ namespace BiliSearch
                 SeasonTypeName = cardsJson.GetValue("result").GetValue(SeasonId.ToString()).GetValue("season_type_name").ToString();
                 OrgTitle = System.Net.WebUtility.HtmlDecode(Regex.Unescape(json.GetValue("org_title").ToString()));
             }
-
-            public Task<System.Drawing.Bitmap> GetCoverAsync()
-            {
-                return BiliApi.GetImageAsync(Cover);
-            }
         }
 
         /// <summary>
@@ -143,11 +133,6 @@ namespace BiliSearch
                 Videos = json.GetValue("videos").ToLong();
                 Fans = json.GetValue("fans").ToLong();
                 Usign = Regex.Unescape(json.GetValue("usign").ToString());
-            }
-
-            public Task<System.Drawing.Bitmap> GetPicAsync()
-            {
-                return BiliApi.GetImageAsync(Upic);
             }
         }
 
@@ -226,7 +211,7 @@ namespace BiliSearch
             {
                 return null;
             }
-            
+
         }
 
         private async void ShowResult(IJson json, string type)
@@ -310,7 +295,7 @@ namespace BiliSearch
             else
             {
                 NoMoreGrid.Visibility = Visibility.Visible;
-            }    
+            }
         }
 
         private void ResultUser_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -337,7 +322,7 @@ namespace BiliSearch
                 SearchAsync(SearchText, 1);
             }
         }
-        
+
         public void SetHistory(List<string> history)
         {
             HistoryBox.SetHistory(history);

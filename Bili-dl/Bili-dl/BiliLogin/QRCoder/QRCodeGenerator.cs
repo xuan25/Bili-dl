@@ -1,9 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Collections;
 using System.Reflection;
+using System.Text;
 
 namespace QRCoder
 {
@@ -310,11 +310,11 @@ namespace QRCoder
                 var size = qrCode.ModuleMatrix.Count;
 
 
-                #if NET40
+#if NET40
                     var methods = typeof (MaskPattern).GetMethods();
-                #else
-                    var methods = typeof (MaskPattern).GetTypeInfo().DeclaredMethods;
-                #endif
+#else
+                var methods = typeof(MaskPattern).GetTypeInfo().DeclaredMethods;
+#endif
 
                 foreach (var pattern in methods)
                 {
@@ -330,7 +330,7 @@ namespace QRCoder
 
                         }
 
-                        var formatStr = GetFormatString(eccLevel, Convert.ToInt32((pattern.Name.Substring(7, 1)))-1);
+                        var formatStr = GetFormatString(eccLevel, Convert.ToInt32((pattern.Name.Substring(7, 1))) - 1);
                         ModulePlacer.PlaceFormat(ref qrTemp, formatStr);
                         if (version >= 7)
                         {
@@ -361,11 +361,11 @@ namespace QRCoder
 
 
 
-                #if NET40
+#if NET40
                     var patterMethod = typeof(MaskPattern).GetMethods().First(x => x.Name == patternName);
-                #else
-                    var patterMethod = typeof(MaskPattern).GetTypeInfo().GetDeclaredMethod(patternName);
-                #endif
+#else
+                var patterMethod = typeof(MaskPattern).GetTypeInfo().GetDeclaredMethod(patternName);
+#endif
 
 
                 for (var x = 0; x < size; x++)
@@ -387,7 +387,7 @@ namespace QRCoder
                 var size = qrCode.ModuleMatrix.Count;
                 var up = true;
                 var datawords = new Queue<bool>();
-                for (int i = 0; i< data.Length; i++)
+                for (int i = 0; i < data.Length; i++)
                 {
                     datawords.Enqueue(data[i] != '0');
                 }
@@ -703,9 +703,9 @@ namespace QRCoder
                                 blackModules++;
 
                     var percent = (blackModules / (qrCode.ModuleMatrix.Count * qrCode.ModuleMatrix.Count)) * 100;
-                    var prevMultipleOf5 = Math.Abs((int) Math.Floor(percent/5)*5 - 50)/5;
-                    var nextMultipleOf5 = Math.Abs((int)Math.Floor(percent / 5) * 5 -45)/5;
-                    score4 = Math.Min(prevMultipleOf5, nextMultipleOf5)*10;
+                    var prevMultipleOf5 = Math.Abs((int)Math.Floor(percent / 5) * 5 - 50) / 5;
+                    var nextMultipleOf5 = Math.Abs((int)Math.Floor(percent / 5) * 5 - 45) / 5;
+                    score4 = Math.Min(prevMultipleOf5, nextMultipleOf5) * 10;
 
                     return score1 + score2 + score3 + score4;
                 }
@@ -725,7 +725,7 @@ namespace QRCoder
 
             for (var i = 0; i < generatorPolynom.PolyItems.Count; i++)
                 generatorPolynom.PolyItems[i] = new PolynomItem(generatorPolynom.PolyItems[i].Coefficient,
-                    generatorPolynom.PolyItems[i].Exponent + (messagePolynom.PolyItems.Count-1));
+                    generatorPolynom.PolyItems[i].Exponent + (messagePolynom.PolyItems.Count - 1));
 
             var leadTermSource = messagePolynom;
             for (var i = 0; (leadTermSource.PolyItems.Count > 0 && leadTermSource.PolyItems[leadTermSource.PolyItems.Count - 1].Exponent > 0); i++)
@@ -907,13 +907,13 @@ namespace QRCoder
         {
             var bytes = Encoding.GetEncoding("ISO-8859-1").GetBytes(input);
             //var result = Encoding.GetEncoding("ISO-8859-1").GetString(bytes);
-            var result = Encoding.GetEncoding("ISO-8859-1").GetString(bytes,0,bytes.Length);
+            var result = Encoding.GetEncoding("ISO-8859-1").GetString(bytes, 0, bytes.Length);
             return String.Equals(input, result);
         }
 
         private string PlainTextToBinary(string plainText, EncodingMode encMode, EciMode eciMode, bool utf8BOM, bool forceUtf8)
         {
-            switch(encMode)
+            switch (encMode)
             {
                 case EncodingMode.Alphanumeric:
                     return PlainTextToBinaryAlphanumeric(plainText);
@@ -974,7 +974,7 @@ namespace QRCoder
         {
             var codeText = string.Empty;
             byte[] _bytes = Encoding.GetEncoding("ascii").GetBytes(plainText);
-            foreach(byte _byte in _bytes)
+            foreach (byte _byte in _bytes)
             {
                 codeText += DecToBin(_byte, 8);
             }
@@ -999,7 +999,7 @@ namespace QRCoder
                 codeBytes = Encoding.GetEncoding("ISO-8859-1").GetBytes(plainText);
             else
             {
-                switch(eciMode)
+                switch (eciMode)
                 {
                     case EciMode.Iso8859_1:
                         codeBytes = Encoding.GetEncoding("ISO-8859-1").GetBytes(ConvertToIso8859(plainText, "ISO-8859-1"));

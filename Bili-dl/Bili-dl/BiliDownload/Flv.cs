@@ -19,7 +19,7 @@ namespace BiliDownload
         {
             FileStream outputStream = new FileStream(output, FileMode.Create);
             int timeOffest = 0;
-            for(int i=0; i<inputs.Count; i++)
+            for (int i = 0; i < inputs.Count; i++)
             {
                 FileStream inputStream = new FileStream(inputs[i], FileMode.Open);
                 timeOffest = Merge(inputStream, outputStream, timeOffest);

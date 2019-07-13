@@ -98,7 +98,7 @@ namespace BiliDownload
         private void ShowQualies(VideoInfo.Page page)
         {
             List<VideoInfo.Page.Quality> qualities = page.GetQualities();
-            if(qualities != null)
+            if (qualities != null)
                 Dispatcher.Invoke(new Action(() =>
                 {
                     foreach (VideoInfo.Page.Quality quality in qualities)

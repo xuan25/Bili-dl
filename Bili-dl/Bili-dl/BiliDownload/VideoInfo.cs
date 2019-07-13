@@ -38,7 +38,7 @@ namespace BiliDownload
                     pages.Add(new Page(Title, Aid, p, isSeason));
                 }
             }
-            
+
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace BiliDownload
                 {
                     return null;
                 }
-                
+
             }
             else
             {
@@ -71,7 +71,7 @@ namespace BiliDownload
                 try
                 {
                     IJson json = BiliApi.GetJsonResult("https://bangumi.bilibili.com/view/web_api/season", dic, false);
-                    if(json.GetValue("code").ToLong() == 0)
+                    if (json.GetValue("code").ToLong() == 0)
                         return new VideoInfo(json.GetValue("result"), isSeason);
                     return null;
                 }
@@ -79,9 +79,9 @@ namespace BiliDownload
                 {
                     return null;
                 }
-                
+
             }
-            
+
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace BiliDownload
                     Part = json.GetValue("index_title").ToString();
                     Duration = (uint)json.GetValue("duration").ToLong();
                 }
-                
+
             }
 
             /// <summary>
@@ -158,8 +158,8 @@ namespace BiliDownload
                     IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
                     Qualities = new List<Quality>();
                     if (json.GetValue("code").ToLong() == 0)
-                            for (int i = 0; i < ((JsonArray)json.GetValue("data").GetValue("accept_quality")).Count; i++)
-                                Qualities.Add(new Quality(Title, Index, Num, Part, Aid, Cid, (uint)json.GetValue("data").GetValue("accept_quality").GetValue(i).ToLong(), json.GetValue("data").GetValue("accept_description").GetValue(i).ToString(), false));
+                        for (int i = 0; i < ((JsonArray)json.GetValue("data").GetValue("accept_quality")).Count; i++)
+                            Qualities.Add(new Quality(Title, Index, Num, Part, Aid, Cid, (uint)json.GetValue("data").GetValue("accept_quality").GetValue(i).ToLong(), json.GetValue("data").GetValue("accept_description").GetValue(i).ToString(), false));
                     else if (IsSeason)
                     {
                         json = BiliApi.GetJsonResult("http://api.bilibili.com/pgc/player/web/playurl", dic, false);
@@ -175,7 +175,7 @@ namespace BiliDownload
                 {
                     return null;
                 }
-                
+
             }
 
             /// <summary>
@@ -239,13 +239,13 @@ namespace BiliDownload
                             IJson json = BiliApi.GetJsonResult("http://api.bilibili.com/pgc/player/web/playurl", dic, false);
                             IsAvaliable = json.GetValue("result").GetValue("quality").ToLong() == Qn;
                         }
-                        
+
                     }
                     catch (System.Net.WebException)
                     {
                         IsAvaliable = false;
                     }
-                    
+
                 }
             }
         }

@@ -89,7 +89,7 @@ namespace BiliLogin
         public BiliLoginQR(Window parent)
         {
             isTimeout = false;
-            if(parent != null)
+            if (parent != null)
                 parent.Closed += Parent_Closed;
         }
 
@@ -154,7 +154,7 @@ namespace BiliLogin
 
         private void LoginListener()
         {
-            while(!Init())
+            while (!Init())
             {
                 Thread.Sleep(5000);
             }

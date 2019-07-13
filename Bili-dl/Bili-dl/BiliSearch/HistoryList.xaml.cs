@@ -38,7 +38,7 @@ namespace BiliSearch
         public void SetHistory(List<string> history)
         {
             History = history;
-            foreach(string text in history)
+            foreach (string text in history)
                 HistoryListBox.Items.Add(CreateItem(text));
             if (History.Count == 0)
                 ClearListBtn.Visibility = Visibility.Hidden;

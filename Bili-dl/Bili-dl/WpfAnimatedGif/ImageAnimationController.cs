@@ -15,7 +15,7 @@ namespace WpfAnimatedGif
 
         static ImageAnimationController()
         {
-            _sourceDescriptor = DependencyPropertyDescriptor.FromProperty(Image.SourceProperty, typeof (Image));
+            _sourceDescriptor = DependencyPropertyDescriptor.FromProperty(Image.SourceProperty, typeof(Image));
         }
 
         private readonly Image _image;
