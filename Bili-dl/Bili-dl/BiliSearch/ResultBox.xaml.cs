@@ -183,6 +183,8 @@ namespace BiliSearch
                 CancellationToken cancellationToken = cancellationTokenSource.Token;
 
                 LoadingPrompt.Visibility = Visibility.Visible;
+                NoMoreGrid.Visibility = Visibility.Collapsed;
+                ContentViewer.Visibility = Visibility.Collapsed;
                 Task task = new Task(() =>
                 {
                     string type = NavType;
@@ -204,7 +206,6 @@ namespace BiliSearch
             {
                 HistoryBox.Visibility = Visibility.Visible;
             }
-                
         }
 
         private IJson GetResult(string text, string type, int pagenum)
@@ -230,7 +231,8 @@ namespace BiliSearch
 
         private async void ShowResult(IJson json, string type)
         {
-            if(json.GetValue("code").ToLong() == 0 && json.GetValue("data").GetValue("numresults").ToLong() > 0)
+            if (json.GetValue("code").ToLong() == 0 && json.GetValue("data").GetValue("numresults").ToLong() > 0)
+            {
                 switch (type)
                 {
                     case "video":
@@ -264,7 +266,7 @@ namespace BiliSearch
                         }
                         catch (WebException)
                         {
-                            
+
                         }
                         break;
                     case "media_ft":
@@ -302,6 +304,13 @@ namespace BiliSearch
                         }
                         break;
                 }
+
+                ContentViewer.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                NoMoreGrid.Visibility = Visibility.Visible;
+            }    
         }
 
         private void ResultUser_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

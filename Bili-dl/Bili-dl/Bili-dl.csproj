@@ -317,5 +317,8 @@
   <ItemGroup>
     <Resource Include="BiliUser\img\loading.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BiliSearch\img\no_more.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -73,7 +73,7 @@
             <TextBlock Text="正在加载..." Foreground="#99a2aa" VerticalAlignment="Center" HorizontalAlignment="Right"/>
         </Grid>
 
-        <ScrollViewer x:Name="ContentViewer" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" FocusVisualStyle="{x:Null}">
+        <ScrollViewer x:Name="ContentViewer" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" FocusVisualStyle="{x:Null}" Visibility="Collapsed">
             <WrapPanel Orientation="Vertical" HorizontalAlignment="Center">
                 <WrapPanel x:Name="ContentPanel" Margin="10" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center"/>
                 <local:PageNavigation x:Name="PagesBox" Visibility="Hidden" JumpTo="PagesBox_JumpTo"/>
@@ -92,6 +92,18 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <local:HistoryList x:Name="HistoryBox" Grid.Column="1" Grid.Row="1" Search="HistoryList_Search"/>
+            <Grid x:Name="NoMoreGrid" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="6*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="没有相关数据" FontSize="26" Foreground="#99a2aa" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Image Source="img/no_more.png" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>
