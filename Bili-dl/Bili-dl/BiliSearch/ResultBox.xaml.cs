@@ -153,6 +153,7 @@ namespace BiliSearch
         /// <param name="text">text</param>
         public void SearchAsync(string text, int pagenum)
         {
+            SearchText = text;
             if (cancellationTokenSource != null)
                 cancellationTokenSource.Cancel();
             ContentViewer.ScrollToHome();
@@ -195,7 +196,6 @@ namespace BiliSearch
 
         private IJson GetResult(string text, string type, int pagenum)
         {
-            SearchText = text;
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("jsonp", "jsonp");
             dic.Add("highlight", "1");

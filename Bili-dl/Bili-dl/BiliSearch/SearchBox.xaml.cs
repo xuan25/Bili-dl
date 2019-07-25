@@ -164,7 +164,7 @@ namespace BiliSearch
             }
         }
 
-        private async void InputBox_TextChanged(object sender, TextChangedEventArgs e)
+        private async void InputBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (this.IsInitialized && InputBox.IsFocused)
             {

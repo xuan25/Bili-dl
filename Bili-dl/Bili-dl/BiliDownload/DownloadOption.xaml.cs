@@ -74,8 +74,8 @@ namespace BiliDownload
                     listBoxItem.Content = textBlock;
                     PageList.Items.Add(listBoxItem);
                 }
-                PartsLoadingPrompt.Visibility = Visibility.Hidden;
             }
+            PartsLoadingPrompt.Visibility = Visibility.Hidden;
         }
 
         private void PageListItem_Selected(object sender, RoutedEventArgs e)

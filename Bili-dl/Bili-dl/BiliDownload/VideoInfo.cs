@@ -56,7 +56,9 @@ namespace BiliDownload
                 try
                 {
                     IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/web-interface/view", dic, false);
-                    return new VideoInfo(json.GetValue("data"), isSeason);
+                    if (json.GetValue("code").ToLong() == 0)
+                        return new VideoInfo(json.GetValue("data"), isSeason);
+                    return null;
                 }
                 catch (System.Net.WebException)
                 {

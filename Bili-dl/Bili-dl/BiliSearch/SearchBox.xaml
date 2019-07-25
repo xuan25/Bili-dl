@@ -13,7 +13,7 @@
     </UserControl.Resources>
     <Grid>
         <Grid Height="44" ClipToBounds="False" VerticalAlignment="Top">
-            <TextBox x:Name="InputBox" HorizontalAlignment="Stretch" Height="44" Margin="0,0,100,0" Padding="15,11" FontSize="14" TextWrapping="NoWrap" VerticalAlignment="Center" TextChanged="InputBox_TextChanged" PreviewKeyDown="InputBox_PreviewKeyDown">
+            <TextBox x:Name="InputBox" HorizontalAlignment="Stretch" Height="44" Margin="0,0,100,0" Padding="15,11" FontSize="14" TextWrapping="NoWrap" VerticalAlignment="Center" KeyUp="InputBox_KeyUp" PreviewKeyDown="InputBox_PreviewKeyDown">
                 <TextBox.OpacityMask>
                     <DrawingBrush>
                         <DrawingBrush.Drawing>

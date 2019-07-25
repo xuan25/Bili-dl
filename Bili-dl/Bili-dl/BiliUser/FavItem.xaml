@@ -92,8 +92,8 @@
                 <RowDefinition Height="40"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="TitleBox" Grid.Row="0" Text="【CAROLE a TUESDAY】音乐合辑（持续更新）" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" LineHeight="20" FontSize="12"/>
-            <TextBlock x:Name="InfoBox" Grid.Row="1" Text="收藏于： 11小时前" TextWrapping="Wrap" Foreground="#999999" VerticalAlignment="Top" LineHeight="20" FontSize="12"/>
+            <TextBlock x:Name="TitleBox" Grid.Row="0" Text="" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" LineHeight="20" FontSize="12"/>
+            <TextBlock x:Name="InfoBox" Grid.Row="1" Text="" TextWrapping="Wrap" Foreground="#999999" VerticalAlignment="Top" LineHeight="20" FontSize="12"/>
         </Grid>
     </Grid>
 </UserControl>
