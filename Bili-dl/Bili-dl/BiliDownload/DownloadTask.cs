@@ -1,4 +1,5 @@
 ﻿using Bili;
+using FlvMerge;
 using Json;
 using System.Collections.Generic;
 using System.IO;
@@ -122,27 +123,16 @@ namespace BiliDownload
                 StatusUpdate?.Invoke(ProgressPercentage, 0, Status.Merging);
                 string directory = Bili_dl.SettingPanel.settings.DownloadPath + "\\";
                 Directory.CreateDirectory(directory);
-                if (Segments.Count > 1)
+
+                int count = Segments.Count;
+                string[] paths = new string[count];
+                for (int i = 0; i < count; i++)
+                    paths[i] = Segments[i].Filepath;
+                FlvUtil.FlvMerge(paths, directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.flv", Description, Title, Index, Part)));
+
+                foreach (string path in paths)
                 {
-                    List<string> paths = new List<string>();
-                    foreach (Segment segment in Segments)
-                    {
-                        paths.Add(segment.Filepath);
-                    }
-                    Flv.Merge(paths, directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.flv", Description, Title, Index, Part)));
-                    foreach (string path in paths)
-                    {
-                        File.Delete(path);
-                    }
-                }
-                else
-                {
-                    FileStream fileStreamInput = new FileStream(Segments[0].Filepath, FileMode.Open);
-                    FileStream fileStreamOutput = new FileStream(directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.flv", Description, Title, Index, Part)), FileMode.Create);
-                    fileStreamInput.CopyTo(fileStreamOutput);
-                    fileStreamInput.Close();
-                    fileStreamOutput.Close();
-                    File.Delete(Segments[0].Filepath);
+                    File.Delete(path);
                 }
                 IsFinished = true;
                 IsRunning = false;

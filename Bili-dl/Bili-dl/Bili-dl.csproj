@@ -71,7 +71,8 @@
       <DependentUpon>DownloadQueueItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="BiliDownload\DownloadTask.cs" />
-    <Compile Include="BiliDownload\Flv.cs" />
+    <Compile Include="BiliDownload\FlvMerge\FlvFile.cs" />
+    <Compile Include="BiliDownload\FlvMerge\FlvUtil.cs" />
     <Compile Include="BiliDownload\VideoInfo.cs" />
     <Compile Include="BiliLogin\BiliLoginQR.cs" />
     <Compile Include="BiliLogin\MoblieLoginWindow.xaml.cs">
