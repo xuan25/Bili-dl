@@ -20,6 +20,7 @@ namespace BiliDownload
         public uint Qn;
         public string Description;
         public int Threads;
+        public string Pic;
 
         public DownloadInfo(VideoInfo.Page.Quality quality, int threads)
         {
@@ -32,6 +33,7 @@ namespace BiliDownload
             Qn = quality.Qn;
             Description = Regex.Unescape(quality.Description);
             Threads = threads;
+            Pic = quality.Pic;
         }
     }
 }

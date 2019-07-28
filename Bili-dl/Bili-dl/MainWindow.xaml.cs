@@ -2,6 +2,7 @@
 using BiliDownload;
 using BiliLogin;
 using Framework;
+using Notifications;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,6 +32,9 @@ namespace Bili_dl
             // Enable the minimize animation
             IntPtr windowHandle = new WindowInteropHelper(this).Handle;
             WindowLong.SetWindowLong(windowHandle, WindowLong.GWL_STYLE, (WindowLong.GetWindowLong(windowHandle, WindowLong.GWL_STYLE) | WindowLong.WS_CAPTION));
+
+            NotificationManager.Activated += ToastHandler.HandleToast;
+            NotificationManager.Install();
 
             LoadConfig();
         }
@@ -248,6 +252,7 @@ namespace Bili_dl
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            NotificationManager.Close();
             UpdatePromptBox.StopCheckVersion();
             DownloadQueuePanel.StopAll();
             SettingPanel.Settings settings = ConfigManager.ConfigManager.GetSettings();

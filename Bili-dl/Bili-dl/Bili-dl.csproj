@@ -50,6 +50,18 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="windows">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\Facade\windows.winmd</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Windows.Foundation.FoundationContract">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\10\References\10.0.17763.0\Windows.Foundation.FoundationContract\3.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Windows.Foundation.UniversalApiContract">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -137,9 +149,116 @@
     <Compile Include="Json\JsonObject.cs" />
     <Compile Include="Json\JsonParser.cs" />
     <Compile Include="Json\JsonValue.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveGroup.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveHelper.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveImage.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveImageEnums.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveProgressBar.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveProgressBarBindableProperty.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveProgressBarValue.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveSubgroup.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveSubgroupEnums.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveText.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveTextBindableProperty.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveTextEnums.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\BaseImageHelper.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\BaseTextHelper.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\BindableValues\BindableProgressBarValue.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\BindableValues\BindableString.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\Elements\Element_AdaptiveGroup.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\Elements\Element_AdaptiveImage.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\Elements\Element_AdaptiveImageEnums.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\Elements\Element_AdaptiveProgressBar.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\Elements\Element_AdaptiveSubgroup.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\Elements\Element_AdaptiveText.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\IAdaptiveChild.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\IAdaptiveSubgroupChild.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\IBaseImage.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\IBaseText.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Badges\BadgeGlyphContent.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Badges\BadgeGlyphValue.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Badges\BadgeNumericContent.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Common\ArgumentValidator.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Common\BaseElement.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Common\EnumStringAttribute.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Common\INotificationContent.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Common\LimitedList{T}.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Common\NotificationContentValidationException.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Common\NotificationXmlAttributeAttribute.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Common\NotificationXmlContentAttribute.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Common\NotificationXmlElementAttribute.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Common\XmlWriterHelper.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\Elements\Element_Tile.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\Elements\Element_TileBinding.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\Elements\Element_TileVisual.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\Elements\TileElementsCommon.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\ITileBindingContentAdaptiveChild.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\SpecialTemplates\TileBindingContentContact.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\SpecialTemplates\TileBindingContentIconic.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\SpecialTemplates\TileBindingContentPeople.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\SpecialTemplates\TileBindingContentPhotos.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TileBackgroundImage.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TileBasicImage.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TileBasicText.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TileBinding.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TileBindingContentAdaptive.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TileBranding.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TileCommon.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TileContent.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TileImages.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TilePeekImage.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TileSizeToAdaptiveTemplateConverter.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TileTemplateNameV3.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TileTextStacking.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Tiles\TileVisual.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\Elements\Element_Toast.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\Elements\Element_ToastAction.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\Elements\Element_ToastActions.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\Elements\Element_ToastAudio.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\Elements\Element_ToastBinding.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\Elements\Element_ToastHeader.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\Elements\Element_ToastImage.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\Elements\Element_ToastInput.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\Elements\Element_ToastSelection.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\Elements\Element_ToastText.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\Elements\Element_ToastVisual.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\Elements\IElement_AdditionalProperties.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\Elements\IElement_ToastActivatable.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\IToastActions.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\IToastBindingGenericChild.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\IToastButton.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\IToastInput.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastActionsCustom.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastActionsSnoozeAndDismiss.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastActivationOptions.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastAudio.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastBindingGeneric.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastBindingShoulderTap.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastButton.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastButtonDismiss.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastButtonSnooze.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastCommon.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastContent.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastContextMenuItem.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastGenericAppLogo.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastGenericAppLogoEnums.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastGenericAttributionText.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastGenericHeroImage.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastHeader.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastPeople.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastSelectionBox.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastSelectionBoxItem.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastShoulderTapImage.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastSpriteSheet.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastTextBox.cs" />
+    <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Toasts\ToastVisual.cs" />
+    <Compile Include="Notifications\NotificationManager.cs" />
+    <Compile Include="Notifications\Shell\ShellLink.cs" />
+    <Compile Include="Notifications\Shell\Shortcut.cs" />
     <Compile Include="SettingPanel.xaml.cs">
       <DependentUpon>SettingPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Notifications\ToastHandler.cs" />
     <Compile Include="UpdatePrompt.xaml.cs">
       <DependentUpon>UpdatePrompt.xaml</DependentUpon>
     </Compile>

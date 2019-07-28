@@ -22,10 +22,11 @@ namespace BiliDownload
             {
                 Aid = (uint)json.GetValue("aid").ToLong();
                 Title = json.GetValue("title").ToString();
+                string pic = json.GetValue("pic").ToString();
                 pages = new List<Page>();
                 foreach (IJson p in json.GetValue("pages"))
                 {
-                    pages.Add(new Page(Title, Aid, p, isSeason));
+                    pages.Add(new Page(Title, Aid, p, isSeason, pic));
                 }
             }
             else
@@ -35,7 +36,8 @@ namespace BiliDownload
                 pages = new List<Page>();
                 foreach (IJson p in json.GetValue("episodes"))
                 {
-                    pages.Add(new Page(Title, Aid, p, isSeason));
+                    string cover = p.GetValue("cover").ToString();
+                    pages.Add(new Page(Title, Aid, p, isSeason, cover));
                 }
             }
 
@@ -118,8 +120,9 @@ namespace BiliDownload
             public string Part;
             public uint Duration;
             public List<Quality> Qualities;
+            public string Pic;
 
-            public Page(string title, uint aid, IJson json, bool isSeason)
+            public Page(string title, uint aid, IJson json, bool isSeason, string pic)
             {
                 IsSeason = isSeason;
                 if (!isSeason)
@@ -131,6 +134,7 @@ namespace BiliDownload
                     Cid = (uint)json.GetValue("cid").ToLong();
                     Part = json.GetValue("part").ToString();
                     Duration = (uint)json.GetValue("duration").ToLong();
+                    Pic = pic;
                 }
                 else
                 {
@@ -141,8 +145,8 @@ namespace BiliDownload
                     Cid = (uint)json.GetValue("cid").ToLong();
                     Part = json.GetValue("index_title").ToString();
                     Duration = (uint)json.GetValue("duration").ToLong();
+                    Pic = pic;
                 }
-
             }
 
             /// <summary>
@@ -161,14 +165,14 @@ namespace BiliDownload
                     Qualities = new List<Quality>();
                     if (json.GetValue("code").ToLong() == 0)
                         for (int i = 0; i < ((JsonArray)json.GetValue("data").GetValue("accept_quality")).Count; i++)
-                            Qualities.Add(new Quality(Title, Index, Num, Part, Aid, Cid, (uint)json.GetValue("data").GetValue("accept_quality").GetValue(i).ToLong(), json.GetValue("data").GetValue("accept_description").GetValue(i).ToString(), false));
+                            Qualities.Add(new Quality(Title, Index, Num, Part, Aid, Cid, (uint)json.GetValue("data").GetValue("accept_quality").GetValue(i).ToLong(), json.GetValue("data").GetValue("accept_description").GetValue(i).ToString(), false, Pic));
                     else if (IsSeason)
                     {
                         json = BiliApi.GetJsonResult("http://api.bilibili.com/pgc/player/web/playurl", dic, false);
                         if (json.GetValue("code").ToLong() == 0)
                         {
                             for (int i = 0; i < ((JsonArray)json.GetValue("result").GetValue("accept_quality")).Count; i++)
-                                Qualities.Add(new Quality(Title, Index, Num, Part, Aid, Cid, (uint)json.GetValue("result").GetValue("accept_quality").GetValue(i).ToLong(), json.GetValue("result").GetValue("accept_description").GetValue(i).ToString(), true));
+                                Qualities.Add(new Quality(Title, Index, Num, Part, Aid, Cid, (uint)json.GetValue("result").GetValue("accept_quality").GetValue(i).ToLong(), json.GetValue("result").GetValue("accept_description").GetValue(i).ToString(), true, Pic));
                         }
                     }
                     return Qualities;
@@ -211,8 +215,9 @@ namespace BiliDownload
                 public string Description;
                 public bool IsAvaliable;
                 public bool SeasonApiOnly;
+                public string Pic;
 
-                public Quality(string title, string index, uint num, string part, uint aid, uint cid, uint qn, string description, bool seasonApiOnly)
+                public Quality(string title, string index, uint num, string part, uint aid, uint cid, uint qn, string description, bool seasonApiOnly, string pic)
                 {
                     SeasonApiOnly = seasonApiOnly;
                     Title = title;
@@ -223,6 +228,7 @@ namespace BiliDownload
                     Cid = cid;
                     Qn = qn;
                     Description = description;
+                    Pic = pic;
 
                     Dictionary<string, string> dic = new Dictionary<string, string>();
                     dic.Add("avid", Aid.ToString());

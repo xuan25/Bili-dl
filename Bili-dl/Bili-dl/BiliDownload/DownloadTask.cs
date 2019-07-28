@@ -29,6 +29,7 @@ namespace BiliDownload
         public List<Segment> Segments;
         public enum SegmentType { Video, Audio, Mixed };
         public int Threads;
+        public string Pic;
         public bool IsFinished;
         public int CurrentSegment;
         public bool IsRunning;
@@ -36,7 +37,7 @@ namespace BiliDownload
         public Thread ProgressMonitorThread;
         private Thread runThread;
 
-        public delegate void FinishedDel(DownloadTask downloadTask);
+        public delegate void FinishedDel(DownloadTask downloadTask, string filepath);
         public event FinishedDel Finished;
 
         public enum Status { Analyzing, Downloading, Merging, Finished };
@@ -62,6 +63,7 @@ namespace BiliDownload
             Qn = downloadInfo.Qn;
             Description = downloadInfo.Description;
             Threads = downloadInfo.Threads;
+            Pic = downloadInfo.Pic;
         }
 
         private bool Analysis()
@@ -123,12 +125,13 @@ namespace BiliDownload
                 StatusUpdate?.Invoke(ProgressPercentage, 0, Status.Merging);
                 string directory = Bili_dl.SettingPanel.settings.DownloadPath + "\\";
                 Directory.CreateDirectory(directory);
+                string filepath = directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.flv", Description, Title, Index, Part));
 
                 int count = Segments.Count;
                 string[] paths = new string[count];
                 for (int i = 0; i < count; i++)
                     paths[i] = Segments[i].Filepath;
-                FlvUtil.FlvMerge(paths, directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.flv", Description, Title, Index, Part)));
+                FlvUtil.FlvMerge(paths, filepath);
 
                 foreach (string path in paths)
                 {
@@ -137,7 +140,7 @@ namespace BiliDownload
                 IsFinished = true;
                 IsRunning = false;
                 StatusUpdate?.Invoke(100, 0, Status.Finished);
-                Finished?.Invoke(this);
+                Finished?.Invoke(this, filepath);
             }
         }
 
