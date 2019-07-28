@@ -50,16 +50,12 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="windows">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\Facade\windows.winmd</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Windows.Foundation.FoundationContract">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\10\References\10.0.17763.0\Windows.Foundation.FoundationContract\3.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
+    <Reference Include="Windows">
+      <HintPath>Windows Kits\10\UnionMetadata\Facade\Windows.WinMD</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Windows.Foundation.UniversalApiContract">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
+      <HintPath>Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
@@ -402,6 +398,8 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\Windows.Foundation.UniversalApiContract.winmd" />
+    <None Include="Windows Kits\10\UnionMetadata\Facade\Windows.WinMD" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -439,6 +437,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="BiliSearch\img\no_more.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\de\Windows.Foundation.UniversalApiContract.xml" />
+    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\en\Windows.Foundation.UniversalApiContract.xml" />
+    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\es\Windows.Foundation.UniversalApiContract.xml" />
+    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\fr\Windows.Foundation.UniversalApiContract.xml" />
+    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\it\Windows.Foundation.UniversalApiContract.xml" />
+    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\jp\Windows.Foundation.UniversalApiContract.xml" />
+    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\ko\Windows.Foundation.UniversalApiContract.xml" />
+    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\ru\Windows.Foundation.UniversalApiContract.xml" />
+    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\zh-hans\Windows.Foundation.UniversalApiContract.xml" />
+    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\zh-hant\Windows.Foundation.UniversalApiContract.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
