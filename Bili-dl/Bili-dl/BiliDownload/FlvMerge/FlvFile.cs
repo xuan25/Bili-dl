@@ -391,7 +391,7 @@ namespace FlvMerge
                         tagBase = new ScriptTag(headerBytes, bodyBytes);
                         break;
                     default:
-                        throw new UnsupportedFormat(string.Format("Unsupported Tag type 0x{0}", tagType.ToString("X2")));
+                        throw new UnsupportedFormat(string.Format("Unsupported Tag type 0x{0}", ((uint)tagType).ToString("X2")));
                 }
                 return tagBase;
             }
