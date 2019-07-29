@@ -30,6 +30,7 @@ namespace BiliDownload
         public enum SegmentType { Video, Audio, Mixed };
         public int Threads;
         public string Pic;
+        public bool MergeRequired;
         public bool IsFinished;
         public int CurrentSegment;
         public bool IsRunning;
@@ -64,6 +65,7 @@ namespace BiliDownload
             Description = downloadInfo.Description;
             Threads = downloadInfo.Threads;
             Pic = downloadInfo.Pic;
+            MergeRequired = downloadInfo.MergeRequired;
         }
 
         private bool Analysis()
@@ -125,13 +127,18 @@ namespace BiliDownload
                 StatusUpdate?.Invoke(ProgressPercentage, 0, Status.Merging);
                 string directory = Bili_dl.SettingPanel.settings.DownloadPath + "\\";
                 Directory.CreateDirectory(directory);
-                string filepath = directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.flv", Description, Title, Index, Part));
+                string filepath = directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.{4}", Description, Title, Index, Part, Segments[0].Extention));
 
                 int count = Segments.Count;
                 string[] paths = new string[count];
                 for (int i = 0; i < count; i++)
                     paths[i] = Segments[i].Filepath;
-                FlvUtil.FlvMerge(paths, filepath);
+
+                if (MergeRequired)
+                    FlvUtil.FlvMerge(paths, filepath);
+                else
+                    File.Copy(Segments[0].Filepath, filepath, true);
+
 
                 foreach (string path in paths)
                 {
@@ -274,6 +281,22 @@ namespace BiliDownload
             public List<DownloadThread> DownloadThreads;
             public int FinishedThreadCount;
             public bool IsFinished;
+            public string Filename
+            {
+                get
+                {
+                    string[] urlcomp = Url.Split('?')[0].Split('/');
+                    return urlcomp[urlcomp.Length - 1];
+                }
+            }
+            public string Extention
+            {
+                get
+                {
+                    string[] namecomp = Filename.Split('.');
+                    return namecomp[namecomp.Length - 1];
+                }
+            }
 
             public delegate void FinishedDel();
             public event FinishedDel Finished;

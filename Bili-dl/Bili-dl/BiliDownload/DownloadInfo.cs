@@ -21,6 +21,7 @@ namespace BiliDownload
         public string Description;
         public int Threads;
         public string Pic;
+        public bool MergeRequired;
 
         public DownloadInfo(VideoInfo.Page.Quality quality, int threads)
         {
@@ -34,6 +35,7 @@ namespace BiliDownload
             Description = Regex.Unescape(quality.Description);
             Threads = threads;
             Pic = quality.Pic;
+            MergeRequired = quality.MergeRequired;
         }
     }
 }

@@ -216,6 +216,7 @@ namespace BiliDownload
                 public bool IsAvaliable;
                 public bool SeasonApiOnly;
                 public string Pic;
+                public bool MergeRequired;
 
                 public Quality(string title, string index, uint num, string part, uint aid, uint cid, uint qn, string description, bool seasonApiOnly, string pic)
                 {
@@ -229,6 +230,7 @@ namespace BiliDownload
                     Qn = qn;
                     Description = description;
                     Pic = pic;
+                    MergeRequired = true;
 
                     Dictionary<string, string> dic = new Dictionary<string, string>();
                     dic.Add("avid", Aid.ToString());
@@ -241,11 +243,17 @@ namespace BiliDownload
                         {
                             IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
                             IsAvaliable = json.GetValue("data").GetValue("quality").ToLong() == Qn;
+
+                            if (IsAvaliable && !json.GetValue("data").GetValue("format").ToString().Contains("flv"))
+                            {
+                                IsAvaliable = ((JsonArray)json.GetValue("data").GetValue("durl")).Count == 1;
+                                MergeRequired = false;
+                            }
                         }
                         else
                         {
                             IJson json = BiliApi.GetJsonResult("http://api.bilibili.com/pgc/player/web/playurl", dic, false);
-                            IsAvaliable = json.GetValue("result").GetValue("quality").ToLong() == Qn;
+                            IsAvaliable = json.GetValue("result").GetValue("format").ToLong() == Qn;
                         }
 
                     }
