@@ -64,6 +64,10 @@ namespace Bili_dl
                         MessageBox.Show("Uninstalled successfully");
                         Environment.Exit(0);
                         break;
+                    case "-update":
+                        UpdatePrompt.RunUpdate();
+                        Environment.Exit(0);
+                        break;
                     default:
                         if(e.Args[0] == NotificationManager.ToastActivatedLaunchArg)
                         {

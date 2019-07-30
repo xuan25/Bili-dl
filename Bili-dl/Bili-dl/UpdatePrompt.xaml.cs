@@ -1,5 +1,6 @@
 ﻿using Json;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -35,14 +36,18 @@ namespace Bili_dl
         /// </summary>
         public event ConfirmedDel Confirmed;
 
-        public string UpdaterPath;
+        public static string UpdaterPath;
         public FileStream CheckingFileStream;
         public Thread CheckVersionThread;
+
+        static UpdatePrompt()
+        {
+            UpdaterPath = AppDomain.CurrentDomain.BaseDirectory + "Bili-dl-updater.exe";
+        }
 
         public UpdatePrompt()
         {
             InitializeComponent();
-            UpdaterPath = AppDomain.CurrentDomain.BaseDirectory + "Bili-dl-updater.exe";
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -136,12 +141,26 @@ namespace Bili_dl
 
         private void NowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExportResource(UpdaterPath, "Updater.Bili-dl-updater.exe");
-            System.Diagnostics.Process.Start(UpdaterPath, System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            try
+            {
+                RunUpdate();
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                ProcessStartInfo processStartInfo = new ProcessStartInfo(Process.GetCurrentProcess().MainModule.FileName, "-update");
+                processStartInfo.Verb = "runas";
+                Process.Start(processStartInfo);
+            }
             Confirmed?.Invoke(true);
         }
 
-        private void ExportResource(string path, string source)
+        public static void RunUpdate()
+        {
+            ExportResource(UpdaterPath, "Updater.Bili-dl-updater.exe");
+            Process.Start(UpdaterPath, string.Format("\"{0}\"", Process.GetCurrentProcess().MainModule.FileName));
+        }
+
+        private static void ExportResource(string path, string source)
         {
             string projectName = Assembly.GetExecutingAssembly().GetName().Name.ToString().Replace("-", "_");
             Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(projectName + "." + source);
