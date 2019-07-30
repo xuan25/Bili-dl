@@ -68,6 +68,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BiliApi.cs" />
+    <Compile Include="BiliDownload\DownloadFinishedToast.cs" />
     <Compile Include="BiliDownload\DownloadInfo.cs" />
     <Compile Include="BiliDownload\DownloadOption.xaml.cs">
       <DependentUpon>DownloadOption.xaml</DependentUpon>
