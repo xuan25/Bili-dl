@@ -44,7 +44,7 @@ namespace ConfigManager
         /// </summary>
         public static void Init()
         {
-            configPath = AppDomain.CurrentDomain.BaseDirectory + "Config.dat";
+            configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Bili-dl", "Config.dat");
             if (File.Exists(configPath))
             {
                 config = Deserialize();
@@ -129,6 +129,10 @@ namespace ConfigManager
 
         private static void Serialize()
         {
+            string folderPath = Path.GetDirectoryName(configPath);
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
             FileStream fileStream = new FileStream(configPath, FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
             try

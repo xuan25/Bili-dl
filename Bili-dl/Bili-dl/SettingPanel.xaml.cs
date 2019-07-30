@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -27,8 +28,9 @@ namespace Bili_dl
 
             public Settings()
             {
-                DownloadPath = AppDomain.CurrentDomain.BaseDirectory + "Download";
-                TempPath = AppDomain.CurrentDomain.BaseDirectory + "Temp";
+                DownloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "Bili-dl");
+                TempPath = Path.Combine(Path.GetTempPath(), "Bili-dl");
+                
                 RetryInterval = 5;
                 DownloadThreads = 5;
             }
@@ -81,9 +83,9 @@ namespace Bili_dl
             {
                 if (settings.MovedTempPath != null && folderBrowserDialog.SelectedPath == settings.MovedTempPath)
                     break;
-                if (System.IO.Directory.Exists(folderBrowserDialog.SelectedPath) && folderBrowserDialog.SelectedPath != settings.TempPath)
+                if (Directory.Exists(folderBrowserDialog.SelectedPath) && folderBrowserDialog.SelectedPath != settings.TempPath)
                 {
-                    System.IO.DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(folderBrowserDialog.SelectedPath);
+                    DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(folderBrowserDialog.SelectedPath);
                     if (directoryInfo.GetDirectories().Length == 0 && directoryInfo.GetFiles().Length == 0)
                     {
                         settings.MovedTempPath = folderBrowserDialog.SelectedPath.ToString();

@@ -219,17 +219,17 @@ namespace BiliDownload
                 {
                     Buttons =
                     {
-                        new ToastButton("打开视频", string.Format("open={0}", filepath))
+                        new ToastButton("打开视频", string.Format("open=\"{0}\"", filepath))
                         {
                             ActivationType = ToastActivationType.Background
                         },
 
-                        new ToastButton("打开文件夹", string.Format("openfolder={0}", filepath))
+                        new ToastButton("打开文件夹", string.Format("openfolder=\"{0}\"", filepath))
                         {
                             ActivationType = ToastActivationType.Background
                         },
 
-                        new ToastButton("移动至", string.Format("move={0}", filepath))
+                        new ToastButton("移动至", string.Format("move=\"{0}\"", filepath))
                         {
                             ActivationType = ToastActivationType.Background
                         }

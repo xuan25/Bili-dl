@@ -87,7 +87,7 @@ namespace BiliDownload
 
         private void OpenDownloadDirectoryBtn_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer", Bili_dl.SettingPanel.settings.DownloadPath);
+            System.Diagnostics.Process.Start(string.Format("\"{0}\"", Bili_dl.SettingPanel.settings.DownloadPath));
         }
     }
 }
