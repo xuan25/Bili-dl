@@ -124,7 +124,7 @@ namespace FlvMerge
             public static byte[] ToBytesLe(uint value, UintType uintType)
             {
                 byte[] bytes = new byte[(int)uintType];
-                for(int i = 0; i < (int)uintType; i++)
+                for (int i = 0; i < (int)uintType; i++)
                 {
                     bytes[i] = (byte)(value >> ((int)uintType - i - 1) * 8);
                 }
@@ -280,7 +280,7 @@ namespace FlvMerge
             #endregion
 
             #region Properties
-            
+
             public TagHeader Header { get; private set; }
             public abstract TagType Type { get; }
             public abstract uint BodyLength { get; }
@@ -806,7 +806,7 @@ namespace FlvMerge
                         int i = 0;
                         foreach (KeyValuePair<string, ScriptData> keyValuePair in Items)
                         {
-                            if(i != 0)
+                            if (i != 0)
                                 stringBuilder.Append(",");
                             stringBuilder.Append(string.Format("\"{0}\":{1}", keyValuePair.Key, keyValuePair.Value));
                             i++;
@@ -1115,7 +1115,7 @@ namespace FlvMerge
                     }
                 }
 
-                public ScriptTag(string name, EcmaArray value) : base (new TagHeader(TagType.Script).HeaderBytes)
+                public ScriptTag(string name, EcmaArray value) : base(new TagHeader(TagType.Script).HeaderBytes)
                 {
                     Name = new String(name);
                     Value = value;
@@ -1129,10 +1129,10 @@ namespace FlvMerge
                         "{{\"Type\":\"{0}\"," +
                         "\"Timestamp\":{1}," +
                         "\"Name\":{2}," +
-                        "\"Value\":{3}}}", 
-                        Type, 
-                        Header.Timestamp, 
-                        Name, 
+                        "\"Value\":{3}}}",
+                        Type,
+                        Header.Timestamp,
+                        Name,
                         Value);
                 }
             }
@@ -1215,10 +1215,10 @@ namespace FlvMerge
                         "{{\"Type\":\"{0}\"," +
                         "\"Timestamp\":{1}," +
                         "\"FrameType\":\"{2}\"," +
-                        "\"CodecID\":\"{3}\"}}", 
-                        Type, 
-                        Header.Timestamp, 
-                        FrameType, 
+                        "\"CodecID\":\"{3}\"}}",
+                        Type,
+                        Header.Timestamp,
+                        FrameType,
                         CodecID);
                 }
             }
@@ -1338,12 +1338,12 @@ namespace FlvMerge
                         "\"SoundFormat\":\"{2}\"," +
                         "\"SoundRate\":\"{3}\"," +
                         "\"SoundSize\":\"{4}\"," +
-                        "\"SoundType\":\"{5}\"}}", 
-                        Type, 
-                        Header.Timestamp, 
-                        SoundFormat, 
-                        SoundRate, 
-                        SoundSize, 
+                        "\"SoundType\":\"{5}\"}}",
+                        Type,
+                        Header.Timestamp,
+                        SoundFormat,
+                        SoundRate,
+                        SoundSize,
                         SoundType);
                 }
             }

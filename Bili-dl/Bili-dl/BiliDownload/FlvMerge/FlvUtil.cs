@@ -18,7 +18,7 @@ namespace FlvMerge
             MetadataTagCreater.Metadata metadata = new MetadataTagCreater.Metadata(creator, matadatacreator);
             uint timestampOffset = 0;
 
-            foreach(string input in inputs)
+            foreach (string input in inputs)
             {
                 using (FlvFile flv = new FlvFile(input))
                 {
@@ -75,7 +75,7 @@ namespace FlvMerge
                             }
                             metadata.filesize += tag.TagLengthWithPts;
                         }
-                        
+
                     }
                 }
                 timestampOffset = (uint)(metadata.duration * 1000);
@@ -101,7 +101,7 @@ namespace FlvMerge
                 {
                     using (FlvFile flv = new FlvFile(input))
                     {
-                        
+
                         while (true)
                         {
                             FlvFile.Tag tag = flv.ReadTag();

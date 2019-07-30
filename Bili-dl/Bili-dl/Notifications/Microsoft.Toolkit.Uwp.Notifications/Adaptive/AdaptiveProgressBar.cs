@@ -5,8 +5,8 @@
 #if WINRT
 using System.Collections.Generic;
 #endif
-using System;
 using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
+using System;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
@@ -31,7 +31,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #else
             BindableString
 #endif
-            Title { get; set; }
+            Title
+        { get; set; }
 
         /// <summary>
         /// Gets or sets the value of the progress bar. Supports data binding. Defaults to 0.
@@ -42,7 +43,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #else
             BindableProgressBarValue
 #endif
-            Value { get; set; } = AdaptiveProgressBarValue.FromValue(0);
+            Value
+        { get; set; } = AdaptiveProgressBarValue.FromValue(0);
 
         /// <summary>
         /// Gets or sets an optional string to be displayed instead of the default percentage string. If this isn't provided, something like "70%" will be displayed.
@@ -53,7 +55,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #else
             BindableString
 #endif
-            ValueStringOverride { get; set; }
+            ValueStringOverride
+        { get; set; }
 
         /// <summary>
         /// Gets or sets a status string (Required), which is displayed underneath the progress bar. This string should reflect the status of the operation, like "Downloading..." or "Installing..."
@@ -64,7 +67,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #else
             BindableString
 #endif
-            Status { get; set; }
+            Status
+        { get; set; }
 
         internal Element_AdaptiveProgressBar ConvertToElement()
         {

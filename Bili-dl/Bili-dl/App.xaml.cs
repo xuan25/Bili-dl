@@ -69,7 +69,7 @@ namespace Bili_dl
                         Environment.Exit(0);
                         break;
                     default:
-                        if(e.Args[0] == NotificationManager.ToastActivatedLaunchArg)
+                        if (e.Args[0] == NotificationManager.ToastActivatedLaunchArg)
                         {
                             ToastHandler.CmdMode = true;
                             NotificationManager.Activated += ToastHandler.HandleToast;

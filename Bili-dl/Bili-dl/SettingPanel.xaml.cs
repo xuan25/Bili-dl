@@ -30,7 +30,7 @@ namespace Bili_dl
             {
                 DownloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "Bili-dl");
                 TempPath = Path.Combine(Path.GetTempPath(), "Bili-dl");
-                
+
                 RetryInterval = 5;
                 DownloadThreads = 5;
             }

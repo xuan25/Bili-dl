@@ -1,13 +1,7 @@
 ﻿using Json;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Bili_dl_updater
 {
@@ -109,7 +103,7 @@ namespace Bili_dl_updater
             }
 
             ProgressUpdated?.Invoke(Status.Finishing, 100, 0);
-            if(File.Exists(Filepath))
+            if (File.Exists(Filepath))
                 File.Delete(Filepath);
             File.Move(Filepath + ".temp", Filepath);
 
@@ -129,7 +123,7 @@ namespace Bili_dl_updater
                 request.ReadWriteTimeout = 5000;
                 request.Method = "GET";
                 request.UserAgent = "Bili-dl-updater";
-                if(Length != 0)
+                if (Length != 0)
                     request.AddRange(Position);
                 try
                 {
@@ -189,7 +183,7 @@ namespace Bili_dl_updater
                     Thread.Sleep(5000);
                 }
             }
-            
+
         }
 
         private void StartProgressMonitor()
@@ -213,7 +207,7 @@ namespace Bili_dl_updater
             long lastPosition = Position;
             while (true)
             {
-                if(Position != 0)
+                if (Position != 0)
                     ProgressUpdated?.Invoke(Status.Downloading, (double)Position / Length * 100, Position - lastPosition);
                 lastPosition = Position;
                 Thread.Sleep(1000);

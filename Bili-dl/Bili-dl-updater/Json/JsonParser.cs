@@ -64,7 +64,7 @@ namespace Json
             else if (stringReader.Peek() == '{')
             {
                 JsonObject jsonObject = ParseObject(stringReader);
-                while (stringReader.Peek() != -1 && (stringReader.Peek() == ',' ||  stringReader.Peek() == ' ' || stringReader.Peek() == '\r' || stringReader.Peek() == '\n'))
+                while (stringReader.Peek() != -1 && (stringReader.Peek() == ',' || stringReader.Peek() == ' ' || stringReader.Peek() == '\r' || stringReader.Peek() == '\n'))
                     stringReader.Read();
                 return jsonObject;
             }

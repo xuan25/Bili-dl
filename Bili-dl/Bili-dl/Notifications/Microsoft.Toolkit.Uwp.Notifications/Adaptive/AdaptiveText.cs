@@ -35,7 +35,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #else
             BindableString
 #endif
-            Text { get; set; }
+            Text
+        { get; set; }
 
         /// <summary>
         /// Gets or sets the target locale of the XML payload, specified as a BCP-47 language tags

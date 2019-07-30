@@ -4,11 +4,11 @@ using System.Windows;
 
 namespace Shell
 {
-	/// <summary>
-	/// Shortcut management
-	/// </summary>
-	public class Shortcut
-	{
+    /// <summary>
+    /// Shortcut management
+    /// </summary>
+    public class Shortcut
+    {
         public string ShortcutPath = null;
         public string TargetPath = null;
         public string Arguments = null;
