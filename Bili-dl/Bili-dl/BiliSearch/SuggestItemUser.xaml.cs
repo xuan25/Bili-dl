@@ -1,5 +1,6 @@
 ﻿using Bili;
 using System;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -17,7 +18,7 @@ namespace BiliSearch
             InitializeComponent();
 
             if (TitleInline.Text != null)
-                TitleInline.Text = userSuggest.Title;
+                TitleInline.Text = Regex.Unescape(userSuggest.Title);
 
             FansInline.Text = string.Format("{0:0}粉丝", BiliApi.FormatNum(userSuggest.Fans, 1)).PadRight(10, ' ');
 
