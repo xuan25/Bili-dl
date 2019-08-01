@@ -129,8 +129,26 @@ namespace BiliDownload
 
         private void DownloadTask_Finished(DownloadTask downloadTask, string filepath)
         {
-            DownloadFinishedToast.SendToast(downloadTask, filepath);
+            if (Environment.OSVersion.Version < new Version(6, 2))
+                ShowBalloonTip(downloadTask);
+            else
+                ShowToast(downloadTask, filepath);
             Finished?.Invoke(this);
+        }
+
+        private void ShowBalloonTip(DownloadTask downloadTask)
+        {
+            System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon
+            {
+                Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName),
+                Visible = true
+            };
+            notifyIcon.ShowBalloonTip(5000, "Bili-dl下载完成", string.Format("{0}\n{1}-{2}    {3}", downloadTask.Title, downloadTask.Index, downloadTask.Part, downloadTask.Description), System.Windows.Forms.ToolTipIcon.Info);
+        }
+
+        private void ShowToast(DownloadTask downloadTask, string filepath)
+        {
+            DownloadFinishedToast.SendToast(downloadTask, filepath);
         }
 
         private void RemoveBtn_Click(object sender, RoutedEventArgs e)
