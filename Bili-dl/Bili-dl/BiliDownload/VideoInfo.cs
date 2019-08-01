@@ -53,8 +53,10 @@ namespace BiliDownload
         {
             if (!isSeason)
             {
-                Dictionary<string, string> dic = new Dictionary<string, string>();
-                dic.Add("aid", id.ToString());
+                Dictionary<string, string> dic = new Dictionary<string, string>
+                {
+                    { "aid", id.ToString() }
+                };
                 try
                 {
                     IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/web-interface/view", dic, false);
@@ -70,8 +72,10 @@ namespace BiliDownload
             }
             else
             {
-                Dictionary<string, string> dic = new Dictionary<string, string>();
-                dic.Add("season_id", id.ToString());
+                Dictionary<string, string> dic = new Dictionary<string, string>
+                {
+                    { "season_id", id.ToString() }
+                };
                 try
                 {
                     IJson json = BiliApi.GetJsonResult("https://bangumi.bilibili.com/view/web_api/season", dic, false);
@@ -155,9 +159,11 @@ namespace BiliDownload
             /// <returns>A list of qualities</returns>
             public List<Quality> GetQualities()
             {
-                Dictionary<string, string> dic = new Dictionary<string, string>();
-                dic.Add("avid", Aid.ToString());
-                dic.Add("cid", Cid.ToString());
+                Dictionary<string, string> dic = new Dictionary<string, string>
+                {
+                    { "avid", Aid.ToString() },
+                    { "cid", Cid.ToString() }
+                };
                 //dic.Add("fnval", "16");
                 try
                 {
@@ -232,10 +238,12 @@ namespace BiliDownload
                     Pic = pic;
                     MergeRequired = true;
 
-                    Dictionary<string, string> dic = new Dictionary<string, string>();
-                    dic.Add("avid", Aid.ToString());
-                    dic.Add("cid", Cid.ToString());
-                    dic.Add("qn", Qn.ToString());
+                    Dictionary<string, string> dic = new Dictionary<string, string>
+                    {
+                        { "avid", Aid.ToString() },
+                        { "cid", Cid.ToString() },
+                        { "qn", Qn.ToString() }
+                    };
                     //dic.Add("fnval", "16");
                     try
                     {

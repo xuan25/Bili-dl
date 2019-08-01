@@ -145,10 +145,12 @@ namespace Bili_dl
             {
                 RunUpdate();
             }
-            catch (UnauthorizedAccessException ex)
+            catch (UnauthorizedAccessException)
             {
-                ProcessStartInfo processStartInfo = new ProcessStartInfo(Process.GetCurrentProcess().MainModule.FileName, "-update");
-                processStartInfo.Verb = "runas";
+                ProcessStartInfo processStartInfo = new ProcessStartInfo(Process.GetCurrentProcess().MainModule.FileName, "-update")
+                {
+                    Verb = "runas"
+                };
                 Process.Start(processStartInfo);
             }
             Confirmed?.Invoke(true);

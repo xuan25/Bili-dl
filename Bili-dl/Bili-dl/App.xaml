@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Bili_dl"
              xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <Application.Resources>
-
+        <sys:String x:Key="Version">Version</sys:String>
     </Application.Resources>
 </Application>

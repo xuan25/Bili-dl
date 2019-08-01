@@ -72,10 +72,12 @@ namespace BiliDownload
         {
             StatusUpdate?.Invoke(ProgressPercentage, 0, Status.Analyzing);
             Segments = new List<Segment>();
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-            dic.Add("avid", Aid.ToString());
-            dic.Add("cid", Cid.ToString());
-            dic.Add("qn", Qn.ToString());
+            Dictionary<string, string> dic = new Dictionary<string, string>
+            {
+                { "avid", Aid.ToString() },
+                { "cid", Cid.ToString() },
+                { "qn", Qn.ToString() }
+            };
             try
             {
                 IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
