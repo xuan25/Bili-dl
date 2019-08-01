@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Bili_dl"
-             mc:Ignorable="d" UseLayoutRounding="True" d:DesignHeight="100" d:DesignWidth="300" Height="100" Width="300" Loaded="UserControl_Loaded">
+             mc:Ignorable="d" UseLayoutRounding="True" d:DesignHeight="200" d:DesignWidth="300" Height="200" Width="300" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <local:RectConverter x:Key="RectConverter"/>
         <local:BorderRectConverter x:Key="BorderRectConverter"/>
@@ -66,11 +66,13 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0.3*"/>
             <RowDefinition/>
+            <RowDefinition Height="4*"/>
             <RowDefinition/>
             <RowDefinition Height="0.3*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="InfoBox" Grid.Row="1" Text="检测到有新版本可用，是否更新?" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Grid Grid.Row="2">
+        <TextBlock Grid.Row="1" Text="检测到有新版本可用，是否更新?" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox x:Name="InfoBox" Grid.Row="2" Margin="10,4" Padding="4" Text="" FontSize="14" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" TextWrapping="Wrap"/>
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition/>

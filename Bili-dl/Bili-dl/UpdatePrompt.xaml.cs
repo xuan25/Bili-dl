@@ -125,7 +125,13 @@ namespace Bili_dl
 
                 IJson json = JsonParser.Parse(result);
                 string latestTag = json.GetValue("tag_name").ToString();
-                return Application.Current.FindResource("Version").ToString() == latestTag;
+                if (Application.Current.FindResource("Version").ToString() == latestTag)
+                    return true;
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    InfoBox.Text = json.GetValue("body").ToString().Replace("\\r", "\r").Replace("\\n", "\n");
+                }));
+                return false;
             }
             catch
             {
