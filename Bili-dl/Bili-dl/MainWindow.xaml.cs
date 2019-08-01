@@ -252,6 +252,7 @@ namespace Bili_dl
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            DownloadQueueItem.DisposeNotifyIcon();
             NotificationManager.Close();
             UpdatePromptBox.StopCheckVersion();
             DownloadQueuePanel.StopAll();

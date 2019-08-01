@@ -177,8 +177,6 @@ namespace Notifications
                     return;
             }
             Registry.CurrentUser.DeleteSubKeyTree(regString);
-
-            aumid = null;
         }
 
         private static void RegisterActivator()
@@ -231,6 +229,18 @@ namespace Notifications
 
         static NotificationManager()
         {
+            if (Environment.OSVersion.Version < new Version(10, 0))
+            {
+                Available = false;
+                return;
+            }
+
+            Init();
+        }
+
+        static void Init()
+        {
+            Available = true;
             AssemblyProductAttribute productAttribute = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyProductAttribute>();
             AssemblyCompanyAttribute companyAttribute = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCompanyAttribute>();
             if (string.IsNullOrEmpty(companyAttribute.Company))
@@ -245,30 +255,41 @@ namespace Notifications
 
         public static void Install()
         {
-            RegisterComServer();
-            RegisterActivator();
-
             Shortcut shortcut = CreateShortcut();
             if (!Shortcut.ShortcutExist(shortcut))
                 Shortcut.InstallShortcut(shortcut);
+
+            if (!Available)
+                return;
+
+            RegisterComServer();
+            RegisterActivator();
         }
 
         public static void Close()
         {
+            if (!Available)
+                return;
+
             UnregisterActivator();
         }
 
         public static void Uninstall()
         {
-            UnregisterComServer();
-            UnregisterActivator();
-
             Shortcut shortcut = CreateShortcut();
             Shortcut.DeleteShortcut(shortcut);
+
+            if (!Available)
+                return;
+
+            UnregisterComServer();
         }
 
         public static ToastNotifier Show(string xml)
         {
+            if (!Available)
+                return null;
+
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(xml);
             return Show(xmlDocument);
@@ -276,12 +297,18 @@ namespace Notifications
 
         public static ToastNotifier Show(XmlDocument xmlDocument)
         {
+            if (!Available)
+                return null;
+
             ToastNotification toastNotification = new ToastNotification(xmlDocument);
             return Show(toastNotification);
         }
 
         public static ToastNotifier Show(ToastNotification toastNotification)
         {
+            if (!Available)
+                return null;
+
             ToastNotifier toastNotifier = ToastNotificationManager.CreateToastNotifier(aumid);
             toastNotifier.Show(toastNotification);
 
@@ -292,10 +319,15 @@ namespace Notifications
 
         #region Public properties
 
+        public static bool Available { get; private set; }
+
         public static NotificationHistory History
         {
             get
             {
+                if (!Available)
+                    return null;
+
                 return new NotificationHistory(aumid);
             }
         }

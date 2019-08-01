@@ -129,20 +129,28 @@ namespace BiliDownload
 
         private void DownloadTask_Finished(DownloadTask downloadTask, string filepath)
         {
-            if (Environment.OSVersion.Version < new Version(6, 2))
-                ShowBalloonTip(downloadTask);
-            else
+            if (Notifications.NotificationManager.Available)
                 ShowToast(downloadTask, filepath);
+            else
+                ShowBalloonTip(downloadTask);
             Finished?.Invoke(this);
+        }
+
+        public static void DisposeNotifyIcon()
+        {
+            if (!Notifications.NotificationManager.Available && Application.Current.Resources.Contains("NotifyIcon"))
+                ((System.Windows.Forms.NotifyIcon)Application.Current.Resources["NotifyIcon"]).Dispose();
         }
 
         private void ShowBalloonTip(DownloadTask downloadTask)
         {
-            System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon
-            {
-                Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName),
-                Visible = true
-            };
+            if (!Application.Current.Resources.Contains("NotifyIcon"))
+                Application.Current.Resources.Add("NotifyIcon", new System.Windows.Forms.NotifyIcon
+                {
+                    Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName),
+                    Visible = true
+                });
+            System.Windows.Forms.NotifyIcon notifyIcon = (System.Windows.Forms.NotifyIcon)Application.Current.Resources["NotifyIcon"];
             notifyIcon.ShowBalloonTip(5000, "Bili-dl下载完成", string.Format("{0}\n{1}-{2}    {3}", downloadTask.Title, downloadTask.Index, downloadTask.Part, downloadTask.Description), System.Windows.Forms.ToolTipIcon.Info);
         }
 
