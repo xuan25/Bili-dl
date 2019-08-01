@@ -439,17 +439,5 @@
   <ItemGroup>
     <Resource Include="BiliSearch\img\no_more.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\de\Windows.Foundation.UniversalApiContract.xml" />
-    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\en\Windows.Foundation.UniversalApiContract.xml" />
-    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\es\Windows.Foundation.UniversalApiContract.xml" />
-    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\fr\Windows.Foundation.UniversalApiContract.xml" />
-    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\it\Windows.Foundation.UniversalApiContract.xml" />
-    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\jp\Windows.Foundation.UniversalApiContract.xml" />
-    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\ko\Windows.Foundation.UniversalApiContract.xml" />
-    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\ru\Windows.Foundation.UniversalApiContract.xml" />
-    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\zh-hans\Windows.Foundation.UniversalApiContract.xml" />
-    <Resource Include="Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\zh-hant\Windows.Foundation.UniversalApiContract.xml" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
