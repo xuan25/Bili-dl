@@ -146,7 +146,7 @@ namespace Bili_dl_updater
                 }
                 catch (WebException)
                 {
-                    Thread.Sleep(5000);
+                    
                 }
                 catch (IOException)
                 {
