@@ -62,7 +62,7 @@ namespace BiliUser
                             foreach (Json.Value folder in json["data"]["archive"])
                             {
                                 FavItem favItem;
-                                if (folder["Cover"].Count > 0)
+                                if (folder["cover"].Count > 0)
                                     favItem = new FavItem(folder["name"], folder["cover"][0]["pic"], folder["cur_count"], folder["media_id"], true);
                                 else
                                     favItem = new FavItem(folder["name"], null, folder["cur_count"], folder["media_id"], true);
