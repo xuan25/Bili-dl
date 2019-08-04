@@ -765,12 +765,9 @@ namespace JsonUtil
                 if (stream == null)
                     return null;
                 stringBuilder = new StringBuilder();
-                using (StreamReader streamReader = new StreamReader(stream))
-                {
-                    Value jsonValue = StartParse(streamReader);
-                    stringBuilder = null;
-                    return jsonValue;
-                }
+                StreamReader streamReader = new StreamReader(stream);
+                Value jsonValue = StartParse(streamReader);
+                return jsonValue;
             }
 
             #endregion
