@@ -234,6 +234,7 @@ namespace Notifications
                 Available = false;
                 return;
             }
+            Available = true;
 
             Init();
         }
