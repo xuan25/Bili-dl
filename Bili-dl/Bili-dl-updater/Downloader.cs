@@ -1,4 +1,4 @@
-﻿using Json;
+﻿using JsonUtil;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -146,7 +146,7 @@ namespace Bili_dl_updater
                 }
                 catch (WebException)
                 {
-                    
+
                 }
                 catch (IOException)
                 {
@@ -174,8 +174,8 @@ namespace Bili_dl_updater
                     response.Close();
                     dataStream.Close();
 
-                    IJson json = JsonParser.Parse(result);
-                    string url = json.GetValue("assets").GetValue(0).GetValue("browser_download_url").ToString();
+                    Json.Value json = Json.Parser.Parse(result);
+                    string url = json["assets"][0]["browser_download_url"];
                     return url;
                 }
                 catch (WebException)

@@ -1,5 +1,5 @@
 ﻿using Bili;
-using Json;
+using JsonUtil;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -64,17 +64,17 @@ namespace BiliSearch
             public string Author;
             public long Aid;
 
-            public Video(IJson json)
+            public Video(Json.Value json)
             {
-                Pic = "https:" + Regex.Unescape(json.GetValue("pic").ToString());
-                Title = System.Net.WebUtility.HtmlDecode(Regex.Unescape(json.GetValue("title").ToString()));
-                Play = json.GetValue("play").ToLong();
+                Pic = "https:" + json["pic"];
+                Title = WebUtility.HtmlDecode(json["title"]);
+                Play = json["play"];
                 if (json.Contains("pubdate"))
-                    Pubdate = json.GetValue("pubdate").ToLong();
+                    Pubdate = json["pubdate"];
                 else
-                    Pubdate = json.GetValue("created").ToLong();
-                Author = Regex.Unescape(json.GetValue("author").ToString());
-                Aid = json.GetValue("aid").ToLong();
+                    Pubdate = json["created"];
+                Author = Regex.Unescape(json["author"]);
+                Aid = json["aid"];
             }
         }
 
@@ -96,18 +96,18 @@ namespace BiliSearch
             public string SeasonTypeName;
             public string OrgTitle;
 
-            public Season(IJson json, IJson cardsJson)
+            public Season(Json.Value json, Json.Value cardsJson)
             {
-                Cover = "https:" + Regex.Unescape(json.GetValue("cover").ToString());
-                Title = System.Net.WebUtility.HtmlDecode(Regex.Unescape(json.GetValue("title").ToString()));
-                Styles = Regex.Unescape(json.GetValue("styles").ToString());
-                Areas = Regex.Unescape(json.GetValue("areas").ToString());
-                Pubtime = json.GetValue("pubtime").ToLong();
-                Cv = Regex.Unescape(json.GetValue("cv").ToString());
-                Description = Regex.Unescape(json.GetValue("desc").ToString());
-                SeasonId = json.GetValue("season_id").ToLong();
-                SeasonTypeName = cardsJson.GetValue("result").GetValue(SeasonId.ToString()).GetValue("season_type_name").ToString();
-                OrgTitle = System.Net.WebUtility.HtmlDecode(Regex.Unescape(json.GetValue("org_title").ToString()));
+                Cover = "https:" + Regex.Unescape(json["cover"]);
+                Title = WebUtility.HtmlDecode(json["title"]);
+                Styles = json["styles"];
+                Areas = json["areas"];
+                Pubtime = json["pubtime"];
+                Cv = json["cv"];
+                Description = json["desc"];
+                SeasonId = json["season_id"];
+                SeasonTypeName = cardsJson["result"][SeasonId.ToString()]["season_type_name"];
+                OrgTitle = WebUtility.HtmlDecode(json["org_title"]);
             }
         }
 
@@ -125,14 +125,14 @@ namespace BiliSearch
             public long Fans;
             public string Usign;
 
-            public User(IJson json)
+            public User(Json.Value json)
             {
-                Mid = json.GetValue("mid").ToLong();
-                Upic = "https:" + Regex.Unescape(json.GetValue("upic").ToString());
-                Uname = Regex.Unescape(json.GetValue("uname").ToString());
-                Videos = json.GetValue("videos").ToLong();
-                Fans = json.GetValue("fans").ToLong();
-                Usign = Regex.Unescape(json.GetValue("usign").ToString());
+                Mid = json["mid"];
+                Upic = "https:" + json["upic"];
+                Uname = json["uname"];
+                Videos = json["videos"];
+                Fans = json["fans"];
+                Usign = json["usign"];
             }
         }
 
@@ -174,14 +174,14 @@ namespace BiliSearch
                 Task task = new Task(() =>
                 {
                     string type = NavType;
-                    IJson json = GetResult(text, type, pagenum);
+                    Json.Value json = GetResult(text, type, pagenum);
                     if (json != null)
                         Dispatcher.Invoke(new Action(() =>
                         {
                             if (cancellationToken.IsCancellationRequested)
                                 return;
                             ShowResult(json, type);
-                            PagesBox.SetPage((int)json.GetValue("data").GetValue("numpages").ToLong(), (int)json.GetValue("data").GetValue("page").ToLong(), false);
+                            PagesBox.SetPage((int)json["data"]["numPages"], (int)json["data"]["page"], false);
                             PagesBox.Visibility = Visibility.Visible;
                             LoadingPrompt.Visibility = Visibility.Hidden;
                         }));
@@ -194,7 +194,7 @@ namespace BiliSearch
             }
         }
 
-        private IJson GetResult(string text, string type, int pagenum)
+        private Json.Value GetResult(string text, string type, int pagenum)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("jsonp", "jsonp");
@@ -204,7 +204,7 @@ namespace BiliSearch
             dic.Add("page", pagenum.ToString());
             try
             {
-                IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/web-interface/search/type", dic, true);
+                Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/x/web-interface/search/type", dic, true);
                 return json;
             }
             catch (System.Net.WebException)
@@ -214,14 +214,14 @@ namespace BiliSearch
 
         }
 
-        private async void ShowResult(IJson json, string type)
+        private async void ShowResult(Json.Value json, string type)
         {
-            if (json.GetValue("code").ToLong() == 0 && json.GetValue("data").GetValue("numresults").ToLong() > 0)
+            if (json["code"] == 0 && json["data"]["numResults"] > 0)
             {
                 switch (type)
                 {
                     case "video":
-                        foreach (IJson v in json.GetValue("data").GetValue("result"))
+                        foreach (Json.Value v in json["data"]["result"])
                         {
                             Video video = new Video(v);
                             ResultVideo resultVideo = new ResultVideo(video);
@@ -231,17 +231,17 @@ namespace BiliSearch
                         break;
                     case "media_bangumi":
                         StringBuilder stringBuilderBangumi = new StringBuilder();
-                        foreach (IJson v in json.GetValue("data").GetValue("result"))
+                        foreach (Json.Value v in json["data"]["result"])
                         {
                             stringBuilderBangumi.Append(',');
-                            stringBuilderBangumi.Append(v.GetValue("season_id").ToString());
+                            stringBuilderBangumi.Append(((uint)v["season_id"]).ToString());
                         }
                         Dictionary<string, string> dic = new Dictionary<string, string>();
                         dic.Add("season_ids", stringBuilderBangumi.ToString().Substring(1));
                         try
                         {
-                            IJson cardsJson = await BiliApi.GetJsonResultAsync("https://api.bilibili.com/pgc/web/season/cards", dic, true);
-                            foreach (IJson v in json.GetValue("data").GetValue("result"))
+                            Json.Value cardsJson = await BiliApi.GetJsonResultAsync("https://api.bilibili.com/pgc/web/season/cards", dic, true);
+                            foreach (Json.Value v in json["data"]["result"])
                             {
                                 Season season = new Season(v, cardsJson);
                                 ResultSeason resultSeason = new ResultSeason(season);
@@ -256,17 +256,17 @@ namespace BiliSearch
                         break;
                     case "media_ft":
                         StringBuilder stringBuilderFt = new StringBuilder();
-                        foreach (IJson v in json.GetValue("data").GetValue("result"))
+                        foreach (Json.Value v in json["data"]["result"])
                         {
                             stringBuilderFt.Append(',');
-                            stringBuilderFt.Append(v.GetValue("season_id").ToString());
+                            stringBuilderFt.Append((string)v["season_id"]);
                         }
                         Dictionary<string, string> dic1 = new Dictionary<string, string>();
                         dic1.Add("season_ids", stringBuilderFt.ToString().Substring(1));
                         try
                         {
-                            IJson cardsJson1 = await BiliApi.GetJsonResultAsync("https://api.bilibili.com/pgc/web/season/cards", dic1, false);
-                            foreach (IJson v in json.GetValue("data").GetValue("result"))
+                            Json.Value cardsJson1 = await BiliApi.GetJsonResultAsync("https://api.bilibili.com/pgc/web/season/cards", dic1, false);
+                            foreach (Json.Value v in json["data"]["result"])
                             {
                                 Season season = new Season(v, cardsJson1);
                                 ResultSeason resultSeason = new ResultSeason(season);
@@ -280,7 +280,7 @@ namespace BiliSearch
                         }
                         break;
                     case "bili_user":
-                        foreach (IJson v in json.GetValue("data").GetValue("result"))
+                        foreach (Json.Value v in json["data"]["result"])
                         {
                             User user = new User(v);
                             ResultUser resultUser = new ResultUser(user);

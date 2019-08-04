@@ -16,7 +16,7 @@ namespace BiliSearch
         {
             InitializeComponent();
 
-            MatchCollection mc = Regex.Matches(Regex.Unescape(suggest.Title), "(\\<em.*?\\>(?<Word>.*?)\\</em\\>|.)");
+            MatchCollection mc = Regex.Matches(suggest.Title, "(\\<em.*?\\>(?<Word>.*?)\\</em\\>|.)");
             foreach (Match m in mc)
             {
                 Inline inline = new Run(m.Value);

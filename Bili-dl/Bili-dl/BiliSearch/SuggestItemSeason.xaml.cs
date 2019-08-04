@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -17,12 +16,12 @@ namespace BiliSearch
             InitializeComponent();
 
             if (TitleInline.Text != null)
-                TitleInline.Text = Regex.Unescape(seasonSuggest.Title);
+                TitleInline.Text = seasonSuggest.Title;
 
             InfoInline.Text = string.Format("{0} | {1} | {2}", TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)).AddSeconds(seasonSuggest.Ptime).Year, seasonSuggest.SeasonTypeName, seasonSuggest.Area);
 
             if (seasonSuggest.Label != null)
-                LabelInline.Text = Regex.Unescape(seasonSuggest.Label);
+                LabelInline.Text = seasonSuggest.Label;
 
             ImageBox.Source = new BitmapImage(new Uri(seasonSuggest.Cover));
         }

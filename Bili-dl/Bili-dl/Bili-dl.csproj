@@ -141,11 +141,7 @@
     <Compile Include="Framework\HitTest.cs" />
     <Compile Include="Framework\Screen.cs" />
     <Compile Include="Framework\WindowLong.cs" />
-    <Compile Include="Json\IJson.cs" />
-    <Compile Include="Json\JsonArray.cs" />
-    <Compile Include="Json\JsonObject.cs" />
-    <Compile Include="Json\JsonParser.cs" />
-    <Compile Include="Json\JsonValue.cs" />
+    <Compile Include="JsonUtil.cs" />
     <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveGroup.cs" />
     <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveHelper.cs" />
     <Compile Include="Notifications\Microsoft.Toolkit.Uwp.Notifications\Adaptive\AdaptiveImage.cs" />

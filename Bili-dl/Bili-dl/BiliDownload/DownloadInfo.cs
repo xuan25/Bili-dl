@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 
 namespace BiliDownload
 {
@@ -25,14 +24,14 @@ namespace BiliDownload
 
         public DownloadInfo(VideoInfo.Page.Quality quality, int threads)
         {
-            Title = Regex.Unescape(quality.Title);
-            Index = Regex.Unescape(quality.Index);
+            Title = quality.Title;
+            Index = quality.Index;
             Aid = quality.Aid;
             Num = quality.Num;
             Cid = quality.Cid;
-            Part = Regex.Unescape(quality.Part);
+            Part = quality.Part;
             Qn = quality.Qn;
-            Description = Regex.Unescape(quality.Description);
+            Description = quality.Description;
             Threads = threads;
             Pic = quality.Pic;
             MergeRequired = quality.MergeRequired;

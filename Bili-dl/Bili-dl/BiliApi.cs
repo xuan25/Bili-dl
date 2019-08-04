@@ -1,4 +1,4 @@
-﻿using Json;
+﻿using JsonUtil;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -135,10 +135,10 @@ namespace Bili
         /// <param name="paramsDic">Parameter dictionary</param>
         /// <param name="addVerification">Add verification sign for parameters</param>
         /// <returns>IJson result</returns>
-        public static IJson GetJsonResult(string url, Dictionary<string, string> paramsDic, bool addVerification)
+        public static Json.Value GetJsonResult(string url, Dictionary<string, string> paramsDic, bool addVerification)
         {
             string result = GetTextResult(url, paramsDic, addVerification);
-            IJson json = JsonParser.Parse(result);
+            Json.Value json = Json.Parser.Parse(result);
             return json;
         }
 
@@ -149,9 +149,9 @@ namespace Bili
         /// <param name="paramsDic">Parameter dictionary</param>
         /// <param name="addVerification">Add verification sign for parameters</param>
         /// <returns>IJson result</returns>
-        public static Task<IJson> GetJsonResultAsync(string url, Dictionary<string, string> paramsDic, bool addVerification)
+        public static Task<Json.Value> GetJsonResultAsync(string url, Dictionary<string, string> paramsDic, bool addVerification)
         {
-            Task<IJson> task = new Task<IJson>(() =>
+            Task<Json.Value> task = new Task<Json.Value>(() =>
             {
                 return GetJsonResult(url, paramsDic, addVerification);
             });

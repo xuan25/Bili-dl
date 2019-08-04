@@ -1,4 +1,4 @@
-﻿using Json;
+﻿using JsonUtil;
 using QRCoder;
 using System;
 using System.Drawing;
@@ -137,11 +137,11 @@ namespace BiliLogin
                 response.Close();
                 dataStream.Close();
 
-                IJson getLoginUrl = JsonParser.Parse(result);
-                LoginUrlRecieved?.Invoke(this, getLoginUrl.GetValue("data").GetValue("url").ToString());
-                Bitmap qrBitmap = RenderQrCode(getLoginUrl.GetValue("data").GetValue("url").ToString());
+                Json.Value getLoginUrl = Json.Parser.Parse(result);
+                LoginUrlRecieved?.Invoke(this, getLoginUrl["data"]["url"]);
+                Bitmap qrBitmap = RenderQrCode(getLoginUrl["data"]["url"]);
                 QRImageLoaded?.Invoke(this, qrBitmap);
-                oauthKey = getLoginUrl.GetValue("data").GetValue("oauthKey").ToString();
+                oauthKey = getLoginUrl["data"]["oauthKey"];
                 return true;
             }
             catch (WebException ex)
@@ -180,8 +180,8 @@ namespace BiliLogin
                     dataStream.Close();
                     postStream.Close();
 
-                    IJson loginInfo = JsonParser.Parse(result);
-                    if (loginInfo.GetValue("status").ToBool())
+                    Json.Value loginInfo = Json.Parser.Parse(result);
+                    if (loginInfo["status"])
                     {
                         uint uid = 0;
                         foreach (Cookie cookie in cookieCollection)
@@ -194,7 +194,7 @@ namespace BiliLogin
                         LoggedIn?.Invoke(this, cookieCollection, uid);
                         break;
                     }
-                    switch ((int)loginInfo.GetValue("data").ToLong())
+                    switch ((int)loginInfo["data"])
                     {
                         case -2:
                             if (!isTimeout)

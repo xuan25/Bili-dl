@@ -1,11 +1,10 @@
 ﻿using Bili;
 using FlvMerge;
-using Json;
+using JsonUtil;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace BiliDownload
@@ -80,12 +79,12 @@ namespace BiliDownload
             };
             try
             {
-                IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
-                if (json.GetValue("code").ToLong() == 0)
-                    if (json.GetValue("data").GetValue("quality").ToLong() == Qn)
-                        foreach (IJson v in json.GetValue("data").GetValue("durl"))
+                Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
+                if (json["code"] == 0)
+                    if (json["data"]["quality"] == Qn)
+                        foreach (Json.Value v in json["data"]["durl"])
                         {
-                            Segment segment = new Segment(Aid, Regex.Unescape(v.GetValue("url").ToString()), SegmentType.Mixed, v.GetValue("size").ToLong(), Threads);
+                            Segment segment = new Segment(Aid, v["url"], SegmentType.Mixed, v["size"], Threads);
                             segment.Finished += Segment_Finished;
                             Segments.Add(segment);
                         }
@@ -94,11 +93,11 @@ namespace BiliDownload
                 else
                 {
                     json = BiliApi.GetJsonResult("http://api.bilibili.com/pgc/player/web/playurl", dic, false);
-                    if (json.GetValue("code").ToLong() == 0)
-                        if (json.GetValue("result").GetValue("quality").ToLong() == Qn)
-                            foreach (IJson v in json.GetValue("result").GetValue("durl"))
+                    if (json["code"] == 0)
+                        if (json["result"]["quality"] == Qn)
+                            foreach (Json.Value v in json["result"]["durl"])
                             {
-                                Segment segment = new Segment(Aid, Regex.Unescape(v.GetValue("url").ToString()), SegmentType.Mixed, v.GetValue("size").ToLong(), Threads);
+                                Segment segment = new Segment(Aid, v["url"], SegmentType.Mixed, v["size"], Threads);
                                 segment.Finished += Segment_Finished;
                                 Segments.Add(segment);
                             }

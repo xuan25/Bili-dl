@@ -66,11 +66,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Downloader.cs" />
-    <Compile Include="Json\IJson.cs" />
-    <Compile Include="Json\JsonArray.cs" />
-    <Compile Include="Json\JsonObject.cs" />
-    <Compile Include="Json\JsonParser.cs" />
-    <Compile Include="Json\JsonValue.cs" />
+    <Compile Include="JsonUtil.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

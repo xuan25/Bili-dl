@@ -1,7 +1,6 @@
 ﻿using Bili;
-using Json;
+using JsonUtil;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BiliLogin
@@ -29,31 +28,31 @@ namespace BiliLogin
         public int OfficialVerify;
         public uint PointBalance;
 
-        public UserInfo(IJson json)
+        public UserInfo(Json.Value json)
         {
-            CurrentLevel = (uint)json.GetValue("data").GetValue("level_info").GetValue("current_level").ToLong();
-            CurrentMin = (int)json.GetValue("data").GetValue("level_info").GetValue("current_min").ToLong();
-            CurrentExp = (int)json.GetValue("data").GetValue("level_info").GetValue("current_exp").ToLong();
-            NextExp = (int)json.GetValue("data").GetValue("level_info").GetValue("next_exp").ToLong();
-            BCoins = (int)json.GetValue("data").GetValue("bCoins").ToLong();
-            Coins = json.GetValue("data").GetValue("coins").ToDouble();
-            Face = Regex.Unescape(json.GetValue("data").GetValue("face").ToString());
-            NameplateCurrent = Regex.Unescape(json.GetValue("data").GetValue("nameplate_current").ToString());
-            PendantCurrent = Regex.Unescape(json.GetValue("data").GetValue("pendant_current").ToString());
-            Uname = Regex.Unescape(json.GetValue("data").GetValue("uname").ToString());
-            UserStatus = Regex.Unescape(json.GetValue("data").GetValue("userStatus").ToString());
-            VipType = (uint)json.GetValue("data").GetValue("vipType").ToLong();
-            VipStatus = (uint)json.GetValue("data").GetValue("vipStatus").ToLong();
-            OfficialVerify = (int)json.GetValue("data").GetValue("official_verify").ToLong();
-            PointBalance = (uint)json.GetValue("data").GetValue("pointBalance").ToLong();
+            CurrentLevel = json["data"]["level_info"]["current_level"];
+            CurrentMin = json["data"]["level_info"]["current_min"];
+            CurrentExp = json["data"]["level_info"]["current_exp"];
+            NextExp = json["data"]["level_info"]["next_exp"];
+            BCoins = json["data"]["bCoins"];
+            Coins = json["data"]["coins"];
+            Face = json["data"]["face"];
+            NameplateCurrent = json["data"]["nameplate_current"];
+            PendantCurrent = json["data"]["pendant_current"];
+            Uname = json["data"]["uname"];
+            UserStatus = json["data"]["userStatus"];
+            VipType = json["data"]["vipType"];
+            VipStatus = json["data"]["vipStatus"];
+            OfficialVerify = json["data"]["official_verify"];
+            PointBalance = json["data"]["pointBalance"];
         }
 
         public static UserInfo GetUserInfo(CookieCollection cookies)
         {
             try
             {
-                IJson json = BiliApi.GetJsonResult("https://account.bilibili.com/home/userInfo", null, false);
-                if (json.GetValue("code").ToLong() == 0)
+                Json.Value json = BiliApi.GetJsonResult("https://account.bilibili.com/home/userInfo", null, false);
+                if (json["code"] == 0)
                     return new UserInfo(json);
                 else
                     return null;
@@ -69,8 +68,8 @@ namespace BiliLogin
         {
             try
             {
-                IJson json = await BiliApi.GetJsonResultAsync("https://account.bilibili.com/home/userInfo", null, false);
-                if (json.GetValue("code").ToLong() == 0)
+                Json.Value json = await BiliApi.GetJsonResultAsync("https://account.bilibili.com/home/userInfo", null, false);
+                if (json["code"] == 0)
                     return new UserInfo(json);
                 else
                     return null;

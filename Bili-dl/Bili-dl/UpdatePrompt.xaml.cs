@@ -1,4 +1,4 @@
-﻿using Json;
+﻿using JsonUtil;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -123,13 +123,13 @@ namespace Bili_dl
                 response.Close();
                 dataStream.Close();
 
-                IJson json = JsonParser.Parse(result);
-                string latestTag = json.GetValue("tag_name").ToString();
+                Json.Value json = Json.Parser.Parse(result);
+                string latestTag = json["tag_name"];
                 if (Application.Current.FindResource("Version").ToString() == latestTag)
                     return true;
                 Dispatcher.Invoke(new Action(() =>
                 {
-                    InfoBox.Text = json.GetValue("body").ToString().Replace("\\r", "\r").Replace("\\n", "\n");
+                    InfoBox.Text = ((string)json["body"]).Replace("\\r", "\r").Replace("\\n", "\n");
                 }));
                 return false;
             }

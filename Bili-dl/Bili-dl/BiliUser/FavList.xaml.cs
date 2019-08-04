@@ -1,5 +1,5 @@
 ﻿using Bili;
-using Json;
+using JsonUtil;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -46,26 +46,26 @@ namespace BiliUser
 
             Task task = new Task(() =>
             {
-                IJson userinfo = BiliApi.GetJsonResult("https://api.bilibili.com/x/web-interface/nav", null, false);
+                Json.Value userinfo = BiliApi.GetJsonResult("https://api.bilibili.com/x/web-interface/nav", null, false);
                 if (cancellationToken.IsCancellationRequested)
                     return;
-                if (userinfo.GetValue("code").ToLong() == 0)
+                if (userinfo["code"] == 0)
                 {
                     Dictionary<string, string> dic = new Dictionary<string, string>();
-                    dic.Add("mid", userinfo.GetValue("data").GetValue("mid").ToLong().ToString());
-                    IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/x/space/fav/nav", dic, false);
+                    dic.Add("mid", ((uint)userinfo["data"]["mid"]).ToString());
+                    Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/x/space/fav/nav", dic, false);
                     if (cancellationToken.IsCancellationRequested)
                         return;
-                    if (json.GetValue("code").ToLong() == 0)
+                    if (json["code"] == 0)
                         Dispatcher.Invoke(new Action(() =>
                         {
-                            foreach (IJson folder in json.GetValue("data").GetValue("archive"))
+                            foreach (Json.Value folder in json["data"]["archive"])
                             {
                                 FavItem favItem;
-                                if (folder.GetValue("Cover").Contains(0))
-                                    favItem = new FavItem(folder.GetValue("name").ToString(), folder.GetValue("cover").GetValue(0).GetValue("pic").ToString(), folder.GetValue("cur_count").ToLong(), folder.GetValue("media_id").ToLong(), true);
+                                if (folder["Cover"].Count > 0)
+                                    favItem = new FavItem(folder["name"], folder["cover"][0]["pic"], folder["cur_count"], folder["media_id"], true);
                                 else
-                                    favItem = new FavItem(folder.GetValue("name").ToString(), null, folder.GetValue("cur_count").ToLong(), folder.GetValue("media_id").ToLong(), true);
+                                    favItem = new FavItem(folder["name"], null, folder["cur_count"], folder["media_id"], true);
                                 favItem.PreviewMouseLeftButtonDown += FavItem_PreviewMouseLeftButtonDown;
                                 ContentPanel.Children.Add(favItem);
                             }
@@ -117,21 +117,21 @@ namespace BiliUser
             dic.Add("jsonp", "jsonp");
             Task task = new Task(() =>
             {
-                IJson json = BiliApi.GetJsonResult("https://api.bilibili.com/medialist/gateway/base/spaceDetail", dic, false);
+                Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/medialist/gateway/base/spaceDetail", dic, false);
                 if (cancellationToken.IsCancellationRequested)
                     return;
-                if (json.GetValue("code").ToLong() == 0)
+                if (json["code"] == 0)
                 {
                     Dispatcher.Invoke(new Action(() =>
                     {
-                        foreach (IJson media in json.GetValue("data").GetValue("medias"))
+                        foreach (Json.Value media in json["data"]["medias"])
                         {
-                            FavItem favItem = new FavItem(media.GetValue("title").ToString(), media.GetValue("cover").ToString(), media.GetValue("fav_time").ToLong(), media.GetValue("id").ToLong(), false);
+                            FavItem favItem = new FavItem(media["title"], media["cover"], media["fav_time"], media["id"], false);
                             favItem.PreviewMouseLeftButtonDown += FavItem_PreviewMouseLeftButtonDown;
                             ContentPanel.Children.Add(favItem);
                         }
                         if (init)
-                            PagesBox.SetPage((int)Math.Ceiling((double)json.GetValue("data").GetValue("info").GetValue("media_count").ToLong() / 20), 1, true);
+                            PagesBox.SetPage((int)Math.Ceiling((double)json["data"]["info"]["media_count"] / 20), 1, true);
                         PagesBox.Visibility = Visibility.Visible;
                     }));
                 }
