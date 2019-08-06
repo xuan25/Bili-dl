@@ -115,13 +115,11 @@ namespace Bili_dl
             request.UserAgent = "Bili-dl";
             try
             {
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                Stream dataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataStream);
-                string result = reader.ReadToEnd();
-                reader.Close();
-                response.Close();
-                dataStream.Close();
+                string result;
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                    using(Stream stream = response.GetResponseStream())
+                        using (StreamReader reader = new StreamReader(stream))
+                            result = reader.ReadToEnd();
 
                 Json.Value json = Json.Parser.Parse(result);
                 string latestTag = json["tag_name"];

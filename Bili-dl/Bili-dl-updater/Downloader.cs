@@ -127,22 +127,23 @@ namespace Bili_dl_updater
                     request.AddRange(Position);
                 try
                 {
-                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                    if (Length == 0)
-                        Length = response.ContentLength;
-                    Stream dataStream = response.GetResponseStream();
-
-                    long copied = 0;
-                    byte[] buffer = new byte[1024 * 1024 * 10];
-                    while (copied != response.ContentLength)
+                    using(HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                     {
-                        int size = dataStream.Read(buffer, 0, (int)buffer.Length);
-                        OutputFileStream.Write(buffer, 0, size);
-                        copied += size;
-                        Position += size;
+                        if (Length == 0)
+                            Length = response.ContentLength;
+                        using(Stream dataStream = response.GetResponseStream())
+                        {
+                            long copied = 0;
+                            byte[] buffer = new byte[1024 * 1024 * 10];
+                            while (copied != response.ContentLength)
+                            {
+                                int size = dataStream.Read(buffer, 0, (int)buffer.Length);
+                                OutputFileStream.Write(buffer, 0, size);
+                                copied += size;
+                                Position += size;
+                            }
+                        }
                     }
-                    response.Close();
-                    dataStream.Close();
                 }
                 catch (WebException)
                 {
@@ -166,13 +167,11 @@ namespace Bili_dl_updater
                 request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36";
                 try
                 {
-                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                    Stream dataStream = response.GetResponseStream();
-                    StreamReader reader = new StreamReader(dataStream);
-                    string result = reader.ReadToEnd();
-                    reader.Close();
-                    response.Close();
-                    dataStream.Close();
+                    string result;
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                        using (Stream dataStream = response.GetResponseStream())
+                            using (StreamReader reader = new StreamReader(dataStream))
+                                result = reader.ReadToEnd();
 
                     Json.Value json = Json.Parser.Parse(result);
                     string url = json["assets"][0]["browser_download_url"];

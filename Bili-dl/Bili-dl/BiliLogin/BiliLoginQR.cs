@@ -129,13 +129,12 @@ namespace BiliLogin
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://passport.bilibili.com/qrcode/getLoginUrl");
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                Stream dataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataStream);
-                string result = reader.ReadToEnd();
-                reader.Close();
-                response.Close();
-                dataStream.Close();
+                string result;
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                    using(Stream stream = response.GetResponseStream())
+                        using(StreamReader reader = new StreamReader(stream))
+                            result = reader.ReadToEnd();
+
 
                 Json.Value getLoginUrl = Json.Parser.Parse(result);
                 LoginUrlRecieved?.Invoke(this, getLoginUrl["data"]["url"]);
@@ -168,17 +167,17 @@ namespace BiliLogin
                     request.ContentLength = data.Length;
                     request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
                     request.CookieContainer = new CookieContainer();
-                    Stream postStream = request.GetRequestStream();
-                    postStream.Write(data, 0, data.Length);
-                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                    Stream dataStream = response.GetResponseStream();
-                    StreamReader reader = new StreamReader(dataStream);
-                    string result = reader.ReadToEnd();
-                    CookieCollection cookieCollection = response.Cookies;
-                    reader.Close();
-                    response.Close();
-                    dataStream.Close();
-                    postStream.Close();
+                    using(Stream postStream = request.GetRequestStream())
+                        postStream.Write(data, 0, data.Length);
+                    string result;
+                    CookieCollection cookieCollection;
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                    {
+                        cookieCollection = response.Cookies;
+                        using(Stream stream = response.GetResponseStream())
+                            using (StreamReader reader = new StreamReader(stream))
+                                result = reader.ReadToEnd();
+                    }
 
                     Json.Value loginInfo = Json.Parser.Parse(result);
                     if (loginInfo["status"])

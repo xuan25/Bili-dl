@@ -99,16 +99,10 @@ namespace Bili
                 request.CookieContainer = new CookieContainer();
                 request.CookieContainer.Add(CookieCollection);
             }
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream dataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataStream);
-            string result = reader.ReadToEnd();
-            reader.Close();
-            response.Close();
-            dataStream.Close();
-
-            //Console.WriteLine(result);
-            return result;
+            using(HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                using(Stream stream = response.GetResponseStream())
+                    using(StreamReader reader = new StreamReader(stream))
+                        return reader.ReadToEnd();
         }
 
         /// <summary>
