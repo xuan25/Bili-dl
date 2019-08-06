@@ -1,9 +1,10 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using Notifications;
+﻿using Notifications;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Security;
+using System.Windows;
 using Windows.UI.Notifications;
 
 namespace BiliDownload
@@ -70,65 +71,15 @@ namespace BiliDownload
 
             // Create Toast
 
-            ToastContent toastContent = new ToastContent()
+            string toastXml;
+            using (StreamReader streamReader = new StreamReader(Application.GetResourceStream(new Uri("/BiliDownload/DownloadFinishedToast.xml", UriKind.Relative)).Stream))
             {
-                Launch = "ignore=",
-
-                Visual = new ToastVisual()
-                {
-                    BindingGeneric = new ToastBindingGeneric()
-                    {
-                        Children =
-                        {
-                            new AdaptiveText()
-                            {
-                                Text = "Bili-dl下载完成",
-                                HintMaxLines = 1
-                            },
-                            new AdaptiveText()
-                            {
-                                Text = downloadTask.Title
-                            },
-                            new AdaptiveText()
-                            {
-                                Text = string.Format("{0}-{1}    {2}", downloadTask.Index, downloadTask.Part, downloadTask.Description)
-                            }
-                        },
-                        HeroImage = new ToastGenericHeroImage()
-                        {
-                            Source = imagepath
-                        }
-                    },
-                },
-                Actions = new ToastActionsCustom()
-                {
-                    Buttons =
-                    {
-                        new ToastButton("打开视频", string.Format("open=\"{0}\"", filepath))
-                        {
-                            ActivationType = ToastActivationType.Background
-                        },
-
-                        new ToastButton("打开文件夹", string.Format("openfolder=\"{0}\"", filepath))
-                        {
-                            ActivationType = ToastActivationType.Background
-                        },
-
-                        new ToastButton("移动至", string.Format("move=\"{0}\"", filepath))
-                        {
-                            ActivationType = ToastActivationType.Background
-                        }
-                    }
-                },
-                Audio = new ToastAudio()
-                {
-                    Src = new Uri("ms-winsoundevent:Notification.Looping.Call6")
-                }
-            };
+                toastXml = string.Format(streamReader.ReadToEnd(), SecurityElement.Escape(downloadTask.Title), SecurityElement.Escape(string.Format("{0}-{1}    {2}", downloadTask.Index, downloadTask.Part, downloadTask.Description)), SecurityElement.Escape(imagepath), SecurityElement.Escape(filepath));
+            }
 
             // Send Toast
 
-            ToastNotifier toastNotifier = NotificationManager.Show(toastContent.GetContent());
+            ToastNotifier toastNotifier = NotificationManager.Show(toastXml);
 
             return toastNotifier;
         }

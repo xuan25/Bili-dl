@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<toast launch="ignore=">
+  <visual>
+    <binding template="ToastGeneric">
+      <text hint-maxLines="1">Bili-dl下载完成</text>
+      <text>{0}</text>
+      <text>{1}</text>
+      <image src="{2}" placement="hero" />
+    </binding>
+  </visual>
+  <audio src="ms-winsoundevent:Notification.Looping.Call6" />
+  <actions>
+    <action content="打开视频" arguments="open=&quot;{3}&quot;" activationType="background" />
+    <action content="打开文件夹" arguments="openfolder=&quot;{3}&quot;" activationType="background" />
+    <action content="移动至" arguments="move=&quot;{3}&quot;" activationType="background" />
+  </actions>
+</toast>
