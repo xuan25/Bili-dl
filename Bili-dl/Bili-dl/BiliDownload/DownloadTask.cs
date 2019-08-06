@@ -35,17 +35,14 @@ namespace BiliDownload
         public bool IsRunning;
         public double ProgressPercentage;
         public Thread ProgressMonitorThread;
-        private Thread runThread;
+        private Thread startThread;
 
-        public delegate void FinishedDel(DownloadTask downloadTask, string filepath);
-        public event FinishedDel Finished;
+        public delegate void FinishedHandler(DownloadTask downloadTask, string filepath);
+        public event FinishedHandler Finished;
 
-        public enum Status { Analyzing, Downloading, Merging, Finished };
-        public delegate void StatusUpdateDel(double progressPercentage, long bps, Status statues);
+        public enum Status { Analyzing, Downloading, Merging, Finished, AnalysisFailed };
+        public delegate void StatusUpdateDel(DownloadTask downloadTask, double progressPercentage, long bps, Status statues);
         public event StatusUpdateDel StatusUpdate;
-
-        public delegate void FailedDel(DownloadTask downloadTask);
-        public event FailedDel AnalysisFailed;
 
         public DownloadTask(DownloadInfo downloadInfo)
         {
@@ -69,7 +66,7 @@ namespace BiliDownload
 
         private bool Analysis()
         {
-            StatusUpdate?.Invoke(ProgressPercentage, 0, Status.Analyzing);
+            StatusUpdate?.Invoke(this, ProgressPercentage, 0, Status.Analyzing);
             Segments = new List<Segment>();
             Dictionary<string, string> dic = new Dictionary<string, string>
             {
@@ -119,13 +116,13 @@ namespace BiliDownload
             if (CurrentSegment < Segments.Count - 1)
             {
                 CurrentSegment++;
-                Segments[CurrentSegment].Download();
+                Segments[CurrentSegment].Start();
             }
             else
             {
                 AbortProgressMonitor();
                 ProgressPercentage = 100;
-                StatusUpdate?.Invoke(ProgressPercentage, 0, Status.Merging);
+                StatusUpdate?.Invoke(this, ProgressPercentage, 0, Status.Merging);
                 string directory = Bili_dl.SettingPanel.settings.DownloadPath + "\\";
                 Directory.CreateDirectory(directory);
                 string filepath = directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.{4}", Description, Title, Index, Part, Segments[0].Extention));
@@ -147,7 +144,10 @@ namespace BiliDownload
                 }
                 IsFinished = true;
                 IsRunning = false;
-                StatusUpdate?.Invoke(100, 0, Status.Finished);
+                StatusUpdate?.Invoke(this, 100, 0, Status.Finished);
+
+                DownloadFinishedNotification.SendNotification(this, filepath);
+
                 Finished?.Invoke(this, filepath);
             }
         }
@@ -161,29 +161,33 @@ namespace BiliDownload
         }
 
         /// <summary>
-        /// Run a task.
+        /// Start a task.
         /// </summary>
-        public void Run()
+        public void Start()
         {
+            if (IsRunning || IsFinished)
+                return;
+            IsRunning = true;
+
             CurrentSegment = -1;
-            if (runThread != null)
-                runThread.Abort();
-            runThread = new Thread(delegate ()
+            if (startThread != null)
+                startThread.Abort();
+            startThread = new Thread(delegate ()
             {
-                IsRunning = true;
-                if (!IsFinished)
+                while (!Analysis())
                 {
-                    if (!Analysis())
+                    for(int i = 5; i > 0; i--)
                     {
-                        AnalysisFailed?.Invoke(this);
-                        return;
+                        StatusUpdate?.Invoke(this, 0, i, Status.AnalysisFailed);
+                        Thread.Sleep(1000);
                     }
-                    CurrentSegment = 0;
-                    Segments[CurrentSegment].Download();
-                    StartProgressMonitor();
                 }
+                CurrentSegment = 0;
+                Segments[CurrentSegment].Start();
+                StartProgressMonitor();
+                startThread = null;
             });
-            runThread.Start();
+            startThread.Start();
         }
 
         /// <summary>
@@ -191,12 +195,15 @@ namespace BiliDownload
         /// </summary>
         public void Stop()
         {
-            if (runThread != null)
-                runThread.Abort();
+            if (startThread != null)
+            {
+                startThread.Abort();
+                startThread = null;
+            } 
             if (!IsFinished && IsRunning)
             {
                 if (CurrentSegment != -1)
-                    Segments[CurrentSegment].AbortDownload();
+                    Segments[CurrentSegment].Abort();
                 AbortProgressMonitor();
                 IsRunning = false;
             }
@@ -229,7 +236,11 @@ namespace BiliDownload
         private void AbortProgressMonitor()
         {
             if (ProgressMonitorThread != null)
+            {
                 ProgressMonitorThread.Abort();
+                ProgressMonitorThread = null;
+            }
+                
         }
 
         private void ProgressMonitor()
@@ -260,7 +271,7 @@ namespace BiliDownload
                             downloaded += thread.Position;
                         }
                 }
-                StatusUpdate?.Invoke((double)downloaded / total * 100, downloaded - downloadedLast, Status.Downloading);
+                StatusUpdate?.Invoke(this, (double)downloaded / total * 100, downloaded - downloadedLast, Status.Downloading);
                 downloadedLast = downloaded;
                 Thread.Sleep(1000);
             }
@@ -330,7 +341,7 @@ namespace BiliDownload
             /// <summary>
             /// Start the download.
             /// </summary>
-            public void Download()
+            public void Start()
             {
                 if (File.Exists(Filepath))
                 {
@@ -354,18 +365,18 @@ namespace BiliDownload
                 FinishedThreadCount = 0;
                 foreach (DownloadThread downloadThread in DownloadThreads)
                 {
-                    downloadThread.StartDownloadThread();
+                    downloadThread.Start();
                 }
             }
 
             /// <summary>
             /// Abort the download.
             /// </summary>
-            public void AbortDownload()
+            public void Abort()
             {
                 foreach (DownloadThread downloadThread in DownloadThreads)
                 {
-                    downloadThread.AbortDownloadThread();
+                    downloadThread.Abort();
                 }
             }
 
@@ -378,7 +389,7 @@ namespace BiliDownload
                     File.Delete(Filepath);
                 else
                 {
-                    AbortDownload();
+                    Abort();
                     foreach (DownloadThread downloadThread in DownloadThreads)
                         downloadThread.Clean();
                 }
@@ -398,17 +409,18 @@ namespace BiliDownload
                     }
                     if (flag)
                     {
-                        FileStream fileStream = new FileStream(Filepath, FileMode.Create);
-                        foreach (DownloadThread downloadThread in DownloadThreads)
+                        using (FileStream fileStream = new FileStream(Filepath, FileMode.Create))
                         {
-                            FileStream fileStreamFrom = new FileStream(downloadThread.Filepath, FileMode.Open);
-                            fileStreamFrom.CopyTo(fileStream);
-                            fileStreamFrom.Flush();
-                            fileStreamFrom.Close();
-                            fileStreamFrom.Dispose();
-                            File.Delete(downloadThread.Filepath);
+                            foreach (DownloadThread downloadThread in DownloadThreads)
+                            {
+                                using (FileStream fileStreamFrom = new FileStream(downloadThread.Filepath, FileMode.Open))
+                                {
+                                    fileStreamFrom.CopyTo(fileStream);
+                                    fileStreamFrom.Flush();
+                                }
+                                File.Delete(downloadThread.Filepath);
+                            }
                         }
-                        fileStream.Close();
                         IsFinished = true;
                         Finished();
                     }
@@ -453,9 +465,9 @@ namespace BiliDownload
                 /// <summary>
                 /// Start the thread.
                 /// </summary>
-                public void StartDownloadThread()
+                public void Start()
                 {
-                    AbortDownloadThread();
+                    Abort();
                     downloadThread = new Thread(delegate ()
                     {
                         Download();
@@ -466,12 +478,18 @@ namespace BiliDownload
                 /// <summary>
                 /// Abort the thread.
                 /// </summary>
-                public void AbortDownloadThread()
+                public void Abort()
                 {
                     if (downloadThread != null)
+                    {
                         downloadThread.Abort();
+                        downloadThread = null;
+                    }
                     if (fileStream != null)
+                    {
                         fileStream.Close();
+                        fileStream = null;
+                    }
                 }
 
                 /// <summary>
@@ -481,7 +499,7 @@ namespace BiliDownload
                 {
                     if (!IsFinished)
                     {
-                        AbortDownloadThread();
+                        Abort();
                         File.Delete(Filepath);
                     }
                 }

@@ -51,7 +51,7 @@ namespace Bili_dl
 
             List<DownloadInfo> infos = ConfigManager.ConfigManager.GetDownloadInfos();
             foreach (DownloadInfo info in infos)
-                DownloadQueuePanel.Append(new DownloadTask(info));
+                DownloadManager.Append(new DownloadTask(info));
 
             Search.SetHistory(ConfigManager.ConfigManager.GetSearchHistory());
 
@@ -196,7 +196,7 @@ namespace Bili_dl
 
         private void DownloadOptionPanel_TaskCreated(DownloadTask downloadTask)
         {
-            if (DownloadQueuePanel.Append(downloadTask))
+            if (DownloadManager.Append(downloadTask))
             {
                 Prompt.Text = "已添加到下载队列";
                 ((System.Windows.Media.Animation.Storyboard)Resources["ShowPrompt"]).Begin();
@@ -252,10 +252,10 @@ namespace Bili_dl
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            DownloadQueueItem.DisposeNotifyIcon();
+            DownloadFinishedNotification.DisposeNotifyIcon();
             NotificationManager.Close();
             UpdatePromptBox.StopCheckVersion();
-            DownloadQueuePanel.StopAll();
+            DownloadManager.StopAll();
             SettingPanel.Settings settings = ConfigManager.ConfigManager.GetSettings();
             if (settings.MovedTempPath != null && settings.MovedTempPath != settings.TempPath)
             {

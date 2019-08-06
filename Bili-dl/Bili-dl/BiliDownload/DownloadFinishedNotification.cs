@@ -9,9 +9,41 @@ using Windows.UI.Notifications;
 
 namespace BiliDownload
 {
-    public static class DownloadFinishedToast
+    public static class DownloadFinishedNotification
     {
-        public static ToastNotifier SendToast(DownloadTask downloadTask, string filepath)
+
+        public static void SendNotification(DownloadTask downloadTask, string filepath)
+        {
+            if (NotificationManager.Available)
+                ShowToast(downloadTask, filepath);
+            else
+                ShowBalloonTip(downloadTask);
+        }
+
+        public static void DisposeNotifyIcon()
+        {
+            if (!NotificationManager.Available && Application.Current.Resources.Contains("NotifyIcon"))
+                ((System.Windows.Forms.NotifyIcon)Application.Current.Resources["NotifyIcon"]).Dispose();
+        }
+
+        private static void ShowBalloonTip(DownloadTask downloadTask)
+        {
+            if (!Application.Current.Resources.Contains("NotifyIcon"))
+                Application.Current.Resources.Add("NotifyIcon", new System.Windows.Forms.NotifyIcon
+                {
+                    Icon = Icon.ExtractAssociatedIcon(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName),
+                    Visible = true
+                });
+            System.Windows.Forms.NotifyIcon notifyIcon = (System.Windows.Forms.NotifyIcon)Application.Current.Resources["NotifyIcon"];
+            notifyIcon.ShowBalloonTip(5000, "Bili-dl下载完成", string.Format("{0}\n{1}-{2}    {3}", downloadTask.Title, downloadTask.Index, downloadTask.Part, downloadTask.Description), System.Windows.Forms.ToolTipIcon.Info);
+        }
+
+        private static void ShowToast(DownloadTask downloadTask, string filepath)
+        {
+            SendToast(downloadTask, filepath);
+        }
+
+        private static ToastNotifier SendToast(DownloadTask downloadTask, string filepath)
         {
             string imagefolder = Path.Combine(Bili_dl.SettingPanel.settings.TempPath, "Image");
             string imagename = downloadTask.Pic.Substring(downloadTask.Pic.LastIndexOf('/') + 1);

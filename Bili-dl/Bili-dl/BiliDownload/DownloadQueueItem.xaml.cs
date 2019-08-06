@@ -27,88 +27,55 @@ namespace BiliDownload
         /// </summary>
         public event ItemDel Remove;
 
-        /// <summary>
-        /// IsRunning
-        /// </summary>
-        public bool IsRunning;
-
         public DownloadTask downloadTask;
         public DownloadQueueItem(DownloadTask downloadTask)
         {
             InitializeComponent();
 
-            IsRunning = false;
             this.downloadTask = downloadTask;
             Title.Text = downloadTask.Title;
             SubTitle.Text = string.Format("{0}-{1}", downloadTask.Index, downloadTask.Part);
             Quality.Text = downloadTask.Description;
             InfoBox.Text = "等待中...";
-        }
 
-        /// <summary>
-        /// Start the task.
-        /// </summary>
-        public void Start()
-        {
             downloadTask.StatusUpdate += DownloadTask_StatusUpdate;
             downloadTask.Finished += DownloadTask_Finished;
-            downloadTask.AnalysisFailed += DownloadTask_AnalysisFailed;
-            downloadTask.Run();
-            IsRunning = true;
         }
 
-        private void DownloadTask_AnalysisFailed(DownloadTask downloadTask)
+        private void DownloadTask_StatusUpdate(DownloadTask downloadTask, double progressPercentage, long bps, DownloadTask.Status status)
         {
             try
             {
                 Dispatcher.Invoke(new Action(() =>
                 {
-                    InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0xf2, 0x5d, 0x8e));
-                    InfoBox.Text = "获取下载地址失败";
-                }));
-                for (int i = Bili_dl.SettingPanel.settings.RetryInterval; i > 0; i--)
-                {
-                    Dispatcher.Invoke(new Action(() =>
-                    {
-                        InfoBox.Text = string.Format("获取下载地址失败，将在{0}秒后重试", i);
-                    }));
-                    System.Threading.Thread.Sleep(1000);
-                }
-                Dispatcher.Invoke(new Action(() =>
-                {
-                    downloadTask.Run();
-                }));
-            }
-            catch (TaskCanceledException)
-            {
-
-            }
-
-        }
-
-        private void DownloadTask_StatusUpdate(double progressPercentage, long bps, DownloadTask.Status status)
-        {
-            try
-            {
-                Dispatcher.Invoke(new Action(() =>
-                {
-                    InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
                     switch (status)
                     {
                         case DownloadTask.Status.Downloading:
+                            InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
                             InfoBox.Text = string.Format("{0:0.0}%    {1}    下载中...", progressPercentage, FormatBps(bps));
+                            PBar.Value = progressPercentage;
                             break;
                         case DownloadTask.Status.Analyzing:
+                            InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
                             InfoBox.Text = "正在获取下载地址...";
+                            PBar.Value = progressPercentage;
                             break;
                         case DownloadTask.Status.Merging:
+                            InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
                             InfoBox.Text = "正在完成...";
+                            PBar.Value = progressPercentage;
                             break;
                         case DownloadTask.Status.Finished:
+                            InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
                             InfoBox.Text = "下载完成!!!";
+                            PBar.Value = progressPercentage;
+                            break;
+                        case DownloadTask.Status.AnalysisFailed:
+                            InfoBox.Foreground = new SolidColorBrush(Color.FromRgb(0xf2, 0x5d, 0x8e));
+                            InfoBox.Text = string.Format("获取下载地址失败，将在{0}秒后重试", bps);
                             break;
                     }
-                    PBar.Value = progressPercentage;
+                    
                 }));
             }
             catch (TaskCanceledException)
@@ -129,40 +96,11 @@ namespace BiliDownload
 
         private void DownloadTask_Finished(DownloadTask downloadTask, string filepath)
         {
-            if (Notifications.NotificationManager.Available)
-                ShowToast(downloadTask, filepath);
-            else
-                ShowBalloonTip(downloadTask);
             Finished?.Invoke(this);
-        }
-
-        public static void DisposeNotifyIcon()
-        {
-            if (!Notifications.NotificationManager.Available && Application.Current.Resources.Contains("NotifyIcon"))
-                ((System.Windows.Forms.NotifyIcon)Application.Current.Resources["NotifyIcon"]).Dispose();
-        }
-
-        private void ShowBalloonTip(DownloadTask downloadTask)
-        {
-            if (!Application.Current.Resources.Contains("NotifyIcon"))
-                Application.Current.Resources.Add("NotifyIcon", new System.Windows.Forms.NotifyIcon
-                {
-                    Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName),
-                    Visible = true
-                });
-            System.Windows.Forms.NotifyIcon notifyIcon = (System.Windows.Forms.NotifyIcon)Application.Current.Resources["NotifyIcon"];
-            notifyIcon.ShowBalloonTip(5000, "Bili-dl下载完成", string.Format("{0}\n{1}-{2}    {3}", downloadTask.Title, downloadTask.Index, downloadTask.Part, downloadTask.Description), System.Windows.Forms.ToolTipIcon.Info);
-        }
-
-        private void ShowToast(DownloadTask downloadTask, string filepath)
-        {
-            DownloadFinishedToast.SendToast(downloadTask, filepath);
         }
 
         private void RemoveBtn_Click(object sender, RoutedEventArgs e)
         {
-            //downloadTask.Stop();
-            downloadTask.Clean();
             Remove?.Invoke(this);
         }
     }
