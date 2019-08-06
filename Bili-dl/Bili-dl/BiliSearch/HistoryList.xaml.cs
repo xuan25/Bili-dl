@@ -61,7 +61,7 @@ namespace BiliSearch
             }
             History.Insert(0, text);
             HistoryListBox.Items.Insert(0, CreateItem(text));
-            ConfigManager.ConfigManager.SetSearchHistory(History);
+            ConfigUtil.ConfigManager.SetSearchHistory(History);
         }
 
         private ListBoxItem CreateItem(string text)
@@ -86,7 +86,7 @@ namespace BiliSearch
             History.Remove(historyListItem.Text);
             if (History.Count == 0)
                 ClearListBtn.Visibility = Visibility.Hidden;
-            ConfigManager.ConfigManager.SetSearchHistory(History);
+            ConfigUtil.ConfigManager.SetSearchHistory(History);
         }
 
         private void ClearListBtn_Click(object sender, RoutedEventArgs e)
@@ -95,7 +95,7 @@ namespace BiliSearch
             ItemMap.Clear();
             History.Clear();
             HistoryListBox.Items.Clear();
-            ConfigManager.ConfigManager.SetSearchHistory(History);
+            ConfigUtil.ConfigManager.SetSearchHistory(History);
         }
     }
 }

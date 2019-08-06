@@ -34,7 +34,7 @@ namespace BiliDownload
             if (!TaskList[0].IsRunning)
                 TaskList[0].Start();
 
-            ConfigManager.ConfigManager.AppendDownloadInfo(downloadTask.Info);
+            ConfigUtil.ConfigManager.AppendDownloadInfo(downloadTask.Info);
             Appended?.Invoke(downloadTask);
             return true;
         }
@@ -48,7 +48,7 @@ namespace BiliDownload
         {
             Console.WriteLine("Finished");
             TaskList.RemoveAt(0);
-            ConfigManager.ConfigManager.RemoveDownloadInfo(downloadTask.Info);
+            ConfigUtil.ConfigManager.RemoveDownloadInfo(downloadTask.Info);
             if (TaskList.Count > 0)
                 TaskList[0].Start();
         }
@@ -57,7 +57,7 @@ namespace BiliDownload
         {
             downloadTask.Clean();
             TaskList.Remove(downloadTask);
-            ConfigManager.ConfigManager.RemoveDownloadInfo(downloadTask.Info);
+            ConfigUtil.ConfigManager.RemoveDownloadInfo(downloadTask.Info);
         }
 
         public static void StopAll()

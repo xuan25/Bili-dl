@@ -42,6 +42,7 @@ namespace Bili_dl
         public SettingPanel()
         {
             InitializeComponent();
+            SetSettings(ConfigUtil.ConfigManager.GetSettings());
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace Bili_dl
             {
                 settings.DownloadPath = folderBrowserDialog.SelectedPath.ToString();
                 DownloadPathBox.Text = folderBrowserDialog.SelectedPath.ToString();
-                ConfigManager.ConfigManager.SetSettings(settings);
+                ConfigUtil.ConfigManager.SetSettings(settings);
             }
         }
 
@@ -85,12 +86,12 @@ namespace Bili_dl
                     break;
                 if (Directory.Exists(folderBrowserDialog.SelectedPath) && folderBrowserDialog.SelectedPath != settings.TempPath)
                 {
-                    DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(folderBrowserDialog.SelectedPath);
+                    DirectoryInfo directoryInfo = new DirectoryInfo(folderBrowserDialog.SelectedPath);
                     if (directoryInfo.GetDirectories().Length == 0 && directoryInfo.GetFiles().Length == 0)
                     {
                         settings.MovedTempPath = folderBrowserDialog.SelectedPath.ToString();
                         TempPathBox.Text = folderBrowserDialog.SelectedPath.ToString();
-                        ConfigManager.ConfigManager.SetSettings(settings);
+                        ConfigUtil.ConfigManager.SetSettings(settings);
                         break;
                     }
                     MessageBox.Show("请选择一个空目录");
@@ -99,7 +100,7 @@ namespace Bili_dl
                 {
                     settings.MovedTempPath = folderBrowserDialog.SelectedPath.ToString();
                     TempPathBox.Text = folderBrowserDialog.SelectedPath.ToString();
-                    ConfigManager.ConfigManager.SetSettings(settings);
+                    ConfigUtil.ConfigManager.SetSettings(settings);
                     break;
                 }
             }
@@ -111,14 +112,14 @@ namespace Bili_dl
                 return;
             settings.RetryInterval--;
             RetryIntervalBox.Text = settings.RetryInterval.ToString();
-            ConfigManager.ConfigManager.SetSettings(settings);
+            ConfigUtil.ConfigManager.SetSettings(settings);
         }
 
         private void IncreaseRetryIntervalBtn_Click(object sender, RoutedEventArgs e)
         {
             settings.RetryInterval++;
             RetryIntervalBox.Text = settings.RetryInterval.ToString();
-            ConfigManager.ConfigManager.SetSettings(settings);
+            ConfigUtil.ConfigManager.SetSettings(settings);
         }
 
         private void ReduceDownloadThreadsBtn_Click(object sender, RoutedEventArgs e)
@@ -127,14 +128,19 @@ namespace Bili_dl
                 return;
             settings.DownloadThreads--;
             DownloadThreadsBox.Text = settings.DownloadThreads.ToString();
-            ConfigManager.ConfigManager.SetSettings(settings);
+            ConfigUtil.ConfigManager.SetSettings(settings);
         }
 
         private void IncreaseDownloadThreadsBtn_Click(object sender, RoutedEventArgs e)
         {
             settings.DownloadThreads++;
             DownloadThreadsBox.Text = settings.DownloadThreads.ToString();
-            ConfigManager.ConfigManager.SetSettings(settings);
+            ConfigUtil.ConfigManager.SetSettings(settings);
+        }
+
+        private void SettingsGrid_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ((Grid)this.Parent).Children.Remove(this);
         }
     }
 }

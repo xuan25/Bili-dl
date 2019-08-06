@@ -1,4 +1,5 @@
-﻿using Notifications;
+﻿using ConfigUtil;
+using Notifications;
 using System;
 using System.Drawing;
 using System.IO;
@@ -45,7 +46,7 @@ namespace BiliDownload
 
         private static ToastNotifier SendToast(DownloadTask downloadTask, string filepath)
         {
-            string imagefolder = Path.Combine(Bili_dl.SettingPanel.settings.TempPath, "Image");
+            string imagefolder = Path.Combine(ConfigManager.GetSettings().TempPath, "Image");
             string imagename = downloadTask.Pic.Substring(downloadTask.Pic.LastIndexOf('/') + 1);
             string imagepath = Path.Combine(imagefolder, imagename);
 

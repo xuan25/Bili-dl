@@ -76,5 +76,10 @@ namespace BiliDownload
         {
             System.Diagnostics.Process.Start(string.Format("\"{0}\"", Bili_dl.SettingPanel.settings.DownloadPath));
         }
+
+        private void DownloadQueueGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ((Grid)this.Parent).Children.Remove(this);
+        }
     }
 }

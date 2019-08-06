@@ -147,5 +147,15 @@ namespace BiliUser
         {
             ShowFolder(MediaId, pagenum, false);
         }
+
+        private void FavGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ((Grid)this.Parent).Children.Remove(this);
+        }
+
+        private void FavPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 }

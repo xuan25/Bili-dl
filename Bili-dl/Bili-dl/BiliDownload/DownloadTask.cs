@@ -1,4 +1,5 @@
 ﻿using Bili;
+using ConfigUtil;
 using FlvMerge;
 using JsonUtil;
 using System.Collections.Generic;
@@ -123,7 +124,7 @@ namespace BiliDownload
                 AbortProgressMonitor();
                 ProgressPercentage = 100;
                 StatusUpdate?.Invoke(this, ProgressPercentage, 0, Status.Merging);
-                string directory = Bili_dl.SettingPanel.settings.DownloadPath + "\\";
+                string directory = ConfigManager.GetSettings().DownloadPath + "\\";
                 Directory.CreateDirectory(directory);
                 string filepath = directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.{4}", Description, Title, Index, Part, Segments[0].Extention));
 
@@ -321,7 +322,7 @@ namespace BiliDownload
                 Url = url;
                 Type = segmentType;
                 Length = contentLength;
-                string directory = Bili_dl.SettingPanel.settings.TempPath + "\\";
+                string directory = ConfigManager.GetSettings().TempPath + "\\";
                 Directory.CreateDirectory(directory);
                 Filepath = string.Format("{0}{1}", directory, Url.Substring(Url.LastIndexOf('/') + 1, Url.IndexOf('?') - Url.LastIndexOf('/') - 1));
                 Threads = threads;

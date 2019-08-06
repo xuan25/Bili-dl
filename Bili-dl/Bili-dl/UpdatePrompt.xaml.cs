@@ -83,6 +83,13 @@ namespace Bili_dl
                         this.Visibility = Visibility.Visible;
                     }));
                 }
+                else
+                {
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        ((Grid)this.Parent).Children.Remove(this);
+                    }));
+                }
             });
             CheckVersionThread.Start();
         }

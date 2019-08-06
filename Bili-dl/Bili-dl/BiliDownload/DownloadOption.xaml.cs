@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConfigUtil;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -120,13 +121,18 @@ namespace BiliDownload
 
         private void QualityListItem_Selected(object sender, RoutedEventArgs e)
         {
-            DownloadTask downloadTask = new DownloadTask(new DownloadInfo(((VideoInfo.Page.Quality)((ListBoxItem)sender).Tag), Bili_dl.SettingPanel.settings.DownloadThreads));
+            DownloadTask downloadTask = new DownloadTask(new DownloadInfo(((VideoInfo.Page.Quality)((ListBoxItem)sender).Tag), ConfigManager.GetSettings().DownloadThreads));
             TaskCreated?.Invoke(downloadTask);
         }
 
         private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void DownloadOptionGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ((Grid)this.Parent).Children.Remove(this);
         }
     }
 }

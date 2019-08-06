@@ -229,58 +229,7 @@
         </Grid>
         <Grid Grid.Row="1">
             <bls:SearchPanel x:Name="Search" VideoSelected="ResultBox_VideoSelected" SeasonSelected="ResultBox_SeasonSelected"/>
-            <Grid x:Name="FavGrid" Visibility="{Binding ElementName=FavListBox, Path=Visibility}" Background="#88000000" MouseLeftButtonDown="FavGrid_MouseLeftButtonDown">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="6*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="6*"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <bu:FavList x:Name="FavListBox" Visibility="Hidden" Grid.Column="1" Grid.Row="1" VideoSelected="FavListBox_VideoSelected"/>
-            </Grid>
-            <Grid x:Name="DownloadOptionGrid" Visibility="{Binding ElementName=DownloadOptionPanel, Path=Visibility}" Background="#88000000" MouseLeftButtonDown="DownloadOptionGrid_MouseLeftButtonDown">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <bld:DownloadOption x:Name="DownloadOptionPanel" Visibility="Hidden" Grid.Column="1" Grid.Row="1" TaskCreated="DownloadOptionPanel_TaskCreated"/>
-            </Grid>
-            <Grid x:Name="DownloadQueueGrid" Visibility="{Binding ElementName=DownloadQueuePanel, Path=Visibility}" Background="#88000000" MouseLeftButtonDown="DownloadQueueGrid_MouseLeftButtonDown">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="6*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="6*"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <bld:DownloadQueue x:Name="DownloadQueuePanel" Visibility="Hidden" Grid.Column="1" Grid.Row="1"/>
-            </Grid>
-            <Grid x:Name="SettingsGrid" Visibility="{Binding ElementName=SettingsBox, Path=Visibility}" Background="#88000000" MouseLeftButtonDown="SettingsGrid_MouseLeftButtonDown">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="6*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="6*"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <local:SettingPanel x:Name="SettingsBox" Visibility="Hidden" Grid.Column="1" Grid.Row="1"/>
-            </Grid>
+            <Grid x:Name="PannelGrid"/>
             <Grid x:Name="PromptGrid" Background="#CC000000" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0" IsHitTestVisible="False">
                 <Grid.OpacityMask>
                     <DrawingBrush>
@@ -303,7 +252,7 @@
                 <TextBlock x:Name="Prompt" Text="" Margin="12" MaxWidth="500" TextWrapping="Wrap" FontSize="16" Foreground="#FFFFFFFF" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Grid>
             <Grid x:Name="StatementGrid" Background="#c4000000" Visibility="Hidden">
-                <Grid x:Name="StatementPanel" Background="#FFFFFFFF"  VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid x:Name="StatementPanel" Background="#FFFFFFFF" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Grid.OpacityMask>
                         <DrawingBrush>
                             <DrawingBrush.Drawing>

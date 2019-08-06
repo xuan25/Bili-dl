@@ -7,14 +7,14 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace ConfigManager
+namespace ConfigUtil
 {
     /// <summary>
     /// Class <c>ConfigManager</c> used to storing/loading configuration.
     /// Author: Xuan525
     /// Date: 24/04/2019
     /// </summary>
-    class ConfigManager
+    public static class ConfigManager
     {
         [Serializable]
         public class Config
