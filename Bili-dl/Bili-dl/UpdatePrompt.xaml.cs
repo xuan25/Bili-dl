@@ -164,18 +164,15 @@ namespace Bili_dl
 
         public static void RunUpdate()
         {
-            ExportResource(UpdaterPath, "Updater.Bili-dl-updater.exe");
-            Process.Start(UpdaterPath, string.Format("\"{0}\"", Process.GetCurrentProcess().MainModule.FileName));
-        }
+            using (Stream stream = Application.GetResourceStream(new Uri("/Updater/Bili-dl-updater.exe", UriKind.Relative)).Stream)
+            {
+                using (FileStream fileStream = new FileStream(UpdaterPath, FileMode.OpenOrCreate, FileAccess.Write))
+                {
+                    stream.CopyTo(fileStream);
+                }
+            }
 
-        private static void ExportResource(string path, string source)
-        {
-            string projectName = Assembly.GetExecutingAssembly().GetName().Name.ToString().Replace("-", "_");
-            Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(projectName + "." + source);
-            FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
-            resourceStream.CopyTo(fileStream);
-            fileStream.Close();
-            resourceStream.Close();
+            Process.Start(UpdaterPath, string.Format("\"{0}\"", Process.GetCurrentProcess().MainModule.FileName));
         }
     }
 }

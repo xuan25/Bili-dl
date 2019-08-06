@@ -328,7 +328,7 @@
     <Resource Include="BiliUser\img\img_loading.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Updater\Bili-dl-updater.exe" />
+    <Resource Include="Updater\Bili-dl-updater.exe" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="BiliUser\img\loading.gif" />
