@@ -146,5 +146,10 @@ namespace Bili_dl
         {
             ((Grid)this.Parent).Children.Remove(this);
         }
+
+        private void SettingsPanel_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 }

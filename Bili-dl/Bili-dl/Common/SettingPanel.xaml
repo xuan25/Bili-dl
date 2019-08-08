@@ -92,7 +92,7 @@
             <RowDefinition Height="6*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid x:Name="SettingsPanel" Grid.Row="1" Grid.Column="1">
+        <Grid x:Name="SettingsPanel" Grid.Row="1" Grid.Column="1" MouseLeftButtonDown="SettingsPanel_MouseLeftButtonDown">
             <Grid.OpacityMask>
                 <DrawingBrush>
                     <DrawingBrush.Drawing>

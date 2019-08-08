@@ -67,14 +67,14 @@ namespace BiliDownload
             }));
         }
 
-        private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            e.Handled = true;
-        }
-
         private void OpenDownloadDirectoryBtn_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(string.Format("\"{0}\"", Bili_dl.SettingPanel.settings.DownloadPath));
+        }
+
+        private void QueuePanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
         }
 
         private void DownloadQueueGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

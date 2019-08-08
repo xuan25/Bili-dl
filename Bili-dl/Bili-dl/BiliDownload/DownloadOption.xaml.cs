@@ -125,7 +125,7 @@ namespace BiliDownload
             TaskCreated?.Invoke(downloadTask);
         }
 
-        private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void DownloadPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
         }
