@@ -298,9 +298,6 @@
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid x:Name="UpdatePromptGrid" Visibility="{Binding ElementName=UpdatePromptBox, Path=Visibility}" Background="#88000000">
-                <local:UpdatePrompt x:Name="UpdatePromptBox" Visibility="Hidden" Grid.Column="1" Grid.Row="1" Confirmed="UpdatePromptBox_Confirmed"/>
-            </Grid>
         </Grid>
         <Grid Grid.Row="2" Background="#e5e9ef">
             <TextBlock Text="{StaticResource Version}" Opacity="0.5" Margin="0,0,15,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>

@@ -15,7 +15,7 @@ namespace Bili_dl
     {
         public App()
         {
-            this.Resources.Add("Version", "v0.7.0-alpha");
+            this.Resources.Add("Version", "v0.7.0-alpha-test");
 
             this.DispatcherUnhandledException += new DispatcherUnhandledExceptionEventHandler(Application_DispatcherUnhandledException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
@@ -65,7 +65,7 @@ namespace Bili_dl
                         Environment.Exit(0);
                         break;
                     case "-update":
-                        UpdatePrompt.RunUpdate();
+                        UpdateUtil.RunUpdate();
                         Environment.Exit(0);
                         break;
                     default:

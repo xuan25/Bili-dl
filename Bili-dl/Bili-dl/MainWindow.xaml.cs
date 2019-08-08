@@ -39,6 +39,9 @@ namespace Bili_dl
             NotificationManager.Install();
 
             LoadConfig();
+
+            UpdateUtil.NewVersionFound += UpdateUtil_NewVersionFound;
+            UpdateUtil.StartCheckVersion();
         }
 
         private async void LoadConfig()
@@ -243,7 +246,7 @@ namespace Bili_dl
         {
             DownloadFinishedNotification.DisposeNotifyIcon();
             NotificationManager.Close();
-            UpdatePromptBox.StopCheckVersion();
+            UpdateUtil.StopCheckVersion();
             DownloadManager.StopAll();
             SettingPanel.Settings settings = ConfigUtil.ConfigManager.GetSettings();
             if (settings.MovedTempPath != null && settings.MovedTempPath != settings.TempPath)
@@ -291,7 +294,18 @@ namespace Bili_dl
 
         #region Update
 
-        private void UpdatePromptBox_Confirmed(bool IsUpdate)
+        private void UpdateUtil_NewVersionFound(string description)
+        {
+            Dispatcher.Invoke(new Action(() =>
+            {
+                PopupGrid.Children.Clear();
+                UpdatePrompt updatePrompt = new UpdatePrompt(description);
+                updatePrompt.Confirmed += UpdatePrompt_Confirmed;
+                PopupGrid.Children.Add(updatePrompt);
+            }));
+        }
+
+        private void UpdatePrompt_Confirmed(bool IsUpdate)
         {
             if (IsUpdate)
                 this.Close();

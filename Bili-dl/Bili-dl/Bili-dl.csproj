@@ -157,6 +157,7 @@
       <DependentUpon>UpdatePrompt.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverters.cs" />
+    <Compile Include="UpdateUtil.cs" />
     <Compile Include="WpfAnimatedGif\AnimationCache.cs" />
     <Compile Include="WpfAnimatedGif\Decoding\GifApplicationExtension.cs" />
     <Compile Include="WpfAnimatedGif\Decoding\GifBlock.cs" />

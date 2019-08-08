@@ -1,61 +1,47 @@
 ﻿using JsonUtil;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
-using System.Reflection;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Bili_dl
 {
-    /// <summary>
-    /// UpdatePrompt.xaml 的交互逻辑
-    /// Author: Xuan525
-    /// Date: 24/04/2019
-    /// </summary>
-    public partial class UpdatePrompt : UserControl
+    public class UpdateUtil
     {
         /// <summary>
         /// NewVersionFound delegate.
         /// </summary>
-        public delegate void NewVersionFoundDel();
+        public delegate void NewVersionFoundDel(string description);
         /// <summary>
         /// Occurs when a new version has been recieved.
         /// </summary>
-        public event NewVersionFoundDel NewVersionFound;
+        public static event NewVersionFoundDel NewVersionFound;
 
         /// <summary>
-        /// Confirmed delegate.
+        /// NewVersionFound delegate.
         /// </summary>
-        /// <param name="IsUpdate">Is update</param>
-        public delegate void ConfirmedDel(bool IsUpdate);
+        public delegate void QuitHandler();
         /// <summary>
-        /// Occurs when user comfirmd a sellection.
+        /// Occurs when a new version has been recieved.
         /// </summary>
-        public event ConfirmedDel Confirmed;
+        public static event QuitHandler Quit;
 
-        public static string UpdaterPath;
-        public FileStream CheckingFileStream;
-        public Thread CheckVersionThread;
+        public static string UpdaterPath { get; private set; }
+        public static FileStream CheckingFileStream { get; private set; }
+        public static Thread CheckVersionThread { get; private set; }
 
-        static UpdatePrompt()
+        static UpdateUtil()
         {
             UpdaterPath = AppDomain.CurrentDomain.BaseDirectory + "Bili-dl-updater.exe";
         }
 
-        public UpdatePrompt()
-        {
-            InitializeComponent();
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            StartCheckVersion();
-        }
-
-        public void StopCheckVersion()
+        public static void StopCheckVersion()
         {
             if (CheckVersionThread != null)
                 CheckVersionThread.Abort();
@@ -63,7 +49,7 @@ namespace Bili_dl
                 CheckingFileStream.Close();
         }
 
-        public void StartCheckVersion()
+        public static void StartCheckVersion()
         {
             CheckVersionThread = new Thread(delegate ()
             {
@@ -75,26 +61,15 @@ namespace Bili_dl
                     }
                     File.Delete(UpdaterPath);
                 }
-                if (!IsLatestVersion())
+                if (!IsLatestVersion(out string description))
                 {
-                    NewVersionFound?.Invoke();
-                    Dispatcher.Invoke(new Action(() =>
-                    {
-                        this.Visibility = Visibility.Visible;
-                    }));
-                }
-                else
-                {
-                    Dispatcher.Invoke(new Action(() =>
-                    {
-                        ((Grid)this.Parent).Children.Remove(this);
-                    }));
+                    NewVersionFound?.Invoke(description);
                 }
             });
             CheckVersionThread.Start();
         }
 
-        public bool IsFileInUse(string fileName)
+        public static bool IsFileInUse(string fileName)
         {
             bool inUse = true;
             try
@@ -114,8 +89,9 @@ namespace Bili_dl
             return inUse;
         }
 
-        public bool IsLatestVersion()
+        public static bool IsLatestVersion(out string description)
         {
+            description = null;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.github.com/repos/xuan525/Bili-dl/releases/latest");
             request.Accept = "application/vnd.github.v3+json";
@@ -124,18 +100,15 @@ namespace Bili_dl
             {
                 string result;
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                    using(Stream stream = response.GetResponseStream())
-                        using (StreamReader reader = new StreamReader(stream))
-                            result = reader.ReadToEnd();
+                using (Stream stream = response.GetResponseStream())
+                using (StreamReader reader = new StreamReader(stream))
+                    result = reader.ReadToEnd();
 
                 Json.Value json = Json.Parser.Parse(result);
                 string latestTag = json["tag_name"];
                 if (Application.Current.FindResource("Version").ToString() == latestTag)
                     return true;
-                Dispatcher.Invoke(new Action(() =>
-                {
-                    InfoBox.Text = ((string)json["body"]).Replace("\\r", "\r").Replace("\\n", "\n");
-                }));
+                description = ((string)json["body"]).Replace("\\r", "\r").Replace("\\n", "\n");
                 return false;
             }
             catch
@@ -144,17 +117,18 @@ namespace Bili_dl
             }
         }
 
-        private void LaterBtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Visibility = Visibility.Hidden;
-            Confirmed?.Invoke(false);
-        }
-
-        private void NowBtn_Click(object sender, RoutedEventArgs e)
+        public static void RunUpdate()
         {
             try
             {
-                RunUpdate();
+                using (Stream stream = Application.GetResourceStream(new Uri("/Updater/Bili-dl-updater.exe", UriKind.Relative)).Stream)
+                {
+                    using (FileStream fileStream = new FileStream(UpdaterPath, FileMode.OpenOrCreate, FileAccess.Write))
+                    {
+                        stream.CopyTo(fileStream);
+                    }
+                }
+                Process.Start(UpdaterPath, string.Format("\"{0}\"", Process.GetCurrentProcess().MainModule.FileName));
             }
             catch (UnauthorizedAccessException)
             {
@@ -164,20 +138,7 @@ namespace Bili_dl
                 };
                 Process.Start(processStartInfo);
             }
-            Confirmed?.Invoke(true);
-        }
-
-        public static void RunUpdate()
-        {
-            using (Stream stream = Application.GetResourceStream(new Uri("/Updater/Bili-dl-updater.exe", UriKind.Relative)).Stream)
-            {
-                using (FileStream fileStream = new FileStream(UpdaterPath, FileMode.OpenOrCreate, FileAccess.Write))
-                {
-                    stream.CopyTo(fileStream);
-                }
-            }
-
-            Process.Start(UpdaterPath, string.Format("\"{0}\"", Process.GetCurrentProcess().MainModule.FileName));
+            Quit?.Invoke();
         }
     }
 }
