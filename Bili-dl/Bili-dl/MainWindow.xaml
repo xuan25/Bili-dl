@@ -228,7 +228,7 @@
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
-            <bls:SearchPanel x:Name="Search" VideoSelected="ResultBox_VideoSelected" SeasonSelected="ResultBox_SeasonSelected"/>
+            <bls:SearchPanel x:Name="SearchBox"/>
             <Grid x:Name="PannelGrid"/>
             <Grid x:Name="PopupGrid"/>
             <Grid x:Name="PromptGrid" Background="#CC000000" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0" IsHitTestVisible="False">

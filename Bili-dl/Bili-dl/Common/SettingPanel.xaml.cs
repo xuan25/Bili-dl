@@ -64,9 +64,11 @@ namespace Bili_dl
 
         private void SelectDownloadPathBtn_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            folderBrowserDialog.SelectedPath = settings.DownloadPath;
-            folderBrowserDialog.Description = "请选择下载目录";
+            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog
+            {
+                SelectedPath = settings.DownloadPath,
+                Description = "请选择下载目录"
+            };
             if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 settings.DownloadPath = folderBrowserDialog.SelectedPath.ToString();
@@ -77,9 +79,11 @@ namespace Bili_dl
 
         private void SelectTempPathBtn_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            folderBrowserDialog.SelectedPath = settings.TempPath;
-            folderBrowserDialog.Description = "请选择一个空白文件夹作为临时文件目录";
+            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog
+            {
+                SelectedPath = settings.TempPath,
+                Description = "请选择一个空白文件夹作为临时文件目录"
+            };
             while (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 if (settings.MovedTempPath != null && folderBrowserDialog.SelectedPath == settings.MovedTempPath)

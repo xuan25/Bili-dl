@@ -25,6 +25,8 @@ namespace Bili_dl
         public MainWindow()
         {
             InitializeComponent();
+            SearchBox.VideoSelected += SearchBox_VideoSelected;
+            SearchBox.SeasonSelected += SearchBox_SeasonSelected;
         }
 
         #region Window
@@ -57,7 +59,7 @@ namespace Bili_dl
             foreach (DownloadInfo info in infos)
                 DownloadManager.Append(new DownloadTask(info));
 
-            Search.SetHistory(ConfigUtil.ConfigManager.GetSearchHistory());
+            SearchBox.SetHistory(ConfigUtil.ConfigManager.GetSearchHistory());
 
             if (BiliApi.CookieCollection != null)
             {
@@ -204,13 +206,13 @@ namespace Bili_dl
             }
         }
 
-        private void ResultBox_VideoSelected(string title, long id)
+        private void SearchBox_VideoSelected(string title, long id)
         {
             DownloadOption downloadOption = ShowDownloadOption();
             downloadOption.ShowParts(title, (uint)id, false);
         }
 
-        private void ResultBox_SeasonSelected(string title, long id)
+        private void SearchBox_SeasonSelected(string title, long id)
         {
             DownloadOption downloadOption = ShowDownloadOption();
             downloadOption.ShowParts(title, (uint)id, true);
