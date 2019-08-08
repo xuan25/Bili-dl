@@ -70,7 +70,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BiliApi.cs" />
+    <Compile Include="Common\BiliApi.cs" />
     <Compile Include="BiliDownload\DownloadFinishedNotification.cs" />
     <Compile Include="BiliDownload\DownloadInfo.cs" />
     <Compile Include="BiliDownload\DownloadManager.cs" />
@@ -141,23 +141,23 @@
     <Compile Include="BiliUser\FavList.xaml.cs">
       <DependentUpon>FavList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ConfigManager.cs" />
+    <Compile Include="Common\ConfigManager.cs" />
     <Compile Include="Framework\HitTest.cs" />
     <Compile Include="Framework\Screen.cs" />
     <Compile Include="Framework\WindowLong.cs" />
-    <Compile Include="JsonUtil.cs" />
+    <Compile Include="Common\JsonUtil.cs" />
     <Compile Include="Notifications\NotificationManager.cs" />
     <Compile Include="Notifications\Shell\ShellLink.cs" />
     <Compile Include="Notifications\Shell\Shortcut.cs" />
-    <Compile Include="SettingPanel.xaml.cs">
+    <Compile Include="Common\SettingPanel.xaml.cs">
       <DependentUpon>SettingPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Notifications\ToastHandler.cs" />
-    <Compile Include="UpdatePrompt.xaml.cs">
+    <Compile Include="Update\UpdatePrompt.xaml.cs">
       <DependentUpon>UpdatePrompt.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ValueConverters.cs" />
-    <Compile Include="UpdateUtil.cs" />
+    <Compile Include="Common\ValueConverters.cs" />
+    <Compile Include="Update\UpdateUtil.cs" />
     <Compile Include="WpfAnimatedGif\AnimationCache.cs" />
     <Compile Include="WpfAnimatedGif\Decoding\GifApplicationExtension.cs" />
     <Compile Include="WpfAnimatedGif\Decoding\GifBlock.cs" />
@@ -266,11 +266,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SettingPanel.xaml">
+    <Page Include="Common\SettingPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UpdatePrompt.xaml">
+    <Page Include="Update\UpdatePrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
