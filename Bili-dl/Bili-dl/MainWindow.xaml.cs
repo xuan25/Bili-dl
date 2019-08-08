@@ -182,10 +182,10 @@ namespace Bili_dl
 
         private DownloadOption ShowDownloadOption()
         {
-            PannelGrid.Children.Clear();
+            PopupGrid.Children.Clear();
             DownloadOption downloadOption = new DownloadOption();
             downloadOption.TaskCreated += DownloadOption_TaskCreated;
-            PannelGrid.Children.Add(downloadOption);
+            PopupGrid.Children.Add(downloadOption);
             return downloadOption;
         }
 

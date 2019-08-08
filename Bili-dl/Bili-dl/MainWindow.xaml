@@ -230,6 +230,7 @@
         <Grid Grid.Row="1">
             <bls:SearchPanel x:Name="Search" VideoSelected="ResultBox_VideoSelected" SeasonSelected="ResultBox_SeasonSelected"/>
             <Grid x:Name="PannelGrid"/>
+            <Grid x:Name="PopupGrid"/>
             <Grid x:Name="PromptGrid" Background="#CC000000" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0" IsHitTestVisible="False">
                 <Grid.OpacityMask>
                     <DrawingBrush>
