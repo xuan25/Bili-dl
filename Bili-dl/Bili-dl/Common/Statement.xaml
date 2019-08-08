@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="Bili_dl.Statement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Bili_dl"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:RectConverter x:Key="RectConverter"/>
+        <local:BorderRectConverter x:Key="BorderRectConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid Background="#c4000000">
+            <Grid x:Name="StatementGrid" Background="#FFFFFFFF" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid.OpacityMask>
+                    <DrawingBrush>
+                        <DrawingBrush.Drawing>
+                            <GeometryDrawing Brush="#ff000000">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry RadiusX="4" RadiusY="4">
+                                        <RectangleGeometry.Rect>
+                                            <MultiBinding Converter="{StaticResource RectConverter}">
+                                                <Binding ElementName="StatementGrid" Path="ActualWidth"/>
+                                                <Binding ElementName="StatementGrid" Path="ActualHeight"/>
+                                            </MultiBinding>
+                                        </RectangleGeometry.Rect>
+                                    </RectangleGeometry>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Grid.OpacityMask>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="#e5e9ef">
+                    <TextBlock Grid.Column="1" Padding="10" Text="声明" FontSize="18" HorizontalAlignment="Center"/>
+                </Border>
+                <TextBlock Grid.Row="1" Margin="10" Padding="10" FontSize="16" TextAlignment="Left" LineHeight="25">
+                    <Run Text="本软件为第三方开源软件。"/>
+                    <LineBreak/>
+                    <Run Text="本软件及使用本软件下载的资源仅供合法非商业用途使用。"/>
+                    <LineBreak/>
+                    <Run Text="在未取得著作权所有者许可的情况下，您在使用对应资源时需遵循【合理使用】的判断原则，"/>
+                    <LineBreak/>
+                    <Run Text="包括但不限于使用的目的及原则、版权作品的性质、"/>
+                    <LineBreak/>
+                    <Run Text="版权作品使用量、使用对作品的价值或潜在市场的影响等。"/>
+                    <LineBreak/>
+                    <Run Text="软件开发者对任何原因在使用本软件时可能会对用户自己或是他人造成的任何形式的损失和伤害不承担任何责任。"/>
+                </TextBlock>
+                <Grid Grid.Row="2" Background="#e5e9ef">
+                    <CheckBox x:Name="StatementConfirmChk" Margin="10" Content="我已认真阅读以上声明" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" FocusVisualStyle="{x:Null}" Checked="StatementConfirmChk_Checked"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

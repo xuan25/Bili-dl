@@ -142,6 +142,9 @@
       <DependentUpon>FavList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\ConfigManager.cs" />
+    <Compile Include="Common\Statement.xaml.cs">
+      <DependentUpon>Statement.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Framework\HitTest.cs" />
     <Compile Include="Framework\Screen.cs" />
     <Compile Include="Framework\WindowLong.cs" />
@@ -251,6 +254,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BiliUser\FavList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\Statement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

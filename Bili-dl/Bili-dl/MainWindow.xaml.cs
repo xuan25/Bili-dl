@@ -49,9 +49,7 @@ namespace Bili_dl
             ConfigUtil.ConfigManager.Init();
 
             if (!ConfigUtil.ConfigManager.GetStatementConfirmed())
-                StatementGrid.Visibility = Visibility.Visible;
-            else
-                ((Grid)StatementGrid.Parent).Children.Remove(StatementGrid);
+                StatementGrid.Children.Add(new Statement());
 
             BiliApi.CookieCollection = ConfigUtil.ConfigManager.GetCookieCollection();
 
