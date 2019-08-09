@@ -104,10 +104,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd $(TargetDir)
-copy /Y *.exe $(SolutionDir)Bili-dl\Updater\</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>mkdir $(SolutionDir)Bili-dl\Updater\
-exit 0</PreBuildEvent>
+if not exist "$(SolutionDir)Bili-dl\Updater\" mkdir "$(SolutionDir)Bili-dl\Updater\"
+copy /Y $(TargetPath) $(SolutionDir)Bili-dl\Updater\</PostBuildEvent>
   </PropertyGroup>
 </Project>
