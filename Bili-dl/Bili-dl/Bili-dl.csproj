@@ -40,9 +40,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -142,6 +144,12 @@
       <DependentUpon>FavList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\ConfigManager.cs" />
+    <Compile Include="Common\PrintingPreview\NumberBox.xaml.cs">
+      <DependentUpon>NumberBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\PrintingPreview\PrintingPreviewWindow.xaml.cs">
+      <DependentUpon>PrintingPreviewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\Statement.xaml.cs">
       <DependentUpon>Statement.xaml</DependentUpon>
     </Compile>
@@ -257,7 +265,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Common\PrintingPreview\NumberBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Common\PrintingPreview\PageSizes_en_US.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Common\PrintingPreview\PrintingPreviewWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Common\Statement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\StatementDocument.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

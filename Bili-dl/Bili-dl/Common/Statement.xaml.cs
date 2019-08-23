@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PrintingPreview;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,17 @@ namespace Bili_dl
         {
             ConfigUtil.ConfigManager.ConfirmStatement();
             ((Grid)this.Parent).Children.Remove(this);
+        }
+
+        private void PrintBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FlowDocument flowDocument = (FlowDocument)Application.LoadComponent(new Uri("Common/StatementDocument.xaml", UriKind.Relative));
+            PrintingPreviewWindow previewWindow = new PrintingPreviewWindow(flowDocument);
+            previewWindow.Owner = Application.Current.MainWindow;
+            previewWindow.ShowInTaskbar = false;
+            previewWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            previewWindow.Title = "打印协议";
+            previewWindow.ShowDialog();
         }
     }
 }

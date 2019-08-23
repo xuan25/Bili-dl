@@ -53,6 +53,45 @@
             </ScrollViewer>
             <Grid Grid.Row="2" Background="#e5e9ef">
                 <CheckBox x:Name="StatementConfirmChk" Margin="10" Content="我已认真阅读并同意以上声明" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" FocusVisualStyle="{x:Null}" Checked="StatementConfirmChk_Checked"/>
+                <Button x:Name="PrintBtn" Margin="25,0" HorizontalAlignment="Left" Content="打印" FontSize="14" FlowDirection="LeftToRight" Click="PrintBtn_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#FF00a1d6"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Height" Value="26"/>
+                            <Setter Property="Width" Value="60"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                            <Setter Property="OpacityMask">
+                                <Setter.Value>
+                                    <DrawingBrush>
+                                        <DrawingBrush.Drawing>
+                                            <GeometryDrawing Brush="#FF000000">
+                                                <GeometryDrawing.Geometry>
+                                                    <RectangleGeometry Rect="0,0,60,26" RadiusX="13" RadiusY="13"/>
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                        </DrawingBrush.Drawing>
+                                    </DrawingBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF00b5e5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </Grid>
         </Grid>
     </Grid>
