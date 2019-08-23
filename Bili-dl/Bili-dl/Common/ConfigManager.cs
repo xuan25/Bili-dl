@@ -16,10 +16,13 @@ namespace ConfigUtil
     /// </summary>
     public static class ConfigManager
     {
+        public const string CurrentStatementVersion = "1908232";
+
         [Serializable]
         public class Config
         {
             public bool StatementConfirmed;
+            public string StatementVersion;
             public CookieCollection CookieCollection;
             public List<DownloadInfo> DownloadInfos;
             public SettingPanel.Settings Settings;
@@ -28,6 +31,7 @@ namespace ConfigUtil
             public Config()
             {
                 StatementConfirmed = false;
+                StatementVersion = CurrentStatementVersion;
                 DownloadInfos = new List<DownloadInfo>();
                 Settings = new SettingPanel.Settings();
                 SearchHistory = new List<string>();
@@ -63,12 +67,16 @@ namespace ConfigUtil
         public static void ConfirmStatement()
         {
             config.StatementConfirmed = true;
+            config.StatementVersion = CurrentStatementVersion;
             Serialize();
         }
 
         public static bool GetStatementConfirmed()
         {
-            return config.StatementConfirmed;
+            if (config.StatementVersion == CurrentStatementVersion)
+                return config.StatementConfirmed;
+            else
+                return false;
         }
 
         public static void SetCookieCollection(CookieCollection cookieCollection)
