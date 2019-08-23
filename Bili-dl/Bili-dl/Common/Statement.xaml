@@ -10,51 +10,49 @@
         <local:RectConverter x:Key="RectConverter"/>
         <local:BorderRectConverter x:Key="BorderRectConverter"/>
     </UserControl.Resources>
-    <Grid>
-        <Grid Background="#c4000000">
-            <Grid x:Name="StatementGrid" Background="#FFFFFFFF" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Grid.OpacityMask>
-                    <DrawingBrush>
-                        <DrawingBrush.Drawing>
-                            <GeometryDrawing Brush="#ff000000">
-                                <GeometryDrawing.Geometry>
-                                    <RectangleGeometry RadiusX="4" RadiusY="4">
-                                        <RectangleGeometry.Rect>
-                                            <MultiBinding Converter="{StaticResource RectConverter}">
-                                                <Binding ElementName="StatementGrid" Path="ActualWidth"/>
-                                                <Binding ElementName="StatementGrid" Path="ActualHeight"/>
-                                            </MultiBinding>
-                                        </RectangleGeometry.Rect>
-                                    </RectangleGeometry>
-                                </GeometryDrawing.Geometry>
-                            </GeometryDrawing>
-                        </DrawingBrush.Drawing>
-                    </DrawingBrush>
-                </Grid.OpacityMask>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Border Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="#e5e9ef">
-                    <TextBlock Grid.Column="1" Padding="10" Text="声明" FontSize="18" HorizontalAlignment="Center"/>
-                </Border>
-                <TextBlock Grid.Row="1" Margin="10" Padding="10" FontSize="16" TextAlignment="Left" LineHeight="25">
-                    <Run Text="本软件为第三方开源软件。"/>
+    <Grid Background="#C4000000">
+        <Grid x:Name="StatementGrid" Background="#FFFFFFFF" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="50">
+            <Grid.OpacityMask>
+                <DrawingBrush>
+                    <DrawingBrush.Drawing>
+                        <GeometryDrawing Brush="#ff000000">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="4" RadiusY="4">
+                                    <RectangleGeometry.Rect>
+                                        <MultiBinding Converter="{StaticResource RectConverter}">
+                                            <Binding ElementName="StatementGrid" Path="ActualWidth"/>
+                                            <Binding ElementName="StatementGrid" Path="ActualHeight"/>
+                                        </MultiBinding>
+                                    </RectangleGeometry.Rect>
+                                </RectangleGeometry>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Grid.OpacityMask>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+                <RowDefinition/>
+                <RowDefinition Height="38"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="#e5e9ef">
+                <TextBlock Grid.Column="1" Padding="10" Text="声明" FontSize="18" HorizontalAlignment="Center"/>
+            </Border>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <TextBlock Margin="10" Padding="10" FontSize="16" TextAlignment="Left" LineHeight="25" TextWrapping="Wrap">
+                    <Run Text="1. 本声明适用于在Bili-dl项目主页发布的Bili-dl软件（以下简称 本软件）及本软件源代码。其余第三方编译版本或发布版本均与Bili-dl开发者无关。"/>
                     <LineBreak/>
-                    <Run Text="本软件及使用本软件下载的资源仅供合法非商业用途使用。"/>
+                    <Run Text="2. 本软件为第三方开源软件，对本软件源代码的使用请遵循GPLv3开源协议。"/>
                     <LineBreak/>
-                    <Run Text="在未取得著作权所有者许可的情况下，您在使用对应资源时需遵循【合理使用】的判断原则，"/>
+                    <Run Text="3. 本软件的编写仅为学习目的，使用本软件及软件源代码请依照相关法律法规使用，否则造成的相关后果由用户自行承担。"/>
                     <LineBreak/>
-                    <Run Text="包括但不限于使用的目的及原则、版权作品的性质、"/>
+                    <Run Text="4. 对于使用本软件获取的一切数字资源，请依照相关法律法规合理使用，否则造成的相关后果由用户自行承担。"/>
                     <LineBreak/>
-                    <Run Text="版权作品使用量、使用对作品的价值或潜在市场的影响等。"/>
-                    <LineBreak/>
-                    <Run Text="软件开发者对任何原因在使用本软件时可能会对用户自己或是他人造成的任何形式的损失和伤害不承担任何责任。"/>
+                    <Run Text="5. 任何单位或个人认为通过本软件获取的资源可能涉嫌侵犯其合法权益，应及时向Bili-dl开发者提供书面反馈，以便维护平台或内容创作者的合法权益。"/>
                 </TextBlock>
-                <Grid Grid.Row="2" Background="#e5e9ef">
-                    <CheckBox x:Name="StatementConfirmChk" Margin="10" Content="我已认真阅读以上声明" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" FocusVisualStyle="{x:Null}" Checked="StatementConfirmChk_Checked"/>
-                </Grid>
+            </ScrollViewer>
+            <Grid Grid.Row="2" Background="#e5e9ef">
+                <CheckBox x:Name="StatementConfirmChk" Margin="10" Content="我已认真阅读并同意以上声明" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" FocusVisualStyle="{x:Null}" Checked="StatementConfirmChk_Checked"/>
             </Grid>
         </Grid>
     </Grid>
