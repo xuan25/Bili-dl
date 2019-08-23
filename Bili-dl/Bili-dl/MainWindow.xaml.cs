@@ -298,10 +298,9 @@ namespace Bili_dl
         {
             Dispatcher.Invoke(new Action(() =>
             {
-                PopupGrid.Children.Clear();
                 UpdatePrompt updatePrompt = new UpdatePrompt(description);
                 updatePrompt.Confirmed += UpdatePrompt_Confirmed;
-                PopupGrid.Children.Add(updatePrompt);
+                UpdateGrid.Children.Add(updatePrompt);
             }));
         }
 

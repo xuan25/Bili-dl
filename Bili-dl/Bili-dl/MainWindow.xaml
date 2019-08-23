@@ -253,6 +253,7 @@
                 <TextBlock x:Name="Prompt" Text="" Margin="12" MaxWidth="500" TextWrapping="Wrap" FontSize="16" Foreground="#FFFFFFFF" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Grid>
             <Grid x:Name="StatementGrid"/>
+            <Grid x:Name="UpdateGrid"/>
         </Grid>
         <Grid Grid.Row="2" Background="#e5e9ef">
             <TextBlock Text="{StaticResource Version}" Opacity="0.5" Margin="0,0,15,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
