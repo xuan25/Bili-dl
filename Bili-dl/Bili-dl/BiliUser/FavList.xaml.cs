@@ -29,6 +29,7 @@ namespace BiliUser
         public FavList()
         {
             InitializeComponent();
+            PagesBox.JumpTo += PagesBox_JumpTo;
         }
 
         private CancellationTokenSource cancellationTokenSource;
@@ -41,7 +42,7 @@ namespace BiliUser
             cancellationTokenSource = new CancellationTokenSource();
             CancellationToken cancellationToken = cancellationTokenSource.Token;
 
-            LoadingPrompt.Visibility = Visibility.Visible;
+            LoadingPromptList.Visibility = Visibility.Visible;
             PagesBox.Visibility = Visibility.Hidden;
 
             Task task = new Task(() =>
@@ -64,31 +65,42 @@ namespace BiliUser
                         {
                             foreach (Json.Value folder in json["data"]["list"])
                             {
-                                FavItem favItem = new FavItem(folder["title"], null, folder["media_count"], folder["id"], true);
-                                favItem.PreviewMouseLeftButtonDown += FavItem_PreviewMouseLeftButtonDown;
-                                ContentPanel.Children.Add(favItem);
+                                AddFavFolder(new FavFolder(folder["title"], folder["media_count"], folder["id"]));
                             }
+                            AddFavFolder(new FavFolder(FavFolder.SpecialFolder.ToView));
                         }));
                 }
                 Dispatcher.Invoke(new Action(() =>
                 {
-                    LoadingPrompt.Visibility = Visibility.Hidden;
+                    LoadingPromptList.Visibility = Visibility.Hidden;
                 }));
             });
             task.Start();
         }
 
+        private readonly List<FavFolder> FavFolders = new List<FavFolder>();
+        private void AddFavFolder(FavFolder favFolder)
+        {
+            favFolder.Selected += FavFolder_Selected; ;
+            FavFolders.Add(favFolder);
+            FavFoldersStack.Children.Add(favFolder);
+        }
+
+        private void FavFolder_Selected(FavFolder sender)
+        {
+            foreach (FavFolder f in FavFolders)
+            {
+                f.InActive();
+            }
+
+            sender.Active();
+            ShowFolder(sender.Mid, 1, true);
+        }
+
         private void FavItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             FavItem favItemSender = (FavItem)sender;
-            if (favItemSender.IsFolder)
-            {
-                ShowFolder((int)favItemSender.Id, 1, true);
-            }
-            else
-            {
-                VideoSelected?.Invoke(favItemSender.Title, favItemSender.Id);
-            }
+            VideoSelected?.Invoke(favItemSender.Title, favItemSender.Id);
         }
 
         private int MediaId;
@@ -102,44 +114,86 @@ namespace BiliUser
             cancellationTokenSource = new CancellationTokenSource();
             CancellationToken cancellationToken = cancellationTokenSource.Token;
 
-            LoadingPrompt.Visibility = Visibility.Visible;
+            LoadingPromptFolder.Visibility = Visibility.Visible;
             PagesBox.Visibility = Visibility.Hidden;
 
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-            dic.Add("media_id", mediaId.ToString());
-            dic.Add("pn", pagenum.ToString());
-            dic.Add("ps", "20");
-            dic.Add("keyword", "");
-            dic.Add("order", "mtime");
-            dic.Add("type", "0");
-            dic.Add("tid", "0");
-            dic.Add("jsonp", "jsonp");
-            Task task = new Task(() =>
+            if(mediaId >= 0)
             {
-                Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/medialist/gateway/base/spaceDetail", dic, false);
-                if (cancellationToken.IsCancellationRequested)
-                    return;
-                if (json["code"] == 0)
+                Dictionary<string, string> dic = new Dictionary<string, string>();
+                dic.Add("media_id", mediaId.ToString());
+                dic.Add("pn", pagenum.ToString());
+                dic.Add("ps", "20");
+                dic.Add("keyword", "");
+                dic.Add("order", "mtime");
+                dic.Add("type", "0");
+                dic.Add("tid", "0");
+                dic.Add("jsonp", "jsonp");
+                Task task = new Task(() =>
                 {
+                    Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/medialist/gateway/base/spaceDetail", dic, false);
+                    if (cancellationToken.IsCancellationRequested)
+                        return;
+                    if (json["code"] == 0)
+                    {
+                        if(json["data"]["info"]["media_count"] > 0)
+                        {
+                            Dispatcher.Invoke(new Action(() =>
+                            {
+                                foreach (Json.Value media in json["data"]["medias"])
+                                {
+                                    FavItem favItem = new FavItem(media["title"], media["cover"], media["fav_time"], media["id"]);
+                                    favItem.PreviewMouseLeftButtonDown += FavItem_PreviewMouseLeftButtonDown;
+                                    ContentPanel.Children.Add(favItem);
+                                }
+                                if (init)
+                                    PagesBox.SetPage((int)Math.Ceiling((double)json["data"]["info"]["media_count"] / 20), 1, true);
+                                PagesBox.Visibility = Visibility.Visible;
+                            }));
+                        }
+                    }
                     Dispatcher.Invoke(new Action(() =>
                     {
-                        foreach (Json.Value media in json["data"]["medias"])
-                        {
-                            FavItem favItem = new FavItem(media["title"], media["cover"], media["fav_time"], media["id"], false);
-                            favItem.PreviewMouseLeftButtonDown += FavItem_PreviewMouseLeftButtonDown;
-                            ContentPanel.Children.Add(favItem);
-                        }
-                        if (init)
-                            PagesBox.SetPage((int)Math.Ceiling((double)json["data"]["info"]["media_count"] / 20), 1, true);
-                        PagesBox.Visibility = Visibility.Visible;
+                        LoadingPromptFolder.Visibility = Visibility.Hidden;
                     }));
-                }
-                Dispatcher.Invoke(new Action(() =>
+                });
+                task.Start();
+            }
+            else
+            {
+                Task task = new Task(() =>
                 {
-                    LoadingPrompt.Visibility = Visibility.Hidden;
-                }));
-            });
-            task.Start();
+                    Dictionary<string, string> dic = new Dictionary<string, string>();
+                    dic.Add("pn", pagenum.ToString());
+                    dic.Add("ps", "20");
+                    Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/x/v2/history/toview/web", dic, false);
+                    if (cancellationToken.IsCancellationRequested)
+                        return;
+                    if (json["code"] == 0)
+                    {
+                        Dispatcher.Invoke(new Action(() =>
+                        {
+                            if(json["data"]["count"] > 0)
+                            {
+                                foreach (Json.Value media in json["data"]["list"])
+                                {
+                                    FavItem favItem = new FavItem(media["title"], media["pic"], media["add_at"], media["aid"]);
+                                    favItem.PreviewMouseLeftButtonDown += FavItem_PreviewMouseLeftButtonDown;
+                                    ContentPanel.Children.Add(favItem);
+                                }
+                                if (init)
+                                    PagesBox.SetPage((int)Math.Ceiling((double)json["data"]["count"] / 20), 1, true);
+                                PagesBox.Visibility = Visibility.Visible;
+                            }
+                            
+                        }));
+                    }
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        LoadingPromptFolder.Visibility = Visibility.Hidden;
+                    }));
+                });
+                task.Start();
+            }
         }
 
         private void PagesBox_JumpTo(int pagenum)
