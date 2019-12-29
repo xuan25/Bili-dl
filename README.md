@@ -12,6 +12,12 @@ A downloader for Bilibili
 
 软件开发者对任何原因在使用本软件时可能会对用户自己或是他人造成的任何形式的损失和伤害不承担任何责任。
 
+#### 命令行功能
+
+帮助：Bili-dl -?
+
+完全卸载: Bili-dl -uninstall
+
 #### 预览
 
 ![screenshot](screenshots/1.png)
