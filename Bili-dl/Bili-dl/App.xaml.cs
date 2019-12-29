@@ -15,7 +15,7 @@ namespace Bili_dl
     {
         public App()
         {
-            this.Resources.Add("Version", "v0.8.1-alpha");
+            this.Resources.Add("Version", "v0.8.2-alpha");
 
             this.DispatcherUnhandledException += (object sender, DispatcherUnhandledExceptionEventArgs e) =>
             {
