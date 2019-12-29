@@ -42,6 +42,31 @@ namespace BiliDownload
         /// <param name="isSeason">IsSeason</param>
         public async void ShowParts(string title, uint id, bool isSeason)
         {
+            SetTitle(title);
+            PageList.Items.Clear();
+            QualityList.Items.Clear();
+            PartsLoadingPrompt.Visibility = Visibility.Visible;
+            VideoInfo videoInfo = await VideoInfo.GetInfoAsync(id, isSeason);
+            if (videoInfo != null)
+            {
+                SetTitle(videoInfo.Title);
+                foreach (VideoInfo.Page page in videoInfo.pages)
+                {
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.TextTrimming = TextTrimming.WordEllipsis;
+                    textBlock.Text = string.Format("{0}-{1}", page.Index, page.Part);
+
+                    ListBoxItem listBoxItem = new ListBoxItem();
+                    listBoxItem.Tag = page;
+                    listBoxItem.Content = textBlock;
+                    PageList.Items.Add(listBoxItem);
+                }
+            }
+            PartsLoadingPrompt.Visibility = Visibility.Hidden;
+        }
+
+        private void SetTitle(string title)
+        {
             TitleBox.Inlines.Clear();
             MatchCollection mc = Regex.Matches(title, "(\\<em.*?\\>(?<Word>.*?)\\</em\\>|.)");
             foreach (Match m in mc)
@@ -57,26 +82,6 @@ namespace BiliDownload
                 }
                 TitleBox.Inlines.Add(inline);
             }
-
-            PageList.Items.Clear();
-            QualityList.Items.Clear();
-            PartsLoadingPrompt.Visibility = Visibility.Visible;
-            VideoInfo videoInfo = await VideoInfo.GetInfoAsync(id, isSeason);
-            if (videoInfo != null)
-            {
-                foreach (VideoInfo.Page page in videoInfo.pages)
-                {
-                    TextBlock textBlock = new TextBlock();
-                    textBlock.TextTrimming = TextTrimming.WordEllipsis;
-                    textBlock.Text = string.Format("{0}-{1}", page.Index, page.Part);
-
-                    ListBoxItem listBoxItem = new ListBoxItem();
-                    listBoxItem.Tag = page;
-                    listBoxItem.Content = textBlock;
-                    PageList.Items.Add(listBoxItem);
-                }
-            }
-            PartsLoadingPrompt.Visibility = Visibility.Hidden;
         }
 
         private void PageListItem_Selected(object sender, RoutedEventArgs e)

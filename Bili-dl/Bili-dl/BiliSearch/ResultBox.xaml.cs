@@ -154,6 +154,15 @@ namespace BiliSearch
         public void SearchAsync(string text, int pagenum)
         {
             SearchText = text;
+
+            long aid = FindAid(text);
+            if (aid >= 0)
+            {
+                HistoryBox.Insert(text);
+                VideoSelected?.Invoke("Av" + aid.ToString(), aid);
+                return;
+            }
+
             if (cancellationTokenSource != null)
                 cancellationTokenSource.Cancel();
             ContentViewer.ScrollToHome();
@@ -192,6 +201,14 @@ namespace BiliSearch
             {
                 HistoryBox.Visibility = Visibility.Visible;
             }
+        }
+
+        private long FindAid(string text)
+        {
+            Match match = Regex.Match(text, "[Aa][Vv](?<Aid>[0-9]+)");
+            if (match.Success)
+                return long.Parse(match.Groups["Aid"].Value);
+            return -1;
         }
 
         private Json.Value GetResult(string text, string type, int pagenum)
