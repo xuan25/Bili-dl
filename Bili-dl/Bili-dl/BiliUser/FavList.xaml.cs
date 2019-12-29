@@ -52,20 +52,19 @@ namespace BiliUser
                 if (userinfo["code"] == 0)
                 {
                     Dictionary<string, string> dic = new Dictionary<string, string>();
-                    dic.Add("mid", ((uint)userinfo["data"]["mid"]).ToString());
-                    Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/x/space/fav/nav", dic, false);
+                    dic.Add("pn", "1");
+                    dic.Add("ps", "100");
+                    dic.Add("up_mid", ((uint)userinfo["data"]["mid"]).ToString());
+                    dic.Add("is_space", "0");
+                    Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/medialist/gateway/base/created", dic, false);
                     if (cancellationToken.IsCancellationRequested)
                         return;
                     if (json["code"] == 0)
                         Dispatcher.Invoke(new Action(() =>
                         {
-                            foreach (Json.Value folder in json["data"]["archive"])
+                            foreach (Json.Value folder in json["data"]["list"])
                             {
-                                FavItem favItem;
-                                if (folder["cover"].Count > 0)
-                                    favItem = new FavItem(folder["name"], folder["cover"][0]["pic"], folder["cur_count"], folder["media_id"], true);
-                                else
-                                    favItem = new FavItem(folder["name"], null, folder["cur_count"], folder["media_id"], true);
+                                FavItem favItem = new FavItem(folder["title"], null, folder["media_count"], folder["id"], true);
                                 favItem.PreviewMouseLeftButtonDown += FavItem_PreviewMouseLeftButtonDown;
                                 ContentPanel.Children.Add(favItem);
                             }

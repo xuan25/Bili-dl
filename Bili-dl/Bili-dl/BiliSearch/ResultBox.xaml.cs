@@ -230,6 +230,7 @@ namespace BiliSearch
                         }
                         break;
                     case "media_bangumi":
+                    case "media_ft":
                         StringBuilder stringBuilderBangumi = new StringBuilder();
                         foreach (Json.Value v in json["data"]["result"])
                         {
@@ -244,31 +245,6 @@ namespace BiliSearch
                             foreach (Json.Value v in json["data"]["result"])
                             {
                                 Season season = new Season(v, cardsJson);
-                                ResultSeason resultSeason = new ResultSeason(season);
-                                resultSeason.PreviewMouseLeftButtonDown += ResultSeason_PreviewMouseLeftButtonDown;
-                                ContentPanel.Children.Add(resultSeason);
-                            }
-                        }
-                        catch (WebException)
-                        {
-
-                        }
-                        break;
-                    case "media_ft":
-                        StringBuilder stringBuilderFt = new StringBuilder();
-                        foreach (Json.Value v in json["data"]["result"])
-                        {
-                            stringBuilderFt.Append(',');
-                            stringBuilderFt.Append((string)v["season_id"]);
-                        }
-                        Dictionary<string, string> dic1 = new Dictionary<string, string>();
-                        dic1.Add("season_ids", stringBuilderFt.ToString().Substring(1));
-                        try
-                        {
-                            Json.Value cardsJson1 = await BiliApi.GetJsonResultAsync("https://api.bilibili.com/pgc/web/season/cards", dic1, false);
-                            foreach (Json.Value v in json["data"]["result"])
-                            {
-                                Season season = new Season(v, cardsJson1);
                                 ResultSeason resultSeason = new ResultSeason(season);
                                 resultSeason.PreviewMouseLeftButtonDown += ResultSeason_PreviewMouseLeftButtonDown;
                                 ContentPanel.Children.Add(resultSeason);
