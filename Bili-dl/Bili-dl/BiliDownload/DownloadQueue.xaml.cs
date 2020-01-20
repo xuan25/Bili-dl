@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConfigUtil;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -69,7 +70,7 @@ namespace BiliDownload
 
         private void OpenDownloadDirectoryBtn_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(string.Format("\"{0}\"", Bili_dl.SettingPanel.settings.DownloadPath));
+            System.Diagnostics.Process.Start(string.Format("\"{0}\"", ConfigManager.GetSettings().DownloadPath + "\\"));
         }
 
         private void QueuePanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

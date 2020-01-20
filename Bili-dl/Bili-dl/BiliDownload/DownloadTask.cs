@@ -124,7 +124,7 @@ namespace BiliDownload
                 AbortProgressMonitor();
                 ProgressPercentage = 100;
                 StatusUpdate?.Invoke(this, ProgressPercentage, 0, Status.Merging);
-                string directory = ConfigManager.GetSettings().DownloadPath + "\\";
+                string directory = ConfigManager.GetSettings().DownloadPath + "\\"+string.Format("[{0}]{1}", Description, Title)+"\\";
                 Directory.CreateDirectory(directory);
                 string filepath = directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.{4}", Description, Title, Index, Part, Segments[0].Extention));
 
