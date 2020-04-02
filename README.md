@@ -2,6 +2,8 @@
 
 A downloader for Bilibili
 
+**[Download 下载](https://github.com/xuan525/Bili-dl/releases)**
+
 #### 声明
 
 本软件为第三方开源软件。
@@ -19,6 +21,8 @@ A downloader for Bilibili
 完全卸载: Bili-dl -uninstall
 
 #### 预览
+
+![screenshot](screenshots/0.png)
 
 ![screenshot](screenshots/1.png)
 
