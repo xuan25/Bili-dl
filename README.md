@@ -22,7 +22,7 @@ A downloader for Bilibili
 
 #### 预览
 
-![screenshot](screenshots/0.png)
+![screenshot](screenshots/0.jpg)
 
 ![screenshot](screenshots/1.png)
 
