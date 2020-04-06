@@ -159,6 +159,7 @@
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
@@ -239,6 +240,35 @@
                                 <Button x:Name="IncreaseDownloadThreadsBtn" Grid.Column="2" Margin="5,0" Padding="0" Content="+" Style="{StaticResource RoundButtonStyle}" Click="IncreaseDownloadThreadsBtn_Click"/>
                             </Grid>
                             <TextBlock Text=" 个" FontSize="14"/>
+                        </WrapPanel>
+                    </Grid>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <WrapPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <TextBlock Text="转换成MP4: " FontSize="14"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox x:Name="ToMp4Box" Grid.Column="0" Margin="5,0" Padding="0" Click="ToMp4Box_Click"/>
+                            </Grid>
+                            <TextBlock x:Name="CheckFFmpegText" FontSize="14" Foreground="Red"/>
+                        </WrapPanel>
+                        <WrapPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <TextBlock Text="创建视频目录: " FontSize="14"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox x:Name="CreatFolderBox" Grid.Column="1" Margin="5,0" FontSize="14" Click="CreatFolderBox_Click"/>
+                            </Grid>
                         </WrapPanel>
                     </Grid>
                 </Grid>

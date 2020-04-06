@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +26,8 @@ namespace Bili_dl
             public string MovedTempPath;
             public int RetryInterval;
             public int DownloadThreads;
+            public bool ToMp4;
+            public bool CreatFolder;
 
             public Settings()
             {
@@ -33,6 +36,9 @@ namespace Bili_dl
 
                 RetryInterval = 5;
                 DownloadThreads = 5;
+
+                ToMp4 = true;
+                CreatFolder = true;
             }
         }
 
@@ -43,6 +49,35 @@ namespace Bili_dl
         {
             InitializeComponent();
             SetSettings(ConfigUtil.ConfigManager.GetSettings());
+        }
+
+        public string CheckFFmpeg()
+        {
+            string sCom = "ffmpeg -V&exit";
+            Process p = new Process();  //设置要启动的应用程序
+            p.StartInfo.FileName = "cmd.exe";      //是否使用操作系统shell启动
+            p.StartInfo.UseShellExecute = false;          //接受来自调用程序的输入信息
+            p.StartInfo.RedirectStandardInput = true;           //输出信息
+            p.StartInfo.RedirectStandardOutput = true;           //输出错误
+            p.StartInfo.RedirectStandardError = true;           //不显示程序窗口
+            p.StartInfo.CreateNoWindow = true;           //启动程序
+            p.Start();
+            p.StandardInput.WriteLine(sCom);
+            p.StandardInput.AutoFlush = true;
+
+            StreamReader reader = p.StandardOutput;
+            StreamReader error = p.StandardError;
+            string sOutput = reader.ReadToEnd() + error.ReadToEnd();
+            p.WaitForExit();
+            p.Close();
+
+            string sRet = "需要安装ffmpeg!";
+            if (string.IsNullOrEmpty(sOutput))
+                return sRet;
+            sOutput = sOutput.Substring(sOutput.IndexOf(sCom) + sCom.Length).ToLower();
+            if (sOutput.IndexOf("version") > 0 && sOutput.IndexOf("copyright") > 0)
+                return "";
+            return sRet;
         }
 
         /// <summary>
@@ -60,6 +95,11 @@ namespace Bili_dl
                 TempPathBox.Text = settings.TempPath;
             RetryIntervalBox.Text = settings.RetryInterval.ToString();
             DownloadThreadsBox.Text = settings.DownloadThreads.ToString();
+
+            ToMp4Box.IsChecked = settings.ToMp4;
+            CheckFFmpegText.Text = CheckFFmpeg();
+
+            CreatFolderBox.IsChecked = settings.CreatFolder;
         }
 
         private void SelectDownloadPathBtn_Click(object sender, RoutedEventArgs e)
@@ -150,6 +190,18 @@ namespace Bili_dl
         private void SettingsPanel_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void ToMp4Box_Click(object sender, RoutedEventArgs e)
+        {
+            settings.ToMp4 = ToMp4Box.IsChecked == true;
+            ConfigUtil.ConfigManager.SetSettings(settings);
+        }
+
+        private void CreatFolderBox_Click(object sender, RoutedEventArgs e)
+        {
+            settings.CreatFolder = CreatFolderBox.IsChecked == true;
+            ConfigUtil.ConfigManager.SetSettings(settings);
         }
     }
 }

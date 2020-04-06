@@ -3,6 +3,7 @@ using ConfigUtil;
 using FlvMerge;
 using JsonUtil;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -124,8 +125,13 @@ namespace BiliDownload
                 AbortProgressMonitor();
                 ProgressPercentage = 100;
                 StatusUpdate?.Invoke(this, ProgressPercentage, 0, Status.Merging);
-                string directory = ConfigManager.GetSettings().DownloadPath + "\\"+string.Format("[{0}]{1}", Description, Title)+"\\";
-                Directory.CreateDirectory(directory);
+
+                //是否创建视频目录
+                string directory = ConfigManager.GetSettings().DownloadPath + "\\";
+                if (ConfigManager.GetSettings().CreatFolder)
+                    directory += string.Format("[{0}]{1}", Description, Title) + "\\";
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
                 string filepath = directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.{4}", Description, Title, Index, Part, Segments[0].Extention));
 
                 int count = Segments.Count;
@@ -138,6 +144,9 @@ namespace BiliDownload
                 else
                     File.Copy(Segments[0].Filepath, filepath, true);
 
+                //转为MP4
+                if(ConfigManager.GetSettings().ToMp4)
+                    filepath = ConvertFormat(filepath);
 
                 foreach (string path in paths)
                 {
@@ -152,6 +161,30 @@ namespace BiliDownload
                 Finished?.Invoke(this, filepath);
             }
         }
+
+        private string ConvertFormat(string Filepath)
+        {
+            try
+            {
+                string toFilePath = Path.GetDirectoryName(Filepath) + '\\' + Path.GetFileNameWithoutExtension(Filepath) + ".mp4";
+                File.Delete(toFilePath);
+
+                Process aProcess = new Process();
+                aProcess.StartInfo.FileName = "ffmpeg.exe";
+                aProcess.StartInfo.Arguments = "-i \"" + Filepath + "\" -vcodec copy -acodec copy \"" + toFilePath + "\"";
+                aProcess.StartInfo.UseShellExecute = false;
+                aProcess.StartInfo.CreateNoWindow = true;
+                aProcess.Start();
+                aProcess.WaitForExit();
+                File.Delete(Filepath);
+                return toFilePath;
+            }
+            catch
+            {
+                return Filepath;
+            }
+        }
+
 
         private string FilenameValidation(string path)
         {
