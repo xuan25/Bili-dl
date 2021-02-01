@@ -51,14 +51,14 @@ namespace BiliSearch
             {
                 Dictionary<string, string> dic = new Dictionary<string, string>();
                 dic.Add("mid", mid.ToString());
-                dic.Add("pagesize", "30");
-                dic.Add("page", page.ToString());
+                dic.Add("ps", "30");
+                dic.Add("pn", page.ToString());
                 try
                 {
-                    Json.Value json = BiliApi.GetJsonResult("https://space.bilibili.com/ajax/member/getSubmitVideos", dic, true);
+                    Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/x/space/arc/search", dic, true);
                     Dispatcher.Invoke(new Action(() =>
                     {
-                        foreach (Json.Value v in json["data"]["vlist"])
+                        foreach (Json.Value v in json["data"]["list"]["vlist"])
                         {
                             ResultBox.Video video = new ResultBox.Video(v);
                             ResultVideo resultVideo = new ResultVideo(video);
@@ -67,7 +67,8 @@ namespace BiliSearch
                         }
                         if (init)
                         {
-                            PagesBox.SetPage(json["data"]["pages"], 1, true);
+                            int pages = (int)Math.Ceiling((double)json["data"]["page"]["count"] / json["data"]["page"]["ps"]);
+                            PagesBox.SetPage(pages, 1, true);
                         }
                         PagesBox.Visibility = Visibility.Visible;
                         LoadingPrompt.Visibility = Visibility.Hidden;
