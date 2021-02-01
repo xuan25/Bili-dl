@@ -30,28 +30,17 @@ namespace BiliLogin
 
         public UserInfo(Json.Value json)
         {
-            CurrentLevel = json["data"]["level_info"]["current_level"];
-            CurrentMin = json["data"]["level_info"]["current_min"];
-            CurrentExp = json["data"]["level_info"]["current_exp"];
-            NextExp = json["data"]["level_info"]["next_exp"];
-            BCoins = json["data"]["bCoins"];
-            Coins = json["data"]["coins"];
             Face = json["data"]["face"];
-            NameplateCurrent = json["data"]["nameplate_current"];
-            PendantCurrent = json["data"]["pendant_current"];
             Uname = json["data"]["uname"];
-            UserStatus = json["data"]["userStatus"];
             VipType = json["data"]["vipType"];
             VipStatus = json["data"]["vipStatus"];
-            OfficialVerify = json["data"]["official_verify"];
-            PointBalance = json["data"]["pointBalance"];
         }
 
         public static UserInfo GetUserInfo(CookieCollection cookies)
         {
             try
             {
-                Json.Value json = BiliApi.GetJsonResult("https://account.bilibili.com/home/userInfo", null, false);
+                Json.Value json = BiliApi.GetJsonResult("http://api.bilibili.com/nav", null, false);
                 if (json["code"] == 0)
                     return new UserInfo(json);
                 else
@@ -68,7 +57,7 @@ namespace BiliLogin
         {
             try
             {
-                Json.Value json = await BiliApi.GetJsonResultAsync("https://account.bilibili.com/home/userInfo", null, false);
+                Json.Value json = await BiliApi.GetJsonResultAsync("http://api.bilibili.com/nav", null, false);
                 if (json["code"] == 0)
                     return new UserInfo(json);
                 else
