@@ -24,7 +24,7 @@
                 <RowDefinition Height="6*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <local:UserVideoList x:Name="UserVideoListBox" Visibility="Hidden" Grid.Column="1" Grid.Row="1" VideoSelected="ResultBox_VideoSelected"/>
+            <local:UserVideoList x:Name="UserVideoListBox" Visibility="Hidden" Grid.Column="1" Grid.Row="1" VideoSelected="UserVideoListBox_VideoSelected"/>
         </Grid>
     </Grid>
 </UserControl>

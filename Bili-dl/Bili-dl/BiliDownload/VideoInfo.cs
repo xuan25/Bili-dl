@@ -93,6 +93,30 @@ namespace BiliDownload
         }
 
         /// <summary>
+        /// Get infos of a video/season.
+        /// </summary>
+        /// <param name="bvid">Bvid</param>
+        /// <returns>Video info</returns>
+        public static VideoInfo GetInfoBv(string bvid)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>
+                {
+                    { "bvid", bvid }
+                };
+            try
+            {
+                Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/x/web-interface/view", dic, false);
+                if (json["code"] == 0)
+                    return new VideoInfo(json["data"], false);
+                return null;
+            }
+            catch (System.Net.WebException)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Get infos of a video/season asynchronously.
         /// </summary>
         /// <param name="id">Aid/Season-id</param>
@@ -103,6 +127,21 @@ namespace BiliDownload
             Task<VideoInfo> task = new Task<VideoInfo>(() =>
             {
                 return GetInfo(id, isSeason);
+            });
+            task.Start();
+            return task;
+        }
+
+        /// <summary>
+        /// Get infos of a video/season asynchronously.
+        /// </summary>
+        /// <param name="bvid">Bvid</param>
+        /// <returns>Video info</returns>
+        public static Task<VideoInfo> GetInfoBvAsync(string bvid)
+        {
+            Task<VideoInfo> task = new Task<VideoInfo>(() =>
+            {
+                return GetInfoBv(bvid);
             });
             task.Start();
             return task;

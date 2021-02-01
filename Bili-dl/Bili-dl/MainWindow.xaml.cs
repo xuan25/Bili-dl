@@ -206,16 +206,25 @@ namespace Bili_dl
             }
         }
 
-        private void SearchBox_VideoSelected(string title, long id)
+        private void SearchBox_VideoSelected(string title, object id, string type)
         {
             DownloadOption downloadOption = ShowDownloadOption();
-            downloadOption.ShowParts(title, (uint)id, false);
+            switch (type)
+            {
+                case "aid":
+                    downloadOption.ShowParts(title, (uint)(long)id, false);
+                    break;
+                case "bvid":
+                    downloadOption.ShowPartsBv(title, (string)id);
+                    break;
+            }
+            
         }
 
-        private void SearchBox_SeasonSelected(string title, long id)
+        private void SearchBox_SeasonSelected(string title, object id, string type)
         {
             DownloadOption downloadOption = ShowDownloadOption();
-            downloadOption.ShowParts(title, (uint)id, true);
+            downloadOption.ShowParts(title, (uint)(long)id, true);
         }
 
         #endregion

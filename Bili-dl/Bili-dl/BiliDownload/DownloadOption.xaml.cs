@@ -65,6 +65,36 @@ namespace BiliDownload
             PartsLoadingPrompt.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Show parts/episodes of a video/season.
+        /// </summary>
+        /// <param name="title">Title of the video/season</param>
+        /// <param name="bvid">Bvid of the video/season</param>
+        public async void ShowPartsBv(string title, string bvid)
+        {
+            SetTitle(title);
+            PageList.Items.Clear();
+            QualityList.Items.Clear();
+            PartsLoadingPrompt.Visibility = Visibility.Visible;
+            VideoInfo videoInfo = await VideoInfo.GetInfoBvAsync(bvid);
+            if (videoInfo != null)
+            {
+                SetTitle(videoInfo.Title);
+                foreach (VideoInfo.Page page in videoInfo.pages)
+                {
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.TextTrimming = TextTrimming.WordEllipsis;
+                    textBlock.Text = string.Format("{0}-{1}", page.Index, page.Part);
+
+                    ListBoxItem listBoxItem = new ListBoxItem();
+                    listBoxItem.Tag = page;
+                    listBoxItem.Content = textBlock;
+                    PageList.Items.Add(listBoxItem);
+                }
+            }
+            PartsLoadingPrompt.Visibility = Visibility.Hidden;
+        }
+
         private void SetTitle(string title)
         {
             TitleBox.Inlines.Clear();

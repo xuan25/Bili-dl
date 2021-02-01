@@ -25,7 +25,7 @@ namespace BiliSearch
         /// </summary>
         /// <param name="title">Title of the selected item</param>
         /// <param name="id">Aid/Season-id of the selected item</param>
-        public delegate void SelectedDel(string title, long id);
+        public delegate void SelectedDel(string title, object id, string type);
         /// <summary>
         /// Occurs when a Video has been selected.
         /// </summary>
@@ -159,7 +159,15 @@ namespace BiliSearch
             if (aid >= 0)
             {
                 HistoryBox.Insert(text);
-                VideoSelected?.Invoke("Av" + aid.ToString(), aid);
+                VideoSelected?.Invoke("Av" + aid.ToString(), aid, "aid");
+                return;
+            }
+
+            string bvid = FindBvid(text);
+            if (bvid != null)
+            {
+                HistoryBox.Insert(text);
+                VideoSelected?.Invoke("Bv" + bvid, bvid, "bvid");
                 return;
             }
 
@@ -209,6 +217,14 @@ namespace BiliSearch
             if (match.Success)
                 return long.Parse(match.Groups["Aid"].Value);
             return -1;
+        }
+
+        private string FindBvid(string text)
+        {
+            Match match = Regex.Match(text, "[Bb][Vv](?<Bvid>[0-9a-zA-Z]+)");
+            if (match.Success)
+                return match.Groups["Bvid"].Value;
+            return null;
         }
 
         private Json.Value GetResult(string text, string type, int pagenum)
@@ -293,17 +309,17 @@ namespace BiliSearch
 
         private void ResultUser_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            UserSelected?.Invoke(null, ((ResultUser)sender).Mid);
+            UserSelected?.Invoke(null, ((ResultUser)sender).Mid, "mid");
         }
 
         private void ResultSeason_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            SeasonSelected?.Invoke(((ResultSeason)sender).Title, ((ResultSeason)sender).SeasonId);
+            SeasonSelected?.Invoke(((ResultSeason)sender).Title, ((ResultSeason)sender).SeasonId, "sid");
         }
 
         private void ResultVideo_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            VideoSelected?.Invoke(((ResultVideo)sender).Title, ((ResultVideo)sender).Aid);
+            VideoSelected?.Invoke(((ResultVideo)sender).Title, ((ResultVideo)sender).Aid, "aid");
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)

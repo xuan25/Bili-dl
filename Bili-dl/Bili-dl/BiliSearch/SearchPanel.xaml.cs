@@ -15,7 +15,7 @@ namespace BiliSearch
         /// </summary>
         /// <param name="title">Title of the selected item</param>
         /// <param name="id">Aid/Season-id of the selected item</param>
-        public delegate void SelectedDel(string title, long id);
+        public delegate void SelectedDel(string title, object id, string type);
         /// <summary>
         /// Occurs when a Video has been selected.
         /// </summary>
@@ -45,20 +45,20 @@ namespace BiliSearch
             SearchBox.Text = text;
         }
 
-        private void ResultBox_VideoSelected(string title, long id)
+        private void ResultBox_VideoSelected(string title, object id, string type)
         {
-            VideoSelected?.Invoke(title, id);
+            VideoSelected?.Invoke(title, id, type);
         }
 
-        private void ResultBox_SeasonSelected(string title, long id)
+        private void ResultBox_SeasonSelected(string title, object id, string type)
         {
-            SeasonSelected?.Invoke(title, id);
+            SeasonSelected?.Invoke(title, id, type);
         }
 
-        private void ResultBox_UserSelected(string title, long id)
+        private void ResultBox_UserSelected(string title, object id, string type)
         {
             UserVideoListBox.Visibility = Visibility.Visible;
-            UserVideoListBox.LoadAsync((int)id, 1, true);
+            UserVideoListBox.LoadAsync((int)(long)id, 1, true);
         }
 
         private void UserVideoGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -66,6 +66,9 @@ namespace BiliSearch
             UserVideoListBox.Visibility = Visibility.Hidden;
         }
 
-
+        private void UserVideoListBox_VideoSelected(string title, long id)
+        {
+            VideoSelected?.Invoke(title, id, "aid");
+        }
     }
 }
