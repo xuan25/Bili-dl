@@ -53,7 +53,7 @@ namespace BiliSearch
         /// <summary>
         /// Class <c>Video</c> models the info of a Video.
         /// Author: Xuan525
-        /// Date: 24/04/2019
+        /// Date: 15/06/2021
         /// </summary>
         public class Video
         {
@@ -66,7 +66,11 @@ namespace BiliSearch
 
             public Video(Json.Value json)
             {
-                Pic = "https:" + json["pic"];
+                Pic = json["pic"];
+                if (!Pic.StartsWith("http"))
+                {
+                    Pic = "https:" + Pic;
+                }
                 Title = WebUtility.HtmlDecode(json["title"]);
                 Play = json["play"];
                 if (json.Contains("pubdate"))
@@ -98,7 +102,7 @@ namespace BiliSearch
 
             public Season(Json.Value json, Json.Value cardsJson)
             {
-                Cover = "https:" + Regex.Unescape(json["cover"]);
+                Cover = Regex.Unescape(json["cover"]);
                 Title = WebUtility.HtmlDecode(json["title"]);
                 Styles = json["styles"];
                 Areas = json["areas"];
