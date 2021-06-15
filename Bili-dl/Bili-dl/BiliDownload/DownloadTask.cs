@@ -2,6 +2,7 @@
 using ConfigUtil;
 using FlvMerge;
 using JsonUtil;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -44,6 +45,8 @@ namespace BiliDownload
         public enum Status { Analyzing, Downloading, Merging, Finished, AnalysisFailed };
         public delegate void StatusUpdateDel(DownloadTask downloadTask, double progressPercentage, long bps, Status statues);
         public event StatusUpdateDel StatusUpdate;
+
+        const int MAX_PATH = 260;
 
         public DownloadTask(DownloadInfo downloadInfo)
         {
@@ -112,6 +115,8 @@ namespace BiliDownload
             }
         }
 
+        
+
         private void Segment_Finished()
         {
             if (CurrentSegment < Segments.Count - 1)
@@ -124,9 +129,23 @@ namespace BiliDownload
                 AbortProgressMonitor();
                 ProgressPercentage = 100;
                 StatusUpdate?.Invoke(this, ProgressPercentage, 0, Status.Merging);
-                string directory = ConfigManager.GetSettings().DownloadPath + "\\"+string.Format("[{0}]{1}", Description, Title)+"\\";
+                string directory = Path.Combine(ConfigManager.GetSettings().DownloadPath, FilenameValidation(string.Format("[{0}]{1}", Description, Title)));
                 Directory.CreateDirectory(directory);
-                string filepath = directory + FilenameValidation(string.Format("[{0}]{1}_{2}-{3}.{4}", Description, Title, Index, Part, Segments[0].Extention));
+                string filename = FilenameValidation($"{Index}-{Part}");
+                string filepath = Path.Combine(directory, $"{filename}.{Segments[0].Extention}");
+
+                // valid path length
+                if (filepath.Length > MAX_PATH - 1)     // Reserve 1 char for <NULL>
+                {
+                    int truncateCount = filepath.Length - (MAX_PATH - 1);
+                    if(truncateCount > filename.Length - 1)     // Least 1 char for filename
+                    {
+                        // Should never occur
+                        throw new Exception($"无法创建合法文件名，截断失败: {filename} (截断计数: {truncateCount})");
+                    }
+                    filename = filename.Substring(0, filename.Length - truncateCount);
+                    filepath = directory + $"{filename}.{Segments[0].Extention}";
+                }
 
                 int count = Segments.Count;
                 string[] paths = new string[count];
