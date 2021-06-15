@@ -55,7 +55,7 @@ namespace BiliSearch
                 dic.Add("pn", page.ToString());
                 try
                 {
-                    Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/x/space/arc/search", dic, true);
+                    Json.Value json = BiliApi.RequestJsonResult("https://api.bilibili.com/x/space/arc/search", dic, true);
                     Dispatcher.Invoke(new Action(() =>
                     {
                         foreach (Json.Value v in json["data"]["list"]["vlist"])

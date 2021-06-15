@@ -53,7 +53,7 @@ namespace Bili_dl
             if (!ConfigUtil.ConfigManager.GetStatementConfirmed())
                 StatementGrid.Children.Add(new Statement());
 
-            BiliApi.CookieCollection = ConfigUtil.ConfigManager.GetCookieCollection();
+            BiliApi.Cookies = ConfigUtil.ConfigManager.GetCookieCollection();
 
             List<DownloadInfo> infos = ConfigUtil.ConfigManager.GetDownloadInfos();
             foreach (DownloadInfo info in infos)
@@ -61,9 +61,9 @@ namespace Bili_dl
 
             SearchBox.SetHistory(ConfigUtil.ConfigManager.GetSearchHistory());
 
-            if (BiliApi.CookieCollection != null)
+            if (BiliApi.Cookies != null)
             {
-                UserInfo userInfo = await UserInfo.GetUserInfoAsync(BiliApi.CookieCollection);
+                UserInfo userInfo = await UserInfo.GetUserInfoAsync(BiliApi.Cookies);
                 if (userInfo != null)
                 {
                     ShowUserInfo(userInfo);
@@ -128,7 +128,7 @@ namespace Bili_dl
             }
             else if (LoginBtn.Content.ToString() == "登出")
             {
-                BiliApi.CookieCollection = null;
+                BiliApi.Cookies = null;
                 ConfigUtil.ConfigManager.SetCookieCollection(null);
                 UserInfoBox.Text = string.Empty;
                 UserFaceImage.Source = null;
@@ -150,10 +150,10 @@ namespace Bili_dl
                 sender.Topmost = false;
                 sender.Hide();
 
-                BiliApi.CookieCollection = cookies;
+                BiliApi.Cookies = cookies;
                 ConfigUtil.ConfigManager.SetCookieCollection(cookies);
 
-                UserInfo userInfo = await UserInfo.GetUserInfoAsync(BiliApi.CookieCollection);
+                UserInfo userInfo = await UserInfo.GetUserInfoAsync(BiliApi.Cookies);
 
                 if (userInfo != null)
                 {

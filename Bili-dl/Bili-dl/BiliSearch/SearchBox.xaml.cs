@@ -236,7 +236,7 @@ namespace BiliSearch
             dic.Add("keyword", text);
             try
             {
-                Json.Value json = BiliApi.GetJsonResult("https://app.bilibili.com/x/v2/search/suggest3", dic, true);
+                Json.Value json = BiliApi.RequestJsonResult("https://app.bilibili.com/x/v2/search/suggest3", dic, true);
 
                 if (json["data"].Contains("list"))
                 {

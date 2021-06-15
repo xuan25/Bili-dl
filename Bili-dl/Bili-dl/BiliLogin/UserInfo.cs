@@ -40,7 +40,7 @@ namespace BiliLogin
         {
             try
             {
-                Json.Value json = BiliApi.GetJsonResult("http://api.bilibili.com/nav", null, false);
+                Json.Value json = BiliApi.RequestJsonResult("http://api.bilibili.com/nav", null, false);
                 if (json["code"] == 0)
                     return new UserInfo(json);
                 else
@@ -57,7 +57,7 @@ namespace BiliLogin
         {
             try
             {
-                Json.Value json = await BiliApi.GetJsonResultAsync("http://api.bilibili.com/nav", null, false);
+                Json.Value json = await BiliApi.RequestJsonResultAsync("http://api.bilibili.com/nav", null, false);
                 if (json["code"] == 0)
                     return new UserInfo(json);
                 else

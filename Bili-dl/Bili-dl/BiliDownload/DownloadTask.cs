@@ -77,7 +77,7 @@ namespace BiliDownload
             };
             try
             {
-                Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
+                Json.Value json = BiliApi.RequestJsonResult("https://api.bilibili.com/x/player/playurl", dic, false);
                 if (json["code"] == 0)
                     if (json["data"]["quality"] == Qn)
                         foreach (Json.Value v in json["data"]["durl"])
@@ -90,7 +90,7 @@ namespace BiliDownload
                         return false;
                 else
                 {
-                    json = BiliApi.GetJsonResult("http://api.bilibili.com/pgc/player/web/playurl", dic, false);
+                    json = BiliApi.RequestJsonResult("http://api.bilibili.com/pgc/player/web/playurl", dic, false);
                     if (json["code"] == 0)
                         if (json["result"]["quality"] == Qn)
                             foreach (Json.Value v in json["result"]["durl"])
@@ -514,10 +514,10 @@ namespace BiliDownload
                         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
                         request.ServicePoint.ConnectionLimit = ConnectionLimit;
                         request.Method = "GET";
-                        if (BiliApi.CookieCollection != null)
+                        if (BiliApi.Cookies != null)
                         {
                             request.CookieContainer = new CookieContainer();
-                            request.CookieContainer.Add(BiliApi.CookieCollection);
+                            request.CookieContainer.Add(BiliApi.Cookies);
                         }
                         request.Referer = string.Format("https://www.bilibili.com/video/av{0}", Aid);
                         request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36";

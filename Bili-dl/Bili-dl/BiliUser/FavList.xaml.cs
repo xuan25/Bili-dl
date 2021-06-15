@@ -47,7 +47,7 @@ namespace BiliUser
 
             Task task = new Task(() =>
             {
-                Json.Value userinfo = BiliApi.GetJsonResult("https://api.bilibili.com/x/web-interface/nav", null, false);
+                Json.Value userinfo = BiliApi.RequestJsonResult("https://api.bilibili.com/x/web-interface/nav", null, false);
                 if (cancellationToken.IsCancellationRequested)
                     return;
                 if (userinfo["code"] == 0)
@@ -57,7 +57,7 @@ namespace BiliUser
                     dic.Add("ps", "100");
                     dic.Add("up_mid", ((uint)userinfo["data"]["mid"]).ToString());
                     dic.Add("is_space", "0");
-                    Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/medialist/gateway/base/created", dic, false);
+                    Json.Value json = BiliApi.RequestJsonResult("https://api.bilibili.com/medialist/gateway/base/created", dic, false);
                     if (cancellationToken.IsCancellationRequested)
                         return;
                     if (json["code"] == 0)
@@ -130,7 +130,7 @@ namespace BiliUser
                 dic.Add("jsonp", "jsonp");
                 Task task = new Task(() =>
                 {
-                    Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/medialist/gateway/base/spaceDetail", dic, false);
+                    Json.Value json = BiliApi.RequestJsonResult("https://api.bilibili.com/medialist/gateway/base/spaceDetail", dic, false);
                     if (cancellationToken.IsCancellationRequested)
                         return;
                     if (json["code"] == 0)
@@ -165,7 +165,7 @@ namespace BiliUser
                     Dictionary<string, string> dic = new Dictionary<string, string>();
                     dic.Add("pn", pagenum.ToString());
                     dic.Add("ps", "20");
-                    Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/x/v2/history/toview/web", dic, false);
+                    Json.Value json = BiliApi.RequestJsonResult("https://api.bilibili.com/x/v2/history/toview/web", dic, false);
                     if (cancellationToken.IsCancellationRequested)
                         return;
                     if (json["code"] == 0)

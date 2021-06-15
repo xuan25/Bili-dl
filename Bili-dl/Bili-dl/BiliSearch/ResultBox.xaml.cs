@@ -241,7 +241,7 @@ namespace BiliSearch
             dic.Add("page", pagenum.ToString());
             try
             {
-                Json.Value json = BiliApi.GetJsonResult("https://api.bilibili.com/x/web-interface/search/type", dic, true);
+                Json.Value json = BiliApi.RequestJsonResult("https://api.bilibili.com/x/web-interface/search/type", dic, true);
                 return json;
             }
             catch (System.Net.WebException)
@@ -278,7 +278,7 @@ namespace BiliSearch
                         dic.Add("season_ids", stringBuilderBangumi.ToString().Substring(1));
                         try
                         {
-                            Json.Value cardsJson = await BiliApi.GetJsonResultAsync("https://api.bilibili.com/pgc/web/season/cards", dic, true);
+                            Json.Value cardsJson = await BiliApi.RequestJsonResultAsync("https://api.bilibili.com/pgc/web/season/cards", dic, true);
                             foreach (Json.Value v in json["data"]["result"])
                             {
                                 Season season = new Season(v, cardsJson);
