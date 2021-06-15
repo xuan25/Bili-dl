@@ -90,6 +90,8 @@ namespace BiliSearch
                 else
                     Title = null;
                 Keyword = item["keyword"];
+
+                // TODO: json response not contain following info any more
                 Cover = "https:" + item["cover"];
                 Uri = item["uri"];
                 Ptime = item["ptime"];
@@ -120,6 +122,8 @@ namespace BiliSearch
                 Position = item["position"];
                 Title = item["title"];
                 Keyword = item["keyword"];
+
+                // TODO: json response not contain following info any more
                 Cover = "https:" + item["cover"];
                 Uri = item["uri"];
                 Level = item["level"];
@@ -243,25 +247,42 @@ namespace BiliSearch
                     List<Suggest> suggests = new List<Suggest>();
                     foreach (Json.Value i in json["data"]["list"])
                     {
-                        if (!i.Contains("sug_type"))
+                        if (!i.Contains("term_type"))
                         {
                             Suggest suggest = new Suggest(i);
                             suggests.Add(suggest);
-                        }
-                        else if (i["sug_type"] == "pgc")
-                        {
-                            SeasonSuggest seasonSuggest = new SeasonSuggest(i);
-                            suggests.Add(seasonSuggest);
-                        }
-                        else if (i["sug_type"] == "user")
-                        {
-                            UserSuggest userSuggest = new UserSuggest(i);
-                            suggests.Add(userSuggest);
                         }
                         else
                         {
-                            Suggest suggest = new Suggest(i);
-                            suggests.Add(suggest);
+                            switch ((int)i["term_type"])
+                            {
+                                case 1:
+                                    // General
+                                    Suggest suggest = new Suggest(i);
+                                    suggests.Add(suggest);
+                                    break;
+                                case 4:
+                                    // User
+
+                                    //UserSuggest userSuggest = new UserSuggest(i);     // TODO: UserSuggest is not valid any more (See constructor)
+                                    Suggest userSuggest = new Suggest(i);
+                                    suggests.Add(userSuggest);
+                                    break;
+                                case 5:
+                                    // Topic
+                                    Suggest topicSuggest = new Suggest(i);
+                                    suggests.Add(topicSuggest);
+                                    break;
+                                case 8:
+                                    //SeasonSuggest seasonSuggest = new SeasonSuggest(i);        // TODO: UserSuggest is not valid any more (See constructor)
+                                    Suggest seasonSuggest = new Suggest(i);
+                                    suggests.Add(seasonSuggest);
+                                    break;
+                                default:
+                                    Suggest defSuggest = new Suggest(i);
+                                    suggests.Add(defSuggest);
+                                    break;
+                            }
                         }
                     }
                     suggests.Sort((x, y) => x.Position.CompareTo(y.Position));
@@ -273,8 +294,6 @@ namespace BiliSearch
             {
                 return null;
             }
-
-
         }
 
         private void InputBox_PreviewKeyDown(object sender, KeyEventArgs e)
