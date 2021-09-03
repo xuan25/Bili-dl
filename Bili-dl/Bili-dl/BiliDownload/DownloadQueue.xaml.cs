@@ -1,6 +1,7 @@
 ﻿using ConfigUtil;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -70,6 +71,10 @@ namespace BiliDownload
 
         private void OpenDownloadDirectoryBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (!Directory.Exists(ConfigManager.GetSettings().DownloadPath))
+            {
+                Directory.CreateDirectory(ConfigManager.GetSettings().DownloadPath);
+            }
             System.Diagnostics.Process.Start(string.Format("\"{0}\"", ConfigManager.GetSettings().DownloadPath + "\\"));
         }
 
